@@ -1,2 +1,2 @@
 # dotfiles
-Documenting Don's domestic dorky dogmatic dotfiles doggedly 
+Documenting Don's dorky dogmatic dotfiles doggedly 
