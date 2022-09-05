@@ -674,7 +674,7 @@ before packages are loaded."
                                         "/Users/donbunk/Documents/org_mode/IXIS_todo.org_archive"
                                         "/Users/donbunk/Documents/org_mode/IXIS_todo.org"))
     )
-   ((string= system-name "DB_personal-Macbook-Pro.local")
+   ((string= system-name "DB-personal-Macbook-Pro.local")
           (setq org-directory "")
           (setq org-agenda-files nil)
     )
