@@ -633,6 +633,7 @@ before packages are loaded."
   ;; for searching files and directories
   (spacemacs/set-leader-keys "fd" 'find-name-dired)
 
+  (setq-default evil-escape-key-sequence "jk")
 
   ;; declaring this variable as per https://orgmode.org/worg/org-tutorials/orgtutorial_dto.html
   ;; machine-dependent configurations
