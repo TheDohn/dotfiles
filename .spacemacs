@@ -66,7 +66,8 @@ This function should only modify configuration layer settings."
      python
      (ess :variables
           ess-indent-level 5)
-     evil-snipe
+     (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
+
      ;; evil-better-jumper ;; had this on old machine but didn't move it over
      themes-megapack
      ;; for custom themes
