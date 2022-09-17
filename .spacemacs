@@ -615,6 +615,10 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  ;; start org model documents in collapsed/folded state
+  ;; this was working but I removed it in case it was increasing the time to load org documents
+  (setq org-startup-folded t)
+
   ;; trying to remap this so I can use more features in ess-data-view
   ;; but neither of these worked
   ;; (define-key map "RET" 'ido-select-text)
