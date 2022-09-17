@@ -740,6 +740,9 @@ before packages are loaded."
   ;;  "h" 'dired-up-directory
   ;;  "l" 'dired-find-file)
 
+  ;; so that when you switch projects you open direct and you don't have to pick a file in that project
+  ;; i.e. SPC p p
+  (setq projectile-switch-project-action #'projectile-dired)
 
 )
 
