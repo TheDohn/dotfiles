@@ -1,5 +1,5 @@
 # dotfiles
-Documenting Don's dorky dogmatic dotfiles doggedly 
+Doggedly documenting Don's dorky dogmatic dotfiles
 
 Strategy is:
 
