@@ -1,4 +1,5 @@
 // note that the 'raw text' file needs to be loaded i.e. https://raw.githubusercontent.com/TheDohn/dotfiles/main/surfing_keys.txt
+// load it by typing ";e" to edit settings and drop above path in there
 
 api.map("H", "S");
 api.map("L", "D");
