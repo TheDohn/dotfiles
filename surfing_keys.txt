@@ -1,3 +1,5 @@
+// note that the 'raw text' file needs to be loaded i.e. https://raw.githubusercontent.com/TheDohn/dotfiles/main/surfing_keys.txt
+
 api.map("H", "S");
 api.map("L", "D");
 api.map("gt", "R");
