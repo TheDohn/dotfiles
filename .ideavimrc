@@ -1,0 +1,20 @@
+
+"relative line numbers
+:set relativenumber
+"set current line to absolute number
+:set nu rnu
+
+"show keystrokes in normal mode
+":set showcmd
+
+"remap ESC to jk
+inoremap jk <Esc>
+
+"get rid of annoying chimes
+set visualbell
+set noerrorbells
+"vim surround emulation
+set surround
+
+"remove underscore from what is considered a word
+:set iskeyword-=_
