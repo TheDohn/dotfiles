@@ -1,0 +1,10 @@
+"DBeaver config for vim-like bindings
+
+" this doesn't seem to do anything. to get relative line number to work:
+" Preferences > Relative Number Ruler > Toggle check box
+":set relativenumber
+"set current line to absolute number
+":set nu rnu
+
+"remap ESC to jk
+inoremap jk <Esc>
