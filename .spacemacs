@@ -687,6 +687,18 @@ before packages are loaded."
     )
    )
 
+  (setq org-todo-keywords
+        '((sequence "TODO" "IN PROGRESS" "|" "WON'T DO" "DONE")))
+
+  ;; block parent TODO states based on children
+  (setq org-enforce-todo-dependencies t)
+  (setq org-enforce-todo-checkbox-dependencies t)
+
+
+  ;; set org clock tables to collect data in the way I record, and larger width bc of long ticket names
+   (setq org-clock-clocktable-default-properties
+     '(:scope subtree :maxlevel 4 :narrow 80!))
+
 
   ;; I am taking this out for now since it means I can't use h & l to navigate as I am in a text doc
   ;; maybe what I want is H & L?
