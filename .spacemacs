@@ -639,6 +639,8 @@ before packages are loaded."
   (spacemacs/set-leader-keys "fd" 'find-name-dired)
 
   (setq-default evil-escape-key-sequence "jk")
+  ;; so that jk or kj escapes
+  (setq-default evil-escape-unordered-key-sequence t)
 
   ;; declaring this variable as per https://orgmode.org/worg/org-tutorials/orgtutorial_dto.html
   ;; machine-dependent configurations
