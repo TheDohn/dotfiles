@@ -672,13 +672,14 @@ before packages are loaded."
    ((string= system-name "MacBook-Pro")
           (setq org-directory "") ;; need to make this empty else it gets prepended to everything below, probably a better way to think about it
           (setq org-agenda-files (list "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal.org"
-                                        "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q2.org"
-                                        "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q1.org"
-                                        "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_09_10_11_21.org"
-                                        "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_06_07_08.org"
-                                        "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_05.org"
-                                        "/Users/donbunk/Documents/org_mode/IXIS_todo.org_archive"
-                                        "/Users/donbunk/Documents/org_mode/IXIS_todo.org"))
+                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q3.org"
+                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q2.org"
+                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q1.org"
+                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_09_10_11_21.org"
+                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_06_07_08.org"
+                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_05.org"
+                                       "/Users/donbunk/Documents/org_mode/IXIS_todo.org_archive"
+                                       "/Users/donbunk/Documents/org_mode/IXIS_todo.org"))
     )
    ((string= system-name "DB-personal-Macbook-Pro.local")
           (setq org-directory "")
