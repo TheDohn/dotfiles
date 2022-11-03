@@ -761,6 +761,8 @@ before packages are loaded."
 
   ;; so that when you switch projects you open direct and you don't have to pick a file in that project
   ;; i.e. SPC p p
+  ;; from the docs https://docs.projectile.mx/projectile/configuration.html
+  ;; this doesn't seem to work all the time though (?)
   (setq projectile-switch-project-action #'projectile-dired)
 
 )
