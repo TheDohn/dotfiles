@@ -629,6 +629,21 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  ;; removes ** and // around bold and italics
+  (setq org-hide-emphasis-markers t)
+
+  ;; try to unset this since it is too dangerous to live (too easy to hit accidentally)
+  ;; unbinding keys that involve the leader key might be challenging:
+  ;; https://emacs.stackexchange.com/questions/68328/general-el-error-key-sequence-starts-with-non-prefix-key
+  ;;(global-unset-key (kbd "SPC q q"))
+  ;; (global-set-key "SPC q q") ;; I don't think this is correct
+  ;; this should work along with the global-auto-unbind-keys, but it doesn't, as per:
+  ;; https://emacs.stackexchange.com/questions/68328/general-el-error-key-sequence-starts-with-non-prefix-key
+  ;; (global-set-key (kbd "SPCqq") nil)
+  ;; (global-set-key (kbd "q q") nil)
+  ;; (define-key (kbd "SPC q q ") nil) ;; this doesn't work
+  (spacemacs/set-leader-keys "qq" nil) ;; ok this works but the option still shows in the keybinding prompts but whatever
+
   ;; start org model documents in collapsed/folded state
   ;; this was working but I removed it in case it was increasing the time to load org documents
   (setq org-startup-folded t)
