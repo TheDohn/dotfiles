@@ -1,5 +1,10 @@
 "DBeaver config for vim-like bindings
 
+" install Vim keybdings as per: https://github.com/dbeaver/dbeaver/issues/8219#issuecomment-601698540
+"What you need to do is install Eclipse Marketplace :
+"Help -> install new software -> search for market
+"The into marketplace menu , search for Vrapper plugin.
+
 " this doesn't seem to do anything. to get relative line number to work:
 " Preferences > Relative Number Ruler > Toggle check box
 ":set relativenumber
