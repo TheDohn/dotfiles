@@ -44,7 +44,14 @@ This function should only modify configuration layer settings."
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     auto-completion
+     (auto-completion :variables
+                     ;; nice page about yasnippets: https://jaketrent.com/post/code-snippets-spacemacs/
+                    auto-completion-return-key-behavior 'complete
+                    auto-completion-private-snippets-directory "/Users/donbunk/dotfiles/yasnippets"
+                    auto-completion-enable-snippets-in-popup t
+                    auto-completion-enable-sort-by-usage t
+                    auto-completion-enable-help-tooltip t
+                    )
      ;; better-defaults ;; this is just for emacs
      emacs-lisp
      (git :variables
@@ -63,9 +70,15 @@ This function should only modify configuration layer settings."
      syntax-checking
      version-control
      treemacs
-     python
+     ;; python
+     (python :variables
+             python-backend 'anaconda
+             )
      (ess :variables
-          ess-indent-level 5)
+          ess-indent-level 5
+          ess-r-backend 'ess ;; I think this is default
+          ;; ess-r-backend 'lsp ;; note that TAB completion with a popup doesn't see to work at all with lsp backend (?)
+          )
      (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
 
      ;; evil-better-jumper ;; had this on old machine but didn't move it over
@@ -74,6 +87,7 @@ This function should only modify configuration layer settings."
      theming
      evil-better-jumper
      conda
+     ;;(conda :variables conda-anaconda-home "/your/path/here") # need to figure this out yet
      spacemacs-purpose
      (json :variables json-fmt-tool 'web-beautify)
      ;; I tried multiple cursors but I am still trying to figure out if I can use this functionality efficiently
