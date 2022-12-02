@@ -108,6 +108,7 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(
      ess-view-data
+     ;; general-auto-unbind-keys
      )
 
    ;; A list of packages that cannot be updated.
@@ -583,6 +584,7 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
+  ;; not clear if I should be modifying anything in this function?
   ;; trying to modify themes here
   ;; this was just a test - it worked, but I had to restart spacemacs to get it to work
   (setq theming-modifications
@@ -795,7 +797,7 @@ before packages are loaded."
 
   ;; so that when you switch projects you open direct and you don't have to pick a file in that project
   ;; i.e. SPC p p
-  ;; from the docs https://docs.projectile.mx/projectile/configuration.html
+  ;; from the docs https://docs.projectile.mx/projectile/configuration.html 
   ;; this doesn't seem to work all the time though (?)
   (setq projectile-switch-project-action #'projectile-dired)
 
