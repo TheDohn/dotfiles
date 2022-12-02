@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: rnorm
+# key: norm
+# Contributor: DB
+# Insert the rnorm function for the R language
+# --
+rnorm(n = ${1:n}, mean = ${2:mean}, sd = ${3:sd})$0

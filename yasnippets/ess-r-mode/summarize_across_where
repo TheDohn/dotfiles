@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: summarize_across_where
+# key: summarize_across_where
+# --
+summarize(across(where($1), .fns = list($2))) %>%

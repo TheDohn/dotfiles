@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: foobar
+# key: foobar
+# --
+1+2+3

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: group_by_summarize
+# key:  group_by_summarize
+# --
+group_by($1) %>%
+     summarize($2) %>%
+     ungroup($3)$0
