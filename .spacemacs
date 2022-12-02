@@ -668,6 +668,10 @@ before packages are loaded."
   ;; for searching files and directories
   (spacemacs/set-leader-keys "fd" 'find-name-dired)
 
+  ;; remap to a more meaningful binding (rather than 'SPC r y)
+  (spacemacs/set-leader-keys "rk" 'lazy-helm/helm-show-kill-ring)
+
+
   (setq-default evil-escape-key-sequence "jk")
   ;; so that jk or kj escapes
   (setq-default evil-escape-unordered-key-sequence t)
