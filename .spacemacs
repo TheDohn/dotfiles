@@ -99,6 +99,22 @@ This function should only modify configuration layer settings."
      colors
      pdf ;; this gave an error and crashed the first time I loaded it, but was fine after I restarted Emacs
      command-log
+     tern ;;I only added this bc Spacemacs keeps uninstalling it and reinstalling it, and trying to stop that
+     (tree-sitter :variables
+                  ;; spacemacs-tree-sitter-hl-black-list '(js2-mode rjsx-mode) ;;in case I want to block some modes
+                  tree-sitter-syntax-highlight-enable t ;; this turns it on afaik
+                  ;; tree-sitter-fold-enable t ;; something spacemacs has, I don't think I want
+                  ;; tree-sitter-fold-indicators-enable nil ;; something spacemacs has, I don't think I want
+                  )
+     (spacemacs-layouts :variables
+                        spacemacs-layouts-restricted-functions
+                        '(spacemacs/window-split-double-columns
+                          spacemacs/window-split-triple-columns
+                          spacemacs/window-split-grid
+                          winner-undo
+                          winner-redo)
+                        spacemacs-layouts-restrict-spc-tab t
+                        )
      )
 
 
