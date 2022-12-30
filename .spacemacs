@@ -636,6 +636,37 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  ;; ~~~~~~~******~~~~~~******~~~~~~******~~~~~~******~~~~~******
+  ;; tab-bar-mode
+  ;; ~~~~~~~******~~~~~~******~~~~~~******~~~~~~******~~~~~******
+  ;; I spent some time configuring this but ultimately moved to using Perspectives (layouts)
+  ;; (tab-bar-mode)
+  ;;
+  ;; customize tab-bar-mode, specifically so that the active tab is distinguishable from the inactive tabs
+  ;; used this to get the code below:
+  ;; https://stackoverflow.com/questions/7709158/how-do-i-customize-the-emacs-interface-specifically-the-tabs-fonts-in-windows
+  ;; used this to understand which variables to grab:
+  ;; https://www.youtube.com/watch?v=C7ZlNRbWdVI
+  ;; these colors were select to match Doom oceanic next theme
+  (set-face-attribute
+   'tab-bar-tab nil
+   :background "#1B2B34"
+   :foreground "#EC5f67")
+  (set-face-attribute
+   'tab-bar-tab-inactive nil
+   :background "#1B2B34"
+   :foreground "#A7ADBA")
+  ;;
+  ;; a new tab opens the Spacemacs dashboard
+  ;; (setq tab-bar-new-tab-choice "*spacemacs*") ;;this seemed to get stuck and gt/T wasn't allowed
+  ;; a new tab opens the scratch buffer
+  (setq tab-bar-new-tab-choice "*scratch*")
+  ;;
+  ;; these some code to get a timer for this, but its above my head:
+  ;; https://www.emacswiki.org/emacs/TabBarMode
+  ;; #########################################################################################################
+
+
   ;; removes ** and // around bold and italics
   (setq org-hide-emphasis-markers t)
 
