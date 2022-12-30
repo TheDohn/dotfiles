@@ -771,7 +771,7 @@ before packages are loaded."
    )
 
   (setq org-todo-keywords
-        '((sequence "TODO" "IN PROGRESS" "|" "WON'T DO" "DONE")))
+        '((sequence "TODO(t)" "IN PROGRESS(i)" "|" "WON'T DO(w)" "DONE(d)")))
 
   ;; block parent TODO states based on children
   (setq org-enforce-todo-dependencies t)
