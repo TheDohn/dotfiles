@@ -58,7 +58,7 @@ This function should only modify configuration layer settings."
           git-enable-magit-delta-plugin t
           git-enable-magit-gitflow-plugin t)
      helm
-     ;; lsp
+     ;; lsp ;; I don't think I want this on for everything
      markdown
      multiple-cursors
      org
