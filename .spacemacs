@@ -817,22 +817,31 @@ before packages are loaded."
 
 
   ;; I want these but I am getting an error rn on them
-  (define-key ess-mode-map (kbd "M--") " <-")
-  (define-key ess-mode-map (kbd "C-S-m") " %>%")
+  ;; (define-key ess-mode-map (kbd "M--") " <-")
+  ;; (define-key ess-mode-map (kbd "C-S-m") " %>%")
+  ;; for whatever reason these have to be embedded within a hook
+  ;; they work without a hook as well, but give an error on startup
+  ;; see https://stat.ethz.ch/pipermail/ess-help/2012-June/007962.html
+  (add-hook 'ess-mode-hook
+            (lambda ()
+              (define-key ess-mode-map (kbd "M--") " <-")
+              (define-key ess-mode-map (kbd "C-S-m") " %>%")))
 
   (spacemacs/set-leader-keys-for-major-mode 'ess-r-mode "v" 'ess-view-data-print)
 
-
   ;; try turning off minor modes
   ;; hs-minor mode screws with outline-mode
-  ;; with it off I can use zo and zc to open and close sections 
+  ;; with it off I can use zo and zc to open and close sections
   (add-hook 'ess-mode-hook (lambda () (hs-minor-mode -1)))
   (add-hook 'python-mode-hook (lambda () (hs-minor-mode -1)))
   ;; this is friggin slow as hell
   ;;(add-hook 'ess-mode-hook (lambda () (flycheck-mode -1)))
   ;;(add-hook 'python-mode-hook (lambda () (flycheck-mode -1)))
-  ;; I just plain hate this 
-  ;;(add-hook 'ess-mode-hook (lambda () (electric-indent-mode -1)))
+  ;; I just plain hate this
+  ;; (add-hook 'ess-mode-hook (lambda () (electric-indent-mode -1)))
+  ;; this seems to finally turn this off
+  (add-hook 'ess-r-mode-hook (lambda () (electric-indent-mode -1)))
+
   ;;(add-hook 'python-mode-hook (lambda () (electric-indent-mode -1)))
 
   ;; map h and l for up and down a directory
