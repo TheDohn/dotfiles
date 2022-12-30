@@ -1,0 +1,48 @@
+#+TITLE: How to do stuff in Spacemacs
+
+* searching
+
+** in a project
+
+- install ag (the silver searcher)
+- this is accessible via SPC-s-a-<family>, but likely will be default for SPC-/ now too
+- after using SPC-s-a-<> to search project or files you can type C-C C-e to make that editable
+
+** for a file
+
+***  swoop
+
+SPC-s-s
+- nice that it consolidates all hits
+- you can loose context though as a result
+
+*** iedit
+
+SPC-s-e
+- hard bc you immediately get all hits in file, and you aren't sure where they are
+- usually I just type S-J to start selecting lines below that so you aren't selecting the whole file
+
+** select instances
+
+*** evil make cursor
+
+C-n
+
+- will give multiple cursors on a object, one-by-one, which is nice for just editing limited instance on screen
+- g-r-q to quit multiple cursors
+
+
+*** dump-jump-go
+
+typically need to access this function by name (M-x, dumb-jump-go)
+- I needed to bind this to gd to make it easy to access
+
+* org mode
+* ess
+* Python
+* window/project management
+** tab-bar-mode
+- combine this with desktop-save to save the states
+- this works pretty well but I don't like that you can't hide/show the tabs, so they take up space
+** spacemacs layouts
+- save/load layouts saves the buffers to open as well (just not a REPL)
