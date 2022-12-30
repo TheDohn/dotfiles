@@ -688,6 +688,9 @@ before packages are loaded."
   ;; (define-key (kbd "SPC q q ") nil) ;; this doesn't work
   (spacemacs/set-leader-keys "qq" nil) ;; ok this works but the option still shows in the keybinding prompts but whatever
 
+  ;; this kills buffers and is kind of dangerous (although I think is saves them)
+  (global-unset-key (kbd "s-k"))
+
   ;; this is very close to "M-k" (ALT-K) which is a common org binding I use
   ;; this binding deletes lines which is super dangerous and annoying
   (global-unset-key (kbd "C-k"))
