@@ -72,7 +72,11 @@ This function should only modify configuration layer settings."
      treemacs
      ;; python
      (python :variables
-             python-backend 'anaconda
+             ;; python-backend 'anaconda
+               python-backend 'lsp ;; this does seem to offer more functionality
+               ;; python-lsp-server 'mspyls ;; the default
+               python-lsp-server 'pyright ;; seems like the new version after msplys
+               lsp-headerline-breadcrumb-enable nil ;; shows directory at top
              )
      (ess :variables
           ess-indent-level 5
