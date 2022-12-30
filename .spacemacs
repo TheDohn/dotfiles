@@ -84,13 +84,13 @@ This function should only modify configuration layer settings."
           ;; ess-r-backend 'lsp ;; note that TAB completion with a popup doesn't see to work at all with lsp backend (?)
           )
      (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
-
      ;; evil-better-jumper ;; had this on old machine but didn't move it over
      themes-megapack
      ;; for custom themes
      theming
      evil-better-jumper
      conda
+     eww
      ;;(conda :variables conda-anaconda-home "/your/path/here") # need to figure this out yet
      spacemacs-purpose
      (json :variables json-fmt-tool 'web-beautify)
