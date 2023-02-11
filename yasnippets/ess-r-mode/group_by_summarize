@@ -4,4 +4,4 @@
 # --
 group_by($1) %>%
      summarize($2) %>%
-     ungroup($3)$0
+     ungroup($3)$0 %>%
