@@ -772,9 +772,10 @@ before packages are loaded."
 
 
   (cond
-   ((string= system-name "MacBook-Pro")
+   ((string= system-name "Don's-MacBook-Pro")
           (setq org-directory "") ;; need to make this empty else it gets prepended to everything below, probably a better way to think about it
           (setq org-agenda-files (list "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal.org"
+                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q4.org"
                                        "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q3.org"
                                        "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q2.org"
                                        "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q1.org"
