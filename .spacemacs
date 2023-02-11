@@ -77,6 +77,7 @@ This function should only modify configuration layer settings."
                ;; python-lsp-server 'mspyls ;; the default
                python-lsp-server 'pyright ;; seems like the new version after msplys
                lsp-headerline-breadcrumb-enable nil ;; shows directory at top
+               lsp-lens-enable t ;; not entirely sure if this is working
              )
      (ess :variables
           ess-indent-level 5
