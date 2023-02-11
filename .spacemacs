@@ -112,7 +112,7 @@ This function should only modify configuration layer settings."
                         '(spacemacs/window-split-double-columns
                           spacemacs/window-split-triple-columns
                           spacemacs/window-split-grid
-                          winner-undo
+                          winner-undo ;; for some reason this doesn't seem to get fixed to the layout?
                           winner-redo)
                         spacemacs-layouts-restrict-spc-tab t
                         )
