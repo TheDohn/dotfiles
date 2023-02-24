@@ -6,7 +6,8 @@
 
 - install ag (the silver searcher)
 - this is accessible via SPC-s-a-<family>, but likely will be default for SPC-/ now too
-- after using SPC-s-a-<> to search project or files you can type C-C C-e to make that editable
+  - SPC-s-a-f is good for select files
+- after using SPC-s-a-<> to search project or files you can type C-c C-e to make that editable
   (or use control-z for help, which tells you to use f4)
 
 - I can't use control-n to edit that, but you can use SPC-s-e

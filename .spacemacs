@@ -605,6 +605,12 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
+
+  ;; from:  https://github.com/emacs-evil/evil/issues/1630
+  ;; this did allow search hits to highlight within folded regions, I think
+  ;; but now typing n doesn't go to other matches
+  ;;(setq org-fold-core-style 'overlays)
+
   ;; not clear if I should be modifying anything in this function?
   ;; trying to modify themes here
   ;; this was just a test - it worked, but I had to restart spacemacs to get it to work
