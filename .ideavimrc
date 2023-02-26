@@ -1,3 +1,5 @@
+"need to install the ideavim plugin for this to work
+"https://www.jetbrains.com/help/pycharm/managing-plugins.html
 
 "relative line numbers
 :set relativenumber
