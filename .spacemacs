@@ -45,13 +45,27 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      auto-completion
+     ;; defaults for auto-completion if I end up wanting to use them:
+     ;; (auto-completion :variables
+     ;;                  auto-completion-return-key-behavior 'complete
+     ;;                  auto-completion-tab-key-behavior 'cycle
+     ;;                  auto-completion-complete-with-key-sequence nil
+     ;;                  auto-completion-complete-with-key-sequence-delay 0.1
+     ;;                  auto-completion-minimum-prefix-length 2
+     ;;                  auto-completion-idle-delay 0.2
+     ;;                  auto-completion-private-snippets-directory nil
+     ;;                  auto-completion-enable-snippets-in-popup nil
+     ;;                  auto-completion-enable-help-tooltip nil
+     ;;                  auto-completion-use-company-box nil
+     ;;                  auto-completion-enable-sort-by-usage nil)
      ;; better-defaults ;; this is just for emacs
      emacs-lisp
      (git :variables
           git-enable-magit-delta-plugin t
           git-enable-magit-gitflow-plugin t)
      helm
-     ;; lsp
+     ;;lsp
+     ;;(lsp :variables lsp-lens-enable t) ;; not 100% sure how to work this yet
      markdown
      multiple-cursors
      org
