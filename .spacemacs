@@ -659,6 +659,23 @@ before packages are loaded."
   ;; so that jk or kj escapes
   (setq-default evil-escape-unordered-key-sequence t)
 
+  ;; trying to get dumb jump to work
+
+  ;; misc
+  ;; (add-to-list 'spacemacs-jump-handlers 'jump-handler)
+  ;;(add-to-list 'spacemacs-jump-handlers 'dumb-jump-go)
+
+  ;; this was the final stuff I landed on, but commenting out for now in favor of lisp
+  ;;(add-to-list 'spacemacs-jump-handlers 'dumb-jump)
+  ;;(add-to-list 'spacemacs-jump-handlers-ess-r-mode 'dumb-jump)
+  ;;(add-to-list 'spacemacs-jump-handlers-ess-mode 'dumb-jump)
+  ;;(add-to-list 'spacemacs-jump-handlers-python-mode 'dumb-jump)
+  ;;(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  ;; for using helm for showing definitions, I think
+  ;;(setq xref-show-definitions-function #'xref-show-definitions-completing-read)
+
+
+
   ;; declaring this variable as per https://orgmode.org/worg/org-tutorials/orgtutorial_dto.html
   ;; machine-dependent configurations
   ;; I can't change the name of my work machine, so it is this generic string
