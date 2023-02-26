@@ -79,8 +79,10 @@ This function should only modify configuration layer settings."
      treemacs
      python
      (ess :variables
-          ess-indent-level 5)
-     (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
+          ess-indent-level 5
+          ess-r-backend 'lsp) ;; I can't tell what this does?
+     ;; I think I want to turn f an t off since they interfere with searching help buffers etc. for which ESC closes
+     (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t) 
 
      ;; evil-better-jumper ;; had this on old machine but didn't move it over
      themes-megapack
