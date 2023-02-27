@@ -588,6 +588,11 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   (setq dired-listing-switches "-alFh")
 
+  ;; this doesn't seem to help me
+  ;; trying to make evil search work with folded org docs
+  ;; https://github.com/emacs-evil/evil/issues/1630
+  (setq org-fold-core-style 'overlays)
+
   ;; trying to modify themes here
   ;; this was just a test - it worked, but I had to restart spacemacs to get it to work
   (setq theming-modifications
