@@ -585,6 +585,9 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
+
+  (setq dired-listing-switches "-alFh")
+
   ;; trying to modify themes here
   ;; this was just a test - it worked, but I had to restart spacemacs to get it to work
   (setq theming-modifications
