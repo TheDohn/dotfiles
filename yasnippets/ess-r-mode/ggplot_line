@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: ggplot_line
+# key: ggplot_line
+# --
+ggplot(aes(x = $1, y = $2 $3)) +
+     geom_line() +
+     geom_blank()

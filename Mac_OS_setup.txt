@@ -1,0 +1,8 @@
+
+TODO: I think this should be upgraded to a bash script that I run once on a new machine
+
+run the following in terminal so that the app display (command+TAB) will show on all monitors (instead of just default of many)
+
+
+defaults write com.apple.Dock appswitcher-all-displays -bool true
+killall Dock

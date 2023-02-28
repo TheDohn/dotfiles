@@ -1,0 +1,83 @@
+#+TITLE: How to do stuff in Spacemacs
+
+* searching
+
+** in a project
+
+- install ag (the silver searcher)
+- this is accessible via SPC-s-a-<family>, but likely will be default for SPC-/ now too
+  - SPC-s-a-f is good for select files
+- after using SPC-s-a-<> to search project or files you can type C-c C-e to make that editable
+  (or use control-z for help, which tells you to use f4)
+
+- I can't use control-n to edit that, but you can use SPC-s-e
+
+** in a file
+
+*** swoop
+
+SPC-s-s
+- nice that it consolidates all hits
+- you can loose context though as a result
+
+*** iedit
+
+SPC-s-e
+- hard bc you immediately get all hits in file, and you aren't sure where they are
+- usually I just type S-J to start selecting lines below that so you aren't selecting the whole file
+
+** select instances
+
+*** evil make cursor
+
+C-n
+
+- will give multiple cursors on a object, one-by-one, which is nice for just editing limited instance on screen
+- g-r-q to quit multiple cursors
+
+*** dump-jump-go
+
+typically need to access this function by name (M-x, dumb-jump-go)
+- I needed to bind this to gd to make it easy to access
+
+** within files or directories
+
+*** helm-do-ag:
+- SPC-s-a-f
+- then hit CTR-SPC to select files OR whole directories to search
+
+** for file or directory names:
+
+*** find-name-dired:
+- SPC-f-d
+- have to select one directory (can't do CRT-SPC but I bet there is another option to do this somewhere)
+- * is the wildcard here
+
+* org mode
+* ess
+* Python
+- treesitter - this gives syntax highlighting
+- lsp gives context pop ups for functions etc.
+** switching and assigning REPLs:
+
+from: https://stackoverflow.com/questions/49886186/emacs-starting-a-new-inferior-python-shell-when-evaluating-buffer
+
+1) Use the M-x rename-buffer command to set the existing inferior shell buffer name to something like =*Python-otherbuff*=
+(note that in the above there are ='s in org mode so that should render as Python-otherbuff with *'s surrounding it)
+- you NEED to have these for it to work!
+2) (setq-local python-shell-buffer-name "Python-otherbuff") in each buffer which should interact with the old inferior shell.
+- just quotes here, no *s
+- M-x eval-expression to get a prompt to run the snippet in the ()s above
+
+* window/project management
+** tab-bar-mode
+- combine this with desktop-save to save the states
+- this works pretty well but I don't like that you can't hide/show the tabs, so they take up space
+** spacemacs layouts
+- save/load layouts saves the buffers to open as well (just not a REPL)
+- one way to start a new layout is SPC-p-l
+
+* getting help
+
+** describe buffer
+- C-h b will give a list of commands in a buffer (like org or dired)

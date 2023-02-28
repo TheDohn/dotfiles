@@ -32,7 +32,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(octave ;;I think this is for viewing Matlab files
+   '(python
+     octave ;;I think this is for viewing Matlab files
      sql
      html
      csv
@@ -44,7 +45,7 @@ This function should only modify configuration layer settings."
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     auto-completion
+     ;;auto-completion
      ;; defaults for auto-completion if I end up wanting to use them:
      ;; (auto-completion :variables
      ;;                  auto-completion-return-key-behavior 'complete
@@ -58,6 +59,14 @@ This function should only modify configuration layer settings."
      ;;                  auto-completion-enable-help-tooltip nil
      ;;                  auto-completion-use-company-box nil
      ;;                  auto-completion-enable-sort-by-usage nil)
+     (auto-completion :variables
+                     ;; nice page about yasnippets: https://jaketrent.com/post/code-snippets-spacemacs/
+                    auto-completion-return-key-behavior 'complete
+                    auto-completion-private-snippets-directory "/Users/donbunk/dotfiles/yasnippets"
+                    auto-completion-enable-snippets-in-popup t
+                    auto-completion-enable-sort-by-usage t
+                    auto-completion-enable-help-tooltip t
+                    )
      ;; better-defaults ;; this is just for emacs
      emacs-lisp
      (git :variables
@@ -66,6 +75,7 @@ This function should only modify configuration layer settings."
      helm
      ;;lsp
      ;;(lsp :variables lsp-lens-enable t) ;; not 100% sure how to work this yet
+     ;; lsp ;; I don't think I want this on for everything
      markdown
      multiple-cursors
      org
@@ -77,19 +87,32 @@ This function should only modify configuration layer settings."
      syntax-checking
      version-control
      treemacs
-     python
+     ;; python
+     (python :variables
+             ;; python-backend 'anaconda
+               python-backend 'lsp ;; this does seem to offer more functionality
+               ;; python-lsp-server 'mspyls ;; the default
+               python-lsp-server 'pyright ;; seems like the new version after msplys
+               lsp-headerline-breadcrumb-enable nil ;; shows directory at top
+               lsp-lens-enable t ;; not entirely sure if this is working
+             )
      (ess :variables
           ess-indent-level 5
           ess-r-backend 'lsp) ;; I can't tell what this does?
      ;; I think I want to turn f an t off since they interfere with searching help buffers etc. for which ESC closes
-     (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t) 
-
+     (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
+     ess-r-backend 'ess ;; I think this is default
+          ;; ess-r-backend 'lsp ;; note that TAB completion with a popup doesn't see to work at all with lsp backend (?)
+          ;;) this ) may be screwing things up
+     (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
      ;; evil-better-jumper ;; had this on old machine but didn't move it over
      themes-megapack
      ;; for custom themes
      theming
      evil-better-jumper
      conda
+     eww
+     ;;(conda :variables conda-anaconda-home "/your/path/here") # need to figure this out yet
      spacemacs-purpose
      (json :variables json-fmt-tool 'web-beautify)
      ;; I tried multiple cursors but I am still trying to figure out if I can use this functionality efficiently
@@ -97,6 +120,22 @@ This function should only modify configuration layer settings."
      colors
      pdf ;; this gave an error and crashed the first time I loaded it, but was fine after I restarted Emacs
      command-log
+     tern ;;I only added this bc Spacemacs keeps uninstalling it and reinstalling it, and trying to stop that
+     (tree-sitter :variables
+                  ;; spacemacs-tree-sitter-hl-black-list '(js2-mode rjsx-mode) ;;in case I want to block some modes
+                  tree-sitter-syntax-highlight-enable t ;; this turns it on afaik
+                  ;; tree-sitter-fold-enable t ;; something spacemacs has, I don't think I want
+                  ;; tree-sitter-fold-indicators-enable nil ;; something spacemacs has, I don't think I want
+                  )
+     (spacemacs-layouts :variables
+                        spacemacs-layouts-restricted-functions
+                        '(spacemacs/window-split-double-columns
+                          spacemacs/window-split-triple-columns
+                          spacemacs/window-split-grid
+                          winner-undo ;; for some reason this doesn't seem to get fixed to the layout?
+                          winner-redo)
+                        spacemacs-layouts-restrict-spc-tab t
+                        )
      )
 
 
@@ -110,6 +149,7 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(
      ess-view-data
+     ;; general-auto-unbind-keys
      )
 
    ;; A list of packages that cannot be updated.
@@ -125,7 +165,8 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-only))
+   dotspacemacs-install-packages 'used-only)
+) ;;this ) may have screwed things up
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -335,7 +376,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-distinguish-gui-tab nil
 
    ;; Name of the default layout (default "Default")
-   dotspacemacs-default-layout-name "Default"
+   dotspacemacs-default-layout-name "Global"
 
    ;; If non-nil the default layout name is displayed in the mode-line.
    ;; (default nil)
@@ -593,6 +634,12 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; https://github.com/emacs-evil/evil/issues/1630
   (setq org-fold-core-style 'overlays)
 
+  ;; from:  https://github.com/emacs-evil/evil/issues/1630
+  ;; this did allow search hits to highlight within folded regions, I think
+  ;; but now typing n doesn't go to other matches
+  ;;(setq org-fold-core-style 'overlays)
+
+  ;; not clear if I should be modifying anything in this function?
   ;; trying to modify themes here
   ;; this was just a test - it worked, but I had to restart spacemacs to get it to work
   (setq theming-modifications
@@ -640,6 +687,65 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  ;; ~~~~~~~******~~~~~~******~~~~~~******~~~~~~******~~~~~******
+  ;; tab-bar-mode
+  ;; ~~~~~~~******~~~~~~******~~~~~~******~~~~~~******~~~~~******
+  ;; I spent some time configuring this but ultimately moved to using Perspectives (layouts)
+  ;; (tab-bar-mode)
+  ;;
+  ;; customize tab-bar-mode, specifically so that the active tab is distinguishable from the inactive tabs
+  ;; used this to get the code below:
+  ;; https://stackoverflow.com/questions/7709158/how-do-i-customize-the-emacs-interface-specifically-the-tabs-fonts-in-windows
+  ;; used this to understand which variables to grab:
+  ;; https://www.youtube.com/watch?v=C7ZlNRbWdVI
+  ;; these colors were select to match Doom oceanic next theme
+  (set-face-attribute
+   'tab-bar-tab nil
+   :background "#1B2B34"
+   :foreground "#EC5f67")
+  (set-face-attribute
+   'tab-bar-tab-inactive nil
+   :background "#1B2B34"
+   :foreground "#A7ADBA")
+  ;;
+  ;; a new tab opens the Spacemacs dashboard
+  ;; (setq tab-bar-new-tab-choice "*spacemacs*") ;;this seemed to get stuck and gt/T wasn't allowed
+  ;; a new tab opens the scratch buffer
+  (setq tab-bar-new-tab-choice "*scratch*")
+  ;;
+  ;; these some code to get a timer for this, but its above my head:
+  ;; https://www.emacswiki.org/emacs/TabBarMode
+  ;; #########################################################################################################
+
+
+  ;; removes ** and // around bold and italics
+  (setq org-hide-emphasis-markers t)
+
+  ;; Based on definition I thought that (spacemacs/jump-to-definition) would use "the best tool"
+  ;; but it doesn't seem to switch to dumb jump, which I think is the best tool
+  ;; note that gd used to work fine in Lisp files, so it was working in some sense before I hard-wired this in
+  ;;TODO: look into alternatives since dump jump says dump-jump-go is deprecated in favor of xref-find stuff
+  (define-key evil-normal-state-map (kbd "gd") 'dumb-jump-go)
+
+  ;; try to unset this since it is too dangerous to live (too easy to hit accidentally)
+  ;; unbinding keys that involve the leader key might be challenging:
+  ;; https://emacs.stackexchange.com/questions/68328/general-el-error-key-sequence-starts-with-non-prefix-key
+  ;;(global-unset-key (kbd "SPC q q"))
+  ;; (global-set-key "SPC q q") ;; I don't think this is correct
+  ;; this should work along with the global-auto-unbind-keys, but it doesn't, as per:
+  ;; https://emacs.stackexchange.com/questions/68328/general-el-error-key-sequence-starts-with-non-prefix-key
+  ;; (global-set-key (kbd "SPCqq") nil)
+  ;; (global-set-key (kbd "q q") nil)
+  ;; (define-key (kbd "SPC q q ") nil) ;; this doesn't work
+  (spacemacs/set-leader-keys "qq" nil) ;; ok this works but the option still shows in the keybinding prompts but whatever
+
+  ;; this kills buffers and is kind of dangerous (although I think is saves them)
+  (global-unset-key (kbd "s-k"))
+
+  ;; this is very close to "M-k" (ALT-K) which is a common org binding I use
+  ;; this binding deletes lines which is super dangerous and annoying
+  (global-unset-key (kbd "C-k"))
+
   ;; start org model documents in collapsed/folded state
   ;; this was working but I removed it in case it was increasing the time to load org documents
   (setq org-startup-folded t)
@@ -662,6 +768,10 @@ before packages are loaded."
 
   ;; for searching files and directories
   (spacemacs/set-leader-keys "fd" 'find-name-dired)
+
+  ;; remap to a more meaningful binding (rather than 'SPC r y)
+  (spacemacs/set-leader-keys "rk" 'lazy-helm/helm-show-kill-ring)
+
 
   (setq-default evil-escape-key-sequence "jk")
   ;; so that jk or kj escapes
@@ -713,22 +823,36 @@ before packages are loaded."
 
 
   (cond
-   ((string= system-name "MacBook-Pro")
+   ((string= system-name "Don's-MacBook-Pro")
           (setq org-directory "") ;; need to make this empty else it gets prepended to everything below, probably a better way to think about it
           (setq org-agenda-files (list "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal.org"
-                                        "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q2.org"
-                                        "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q1.org"
-                                        "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_09_10_11_21.org"
-                                        "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_06_07_08.org"
-                                        "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_05.org"
-                                        "/Users/donbunk/Documents/org_mode/IXIS_todo.org_archive"
-                                        "/Users/donbunk/Documents/org_mode/IXIS_todo.org"))
+                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q4.org"
+                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q3.org"
+                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q2.org"
+                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q1.org"
+                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_09_10_11_21.org"
+                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_06_07_08.org"
+                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_05.org"
+                                       "/Users/donbunk/Documents/org_mode/IXIS_todo.org_archive"
+                                       "/Users/donbunk/Documents/org_mode/IXIS_todo.org"))
     )
    ((string= system-name "DB-personal-Macbook-Pro.local")
           (setq org-directory "")
           (setq org-agenda-files nil)
     )
    )
+
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "IN PROGRESS(i)" "|" "WON'T DO(w)" "DONE(d)")))
+
+  ;; block parent TODO states based on children
+  (setq org-enforce-todo-dependencies t)
+  (setq org-enforce-todo-checkbox-dependencies t)
+
+
+  ;; set org clock tables to collect data in the way I record, and larger width bc of long ticket names
+   (setq org-clock-clocktable-default-properties
+     '(:scope subtree :maxlevel 4 :narrow 80!))
 
 
   ;; I am taking this out for now since it means I can't use h & l to navigate as I am in a text doc
@@ -762,22 +886,31 @@ before packages are loaded."
 
 
   ;; I want these but I am getting an error rn on them
-  (define-key ess-mode-map (kbd "M--") " <-")
-  (define-key ess-mode-map (kbd "C-S-m") " %>%")
+  ;; (define-key ess-mode-map (kbd "M--") " <-")
+  ;; (define-key ess-mode-map (kbd "C-S-m") " %>%")
+  ;; for whatever reason these have to be embedded within a hook
+  ;; they work without a hook as well, but give an error on startup
+  ;; see https://stat.ethz.ch/pipermail/ess-help/2012-June/007962.html
+  (add-hook 'ess-mode-hook
+            (lambda ()
+              (define-key ess-mode-map (kbd "M--") " <-")
+              (define-key ess-mode-map (kbd "C-S-m") " %>%")))
 
   (spacemacs/set-leader-keys-for-major-mode 'ess-r-mode "v" 'ess-view-data-print)
 
-
   ;; try turning off minor modes
   ;; hs-minor mode screws with outline-mode
-  ;; with it off I can use zo and zc to open and close sections 
+  ;; with it off I can use zo and zc to open and close sections
   (add-hook 'ess-mode-hook (lambda () (hs-minor-mode -1)))
   (add-hook 'python-mode-hook (lambda () (hs-minor-mode -1)))
   ;; this is friggin slow as hell
   ;;(add-hook 'ess-mode-hook (lambda () (flycheck-mode -1)))
   ;;(add-hook 'python-mode-hook (lambda () (flycheck-mode -1)))
-  ;; I just plain hate this 
-  ;;(add-hook 'ess-mode-hook (lambda () (electric-indent-mode -1)))
+  ;; I just plain hate this
+  ;; (add-hook 'ess-mode-hook (lambda () (electric-indent-mode -1)))
+  ;; this seems to finally turn this off
+  (add-hook 'ess-r-mode-hook (lambda () (electric-indent-mode -1)))
+
   ;;(add-hook 'python-mode-hook (lambda () (electric-indent-mode -1)))
 
   ;; map h and l for up and down a directory
@@ -790,6 +923,8 @@ before packages are loaded."
 
   ;; so that when you switch projects you open direct and you don't have to pick a file in that project
   ;; i.e. SPC p p
+  ;; from the docs https://docs.projectile.mx/projectile/configuration.html 
+  ;; this doesn't seem to work all the time though (?)
   (setq projectile-switch-project-action #'projectile-dired)
 
 )
@@ -823,7 +958,7 @@ This function is called at the very end of Spacemacs initialization."
  '(ess-indent-with-fancy-comments nil)
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
-   '(lsp-docker helm-lsp lsp-origami origami lsp-pyright lsp-python-ms lsp-ui command-log-mode keycast pdf-view-restore pdf-tools tablist mmm-mode markdown-toc gh-md sqlup-mode sql-indent rainbow-mode rainbow-identifiers color-identifiers-mode evil-vimish-fold vimish-fold yasnippet-snippets web-mode tagedit slim-mode scss-mode sass-mode pug-mode magit-gitflow magit-popup magit-delta helm-css-scss helm-company helm-c-yasnippet haml-mode fuzzy emmet-mode conda company-web web-completion-data company-anaconda auto-yasnippet ac-ispell auto-complete vimrc-mode dactyl-mode xterm-color vterm terminal-here shell-pop multi-term eshell-z eshell-prompt-extras esh-help outshine outorg treemacs-magit smeargle orgit-forge orgit helm-git-grep gitignore-templates git-timemachine git-modes git-messenger git-link forge yaml magit ghub closql emacsql-sqlite emacsql treepy magit-section git-commit with-editor ess-view-data csv-mode zonokai-emacs zenburn-theme zen-and-art-theme yapfify white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme sphinx-doc spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rebecca-theme railscasts-theme pytest pyenv-mode pydoc py-isort purple-haze-theme professional-theme poetry transient planet-theme pippel pipenv pyvenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme nose noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme modus-themes minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme live-py-mode light-soap-theme kaolin-themes jbeans-theme jazz-theme ir-black-theme inkpot-theme importmagic epc concurrent deferred heroku-theme hemisu-theme helm-pydoc hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme git-gutter-fringe fringe-helper git-gutter gandalf-theme flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flatui-theme flatland-theme farmhouse-theme eziam-theme exotica-theme evil-snipe ess-R-data-view ctable ess espresso-theme dracula-theme doom-themes django-theme darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme chocolate-theme autothemer cherry-blossom-theme busybee-theme bubbleberry-theme browse-at-remote blacken birds-of-paradise-plus-theme better-jumper badwolf-theme auto-dictionary apropospriate-theme anti-zenburn-theme anaconda-mode pythonic ample-zen-theme ample-theme alect-themes afternoon-theme org-rich-yank org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-contrib org-cliplink org json-reformat json-navigator hierarchy json-mode json-snatcher helm-org-rifle gnuplot evil-org web-beautify tern prettier-js npm-mode nodejs-repl livid-mode skewer-mode js2-refactor yasnippet multiple-cursors js2-mode js-doc import-js grizzl impatient-mode htmlize simple-httpd helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode markdown-mode counsel-gtags counsel swiper ivy add-node-modules-path yaml-mode company ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-terminal-cursor-changer evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
+   '(eziam-themes farmhouse-themes compat centaur-tabs tree-sitter-langs tree-sitter tsc lsp-docker texfrag auctex company-statistics company-quickhelp helm-lsp lsp-origami origami lsp-pyright lsp-python-ms lsp-ui command-log-mode keycast pdf-view-restore pdf-tools tablist mmm-mode markdown-toc gh-md sqlup-mode sql-indent rainbow-mode rainbow-identifiers color-identifiers-mode evil-vimish-fold vimish-fold yasnippet-snippets web-mode tagedit slim-mode scss-mode sass-mode pug-mode magit-gitflow magit-popup magit-delta helm-css-scss helm-company helm-c-yasnippet haml-mode fuzzy emmet-mode conda company-web web-completion-data company-anaconda auto-yasnippet ac-ispell auto-complete vimrc-mode dactyl-mode xterm-color vterm terminal-here shell-pop multi-term eshell-z eshell-prompt-extras esh-help outshine outorg treemacs-magit smeargle orgit-forge orgit helm-git-grep gitignore-templates git-timemachine git-modes git-messenger git-link forge yaml magit ghub closql emacsql-sqlite emacsql treepy magit-section git-commit with-editor ess-view-data csv-mode zonokai-emacs zenburn-theme zen-and-art-theme yapfify white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme sphinx-doc spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rebecca-theme railscasts-theme pytest pyenv-mode pydoc py-isort purple-haze-theme professional-theme poetry transient planet-theme pippel pipenv pyvenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme nose noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme modus-themes minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme live-py-mode light-soap-theme kaolin-themes jbeans-theme jazz-theme ir-black-theme inkpot-theme importmagic epc concurrent deferred heroku-theme hemisu-theme helm-pydoc hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme git-gutter-fringe fringe-helper git-gutter gandalf-theme flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flatui-theme flatland-theme farmhouse-theme eziam-theme exotica-theme evil-snipe ess-R-data-view ctable ess espresso-theme dracula-theme doom-themes django-theme darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme chocolate-theme autothemer cherry-blossom-theme busybee-theme bubbleberry-theme browse-at-remote blacken birds-of-paradise-plus-theme better-jumper badwolf-theme auto-dictionary apropospriate-theme anti-zenburn-theme anaconda-mode pythonic ample-zen-theme ample-theme alect-themes afternoon-theme org-rich-yank org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-contrib org-cliplink org json-reformat json-navigator hierarchy json-mode json-snatcher helm-org-rifle gnuplot evil-org web-beautify tern prettier-js npm-mode nodejs-repl livid-mode skewer-mode js2-refactor yasnippet multiple-cursors js2-mode js-doc import-js grizzl impatient-mode htmlize simple-httpd helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode markdown-mode counsel-gtags counsel swiper ivy add-node-modules-path yaml-mode company ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-terminal-cursor-changer evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
  '(trash-directory ""))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
