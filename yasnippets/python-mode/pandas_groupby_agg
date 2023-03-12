@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: groupby_agg
+# key: groupby_agg
+# --
+groupby($1) \
+     .agg($2)$0

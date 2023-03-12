@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: apply_columns
+# key: apply_columns
+# --
+
+apply(lambda df: df, axis = 'columns')
