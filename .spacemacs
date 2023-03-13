@@ -98,10 +98,11 @@ This function should only modify configuration layer settings."
              )
      (ess :variables
           ess-indent-level 5
-          ess-r-backend 'lsp) ;; I can't tell what this does?
+          ess-r-backend 'ess ;; I think this is default
+          ;; ess-r-backend 'lsp
+          ) ;; I can't tell what this does?
      ;; I think I want to turn f an t off since they interfere with searching help buffers etc. for which ESC closes
      (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
-     ess-r-backend 'ess ;; I think this is default
           ;; ess-r-backend 'lsp ;; note that TAB completion with a popup doesn't see to work at all with lsp backend (?)
           ;;) this ) may be screwing things up
      (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
