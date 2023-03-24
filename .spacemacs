@@ -725,7 +725,8 @@ before packages are loaded."
 
 
   ;; removes ** and // around bold and italics
-  (setq org-hide-emphasis-markers t)
+  ;; this actually can get confusing if you don't show these
+  ;; (setq org-hide-emphasis-markers t)
 
   ;; Based on definition I thought that (spacemacs/jump-to-definition) would use "the best tool"
   ;; but it doesn't seem to switch to dumb jump, which I think is the best tool
