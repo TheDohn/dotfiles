@@ -647,17 +647,20 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; this was just a test - it worked, but I had to restart spacemacs to get it to work
   (setq theming-modifications
         '((cyberpunk
-           (org-todo :foreground "#0000FF")
+               (org-todo :foreground "#0000FF")
            )
           (gruvbox-dark-hard
            ;;(org-todo :foreground "#0000FF") ;; tried blue as a test
-           (org-todo :foreground "#fabd2f")
+               (org-todo :foreground "#fabd2f")
            ;; make the background in search less harsh in Gruvbox - but I couldn't get this to work
            ;;(set-face-attribute 'lazy-highlight nil :foreground "black" :background "green")
-
            )
+          ;; I found this from using describe-char
+          (doom-oceanic-next
+           ;; default is Foreground: #65737E, but that is too light in some cases
+           ;  (font-lock-comment-face :foreground "#111111") ;; insert another color here to lighten comments
           )
-        )
+        ))
   ;; set window size and placement
   (setq initial-frame-alist '((top . 30) (left . 300) (width . 152) (height . 81)))
 
