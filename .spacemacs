@@ -850,7 +850,7 @@ before packages are loaded."
    )
 
   (setq org-todo-keywords
-        '((sequence "TODO(t)" "IN PROGRESS(i)" "|" "WON'T DO(w)" "DONE(d)")))
+        '((sequence "TODO(t)" "IN PROGRESS(i)" "BLOCKED(b)" "|" "WON'T DO(w)" "DONE(d)")))
 
   ;; block parent TODO states based on children
   (setq org-enforce-todo-dependencies t)
