@@ -42,6 +42,10 @@ This function should only modify configuration layer settings."
      vimscript
      javascript
      yaml
+     ;; dap
+     (dap :variables
+          dap-python-debugger 'debugpy ;; this is ptvsd is default I think, but that is deprecated
+          )
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -629,6 +633,8 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
+
+;;  (setq dap-python-debugger 'debuggy)
 
   (setq dired-listing-switches "-alFh")
 
