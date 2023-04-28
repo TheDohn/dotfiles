@@ -738,7 +738,8 @@ before packages are loaded."
   ;; but it doesn't seem to switch to dumb jump, which I think is the best tool
   ;; note that gd used to work fine in Lisp files, so it was working in some sense before I hard-wired this in
   ;;TODO: look into alternatives since dump jump says dump-jump-go is deprecated in favor of xref-find stuff
-  (define-key evil-normal-state-map (kbd "gd") 'dumb-jump-go)
+  ;;(define-key evil-normal-state-map (kbd "gd") 'dumb-jump-go) this stopped working around April 22, 2023, so I changed it directly to xref-find-references as below
+  (define-key evil-normal-state-map (kbd "gd") 'xref-find-references)
 
   ;; try to unset this since it is too dangerous to live (too easy to hit accidentally)
   ;; unbinding keys that involve the leader key might be challenging:
