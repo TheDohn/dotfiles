@@ -1,6 +1,5 @@
 
 
-
 #if [ $(hostname) = 'MacBook-Pro' ]; then # this got changed when I updated to Ventura OS
 if [ $(hostname) = "Don's-MacBook-Pro" ]; then
     source /Users/donbunk/local_dotfiles/.local_zshrc
