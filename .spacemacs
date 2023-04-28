@@ -43,9 +43,9 @@ This function should only modify configuration layer settings."
      javascript
      yaml
      ;; dap
-     (dap :variables
-          dap-python-debugger 'debugpy ;; this is ptvsd is default I think, but that is deprecated
-          )
+     ;; (dap :variables
+     ;; dap-python-debugger 'debugpy ;; this is ptvsd is default I think, but that is deprecated
+     ;; )
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
