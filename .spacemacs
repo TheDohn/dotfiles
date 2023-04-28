@@ -633,6 +633,11 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
+  ;; I was getting an error about svgs after I upgraded my work machine to OS 13.3.1 on April 19, 2023
+  ;; A comment on this stack overflow post said to add this to my config:
+  ;; and it worked
+  (add-to-list 'image-types 'svg)
+
 
 ;;  (setq dap-python-debugger 'debuggy)
 
