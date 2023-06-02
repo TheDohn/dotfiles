@@ -53,6 +53,10 @@ typically need to access this function by name (M-x, dumb-jump-go)
 - have to select one directory (can't do CRT-SPC but I bet there is another option to do this somewhere)
 - * is the wildcard here
 
+** search and replace a regex
+- just M-x for "replace-regex"
+- this works well when it is not a variable overall that I am changing, but maybe a prefix on a bunch of variables
+
 * org mode
 * ess
 * Python
