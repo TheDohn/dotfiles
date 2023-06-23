@@ -59,3 +59,16 @@ set guifont=Monaco:h14
 
 "remap ESC to jk
 inoremap jk <Esc>
+
+" vertical cursor in normal mode
+" https://stackoverflow.com/questions/6488683/how-to-change-the-cursor-between-normal-and-insert-modes-in-vim
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[2 q"
+" reset the cursor on start (for older versions of vim, usually not required)
+augroup myCmds
+au!
+autocmd VimEnter * silent !echo -ne "\e[2 q"
+augroup END
+
+"remove underscore from the definition of a word
+:set iskeyword-=_
