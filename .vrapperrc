@@ -28,3 +28,8 @@
 "THIS DOES WORK FOR evil escape
 "remap ESC to jk
 inoremap jk <Esc>
+
+
+
+"remove underscore from the definition of a word
+:set iskeyword-=_
