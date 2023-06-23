@@ -639,8 +639,10 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (add-to-list 'image-types 'svg)
 
 
-;;  (setq dap-python-debugger 'debuggy)
+  ;;  (setq dap-python-debugger 'debuggy)
 
+  ;; show file size in human readable format
+  ;; https://emacs.stackexchange.com/questions/33548/how-show-size-in-kb-in-dired-mode
   (setq dired-listing-switches "-alFh")
 
   ;; this doesn't seem to help me
@@ -749,6 +751,17 @@ before packages are loaded."
   ;; OPTION 2 this stopped working for R files around May 15, 2023, so I dropped the definition completely ()
   ;; I was getting an error "(assertion failed: (directory-name-p dir) emacs),""
      ;; (define-key evil-normal-state-map (kbd "gd") 'xref-find-references)
+  ;; Version 3: June 17, 2023.
+  ;; This link had a similar situation to me:
+  ;;https://martinfowler.com/articles/2023-xref-problem.html
+  ;; following this I set, which restores dumb jumper
+  (setq dumb-jump-force-searcher 'ag)
+  ;; so now this works again:
+  (define-key evil-normal-state-map (kbd "gd") 'dumb-jump-go)
+  ;; note that for Python, lsp-mode has a searcher that works better, this is mostly for ESS mode (R files)
+  ;; ideally I would have something here that defaults to lsp to find definitions (lsp-find-definition) in python mode, and dumb jump for R, but that will require some work
+  ;; this works well enough for both
+
 
   ;; try to unset this since it is too dangerous to live (too easy to hit accidentally)
   ;; unbinding keys that involve the leader key might be challenging:
