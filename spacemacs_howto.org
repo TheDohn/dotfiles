@@ -85,3 +85,25 @@ from: https://stackoverflow.com/questions/49886186/emacs-starting-a-new-inferior
 
 ** describe buffer
 - C-h b will give a list of commands in a buffer (like org or dired)
+
+* How to use tramp:
+  1. add info to file [[~/.ssh/config][~/.ssh/config:]]
+        # 'ForwardX11 yes' forwards graphics to current machine as per https://ess.r-project.org/Manual/ess.html
+        Host amazon
+            HostName ec2-34-228-79-88.compute-1.amazonaws.com
+            User ec2-user
+            IdentityFile ~/.ssh/ec2_test_key_pair.pem
+            ForwardX11 yes
+  2. ssh into service using Tramp by using find file, /NOT/ helm
+     - specifically, type SPC SPC, then search for 'find-file'
+     - then enter '/ssh:<User>@<Host>:<path/to/file>'
+     - if you leave just ':' as the path you will open Dired
+  3. Things to do:
+     + if you open a Python or R file, just hit the leader key ','
+        and then follow prompts to open a REPL, which will run on that machine
+     + type SPC SPC to search, and search/select 'shell'
+       - that will open a shell on the remote machine
+  4. search and run 'tramp-cleanup-all-connections' or a similar variant to close connection(s)
+
+* Dired:
+** use 'a' to access a dired folder, and kill the old one (so you don't open a ton of directories using ENT)
