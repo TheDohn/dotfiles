@@ -1,0 +1,16 @@
+[include] # include creds, I still need to make this part machine-specific
+	path = ~/local_dotfiles/.local_gitconfig
+[credential]
+	helper = manager-core
+[init]
+	defaultBranch = master
+[alias]
+	br = branch
+	c = commit
+	co = checkout
+	cm = commit
+	lg = log --graph --decorate --oneline --all
+	st = status
+	sw = switch
+[status]
+	showStash = true
