@@ -37,6 +37,9 @@ alias chrome="open -a 'Google Chrome'"
 alias rm="rm -i"
 # make sure it asks before overwriting files when copying
 alias cp="cp -i"
+# this doesn't seem to work
+# make sure it asks before overwriting files when copying
+# alias git checkout .="git checkout . -i"
 # flag autocompletion
 autoload -U compinit && compinit
 
