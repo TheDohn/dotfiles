@@ -4,13 +4,27 @@
 	helper = manager-core
 [init]
 	defaultBranch = master
+# my current philosophy is that is it better to keep these all 2 chars
+# a single char could get confusing,
+# and I don't want to accidentally run `git checkout .` or something like that
 [alias]
 	br = branch
-	c = commit
-	co = checkout
 	cm = commit
+	co = checkout
 	lg = log --graph --decorate --oneline --all
+	mg = merge
+	rb = rebase
 	st = status
 	sw = switch
 [status]
 	showStash = true
+[core]
+	excludesfile = /Users/donbunk/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/donbunk/.stCommitMsg
