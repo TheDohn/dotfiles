@@ -8,6 +8,7 @@
 "4) click on "Next>", follow prompts.
 "5) Click Help -> Eclipse Marketplace
 "6) Search for Vrapper plugin, click "Install"
+"  NOTE that there are sub packages like Vim surround to install!
 "7) There are some optional things to toggle that appear to be Vim sneak and surround variants
 "8) Follow instructions.
 
