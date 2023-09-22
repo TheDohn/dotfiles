@@ -1,18 +1,24 @@
 
 
+# may need this for Emacs to recongnize zsh themes
+#export EMACS="*term*"
+
 #if [ $(hostname) = 'MacBook-Pro' ]; then # this got changed when I updated to Ventura OS
 if [ $(hostname) = "Don's-MacBook-Pro" ]; then
     source /Users/donbunk/local_dotfiles/.local_zshrc
-#    #TODO get this working on my local machine
-# elif [$(hostname) = 'XXX Dons macbook pro']; then
-#     source XXX /Users/donbunk/local_dotfiles/.local_zshrc
+    #    #TODO get this working on my local machine
+    # elif [$(hostname) = 'XXX Dons macbook pro']; then
+    #     source XXX /Users/donbunk/local_dotfiles/.local_zshrc
 fi
 
-
+# basic aliases
+alias g='git'
+alias d='docker'
 
 # spacemacs said to do this
 # https://develop.spacemacs.org/doc/FAQ.html
 export PATH=~/.local/bin:$PATH
+
 
 
 # R recommended adding these in order to install the R openssl package

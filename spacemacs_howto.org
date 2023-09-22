@@ -26,7 +26,7 @@ SPC-s-e
 - hard bc you immediately get all hits in file, and you aren't sure where they are
 - usually I just type S-J to start selecting lines below that so you aren't selecting the whole file
 
-** select instances
+** select instances in an open file
 
 *** evil make cursor
 
@@ -45,6 +45,14 @@ typically need to access this function by name (M-x, dumb-jump-go)
 *** helm-do-ag:
 - SPC-s-a-f
 - then hit CTR-SPC to select files OR whole directories to search
+
+note that helm-do-ag is different than helm-ag:
+
+*** helm-ag will do a raw search, and for many hits may nearly crash emacs
+*** helm-do-ag is like ag at the CL, and will take flags, which is very useful
+  for example: "face -c" will only print the number of times in that file, which is more digestable
+- if you search for a very common like "facebook" or "python" helm-do-ag may not return anything
+  (likely bc it has defaults or knows it will crash, or is searching too much stuff)
 
 ** for file or directory names:
 
@@ -71,10 +79,15 @@ from: https://stackoverflow.com/questions/49886186/emacs-starting-a-new-inferior
 
 1) Use the M-x rename-buffer command to set the existing inferior shell buffer name to something like =*Python-otherbuff*=
 (note that in the above there are ='s in org mode so that should render as Python-otherbuff with *'s surrounding it)
+- SO WHAT YOU TYPE is the stuff inside and including the *s!, not the =s
 - you NEED to have these for it to work!
 2) (setq-local python-shell-buffer-name "Python-otherbuff") in each buffer which should interact with the old inferior shell.
 - just quotes here, no *s
 - M-x eval-expression to get a prompt to run the snippet in the ()s above
+
+NOTE: I am not clear if this will give you autocomplete if the original shell was a docker container yet
+- actually I think is bc of what TAB is doing for the mode,
+since TAB autocomplete will work in a raw shell outside of Emacs
 
 * window/project management
 ** tab-bar-mode
