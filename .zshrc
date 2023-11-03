@@ -14,7 +14,9 @@ fi
 # basic aliases
 alias g='git'
 alias d='docker'
-
+alias c='conda'
+alias cac='conda activate'
+alias cde='conda deactivate'
 # spacemacs said to do this
 # https://develop.spacemacs.org/doc/FAQ.html
 export PATH=~/.local/bin:$PATH
