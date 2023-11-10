@@ -652,6 +652,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; (add-to-list 'lsp-file-watch-ignored-files "[/\\\\]\\.my-files\\'")
 
 
+  ;; make this wider, or else peek mode wraps between the two windows
+  (setq lsp-ui-peek-list-width 100)
+
   ;; overwrite zsh default for now while I play with iterm2
   ;; while I don't like iterm2 customization
   ;; it is nice bc when I launch a terminal from Emacs (SPC ")
