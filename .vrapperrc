@@ -21,6 +21,7 @@
 " Also turn off absolute line numbers:
 " Preferences > Editors > Text Editors > Toggle "Show line numbers" checkbox
 
+"-->I didn't need to do this last time <--
 "I think this is just me testing.
 ":set relativenumber
 "set current line to absolute number
