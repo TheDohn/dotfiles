@@ -75,6 +75,8 @@ This function should only modify configuration layer settings."
                     auto-completion-use-company-box t
                     auto-completion-tab-key-behavior 'cycle
                     auto-completion-complete-with-key-sequence "jk"
+                    auto-completion-minimum-prefix-length 1
+                    auto-completion-idle-delay 0.0
                     )
      ;; better-defaults ;; this is just for emacs
      emacs-lisp
@@ -650,6 +652,10 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\tensorboard\\'") ;; more stuff in the kubernetes project
     )
   ;; (add-to-list 'lsp-file-watch-ignored-files "[/\\\\]\\.my-files\\'")
+
+  ;; testing if I remove caching lsp completion will speed up
+  (setq lsp-completion-no-cache t)
+
 
 
   ;; make this wider, or else peek mode wraps between the two windows
