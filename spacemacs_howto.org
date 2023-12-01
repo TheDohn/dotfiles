@@ -90,6 +90,15 @@ NOTE: I am not clear if this will give you autocomplete if the original shell wa
 - actually I think is bc of what TAB is doing for the mode,
 since TAB autocomplete will work in a raw shell outside of Emacs
 
+* DAP mode
+-NOTE for Python the Conda env must be activated for DAP mode to work!
+
+** to start DAP
+- `,ddd` to run DAP, or `,dde` to edit DAP first (I think the window config? unsure about this one
+
+* LSP mode
+- lsp-rename `,rr` to rename that variable/function throughout the project
+
 * window/project management
 ** tab-bar-mode
 - combine this with desktop-save to save the states
