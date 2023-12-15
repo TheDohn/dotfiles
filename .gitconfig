@@ -8,8 +8,10 @@
 # a single char could get confusing,
 # and I don't want to accidentally run `git checkout .` or something like that
 [alias]
+	aa = add --all
 	br = branch
 	cm = commit
+	cmm = commit -m
 	co = checkout
 	lg = log --graph --decorate --oneline --all
 	mg = merge
