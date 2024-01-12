@@ -32,7 +32,10 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(python
+   '(
+     (lua :variables
+          lua-backend 'lsp)
+     ;;python
      octave ;;I think this is for viewing Matlab files
      sql
      html
@@ -43,9 +46,11 @@ This function should only modify configuration layer settings."
      javascript
      yaml
      ;; dap
-     ;; (dap :variables
-     ;; dap-python-debugger 'debugpy ;; this is ptvsd is default I think, but that is deprecated
-     ;; )
+     (dap ;;:variables
+          dap-python-debugger 'debugpy ;; this is ptvsd is default I think, but that is deprecated
+          ;; just trying this
+          ;; dap-auto-configure-features '(sessions locals controls tooltip)
+     )
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -111,6 +116,22 @@ This function should only modify configuration layer settings."
              )
      (ess :variables
           ess-indent-level 5
+          ;; added the stuff below trying to fix the indenting with evil-paste
+          ;; ess-indent-with-fancy-comments nil
+          ;; ess-tab-complete-in-script nil
+          ;; ess-tab-complete-in-buffer nil
+          ;; ess-indent-offset nil
+          ;; ess-offset-arguments nil
+          ;; ess-offset-arguments-newline nil
+          ;; ess-offset-block nil
+          ;; ess-offset-continued nil
+          ;; ess-align-nested-calls nil
+          ;; ess-align-arguments-in-calls nil
+          ;; ess-align-continuations-in-calls nil
+          ;; ess-align-blocks nil
+          ;; ess-indent-from-lhs nil
+          ;; ess-indent-from-chain-start nil
+          ;; ess-indent-with-fancy-comments nil
           ess-r-backend 'ess ;; I think this is default
           ;; ess-r-backend 'lsp
           ) ;; I can't tell what this does?
@@ -163,6 +184,7 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(
      ess-view-data
+     ;; org-modern ;; couldn't get this to work
      ;; general-auto-unbind-keys
      )
 
@@ -640,6 +662,19 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
+   ;; (setq ess-indent-offset nil)
+   ;; (setq ess-offset-arguments nil)
+   ;; (setq ess-offset-arguments-newline nil)
+   ;; (setq ess-offset-block nil)
+   ;; (setq ess-offset-continued nil)
+   ;; (setq ess-align-nested-calls nil)
+   ;; (setq ess-align-arguments-in-calls nil)
+   ;; (setq ess-align-continuations-in-calls nil)
+   ;; (setq ess-align-blocks nil)
+   ;; (setq ess-indent-from-lhs nil)
+   ;; (setq ess-indent-from-chain-start nil)
+   ;; (setq ess-indent-with-fancy-comments nil)
+
  ;; LSP is watching too much stuff
   ;; https://emacs-lsp.github.io/lsp-mode/page/file-watchers/
   (with-eval-after-load 'lsp-mode
@@ -655,7 +690,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; testing if I remove caching lsp completion will speed up
   (setq lsp-completion-no-cache t)
-
 
 
   ;; make this wider, or else peek mode wraps between the two windows
@@ -739,6 +773,40 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+
+  ;; (setq evil-auto-indent nil) ;; trying to eliminate indentation in ESS mode
+
+  ;; (setq ess-indent-offset nil)
+  ;; (setq ess-offset-arguments nil)
+  ;; (setq ess-offset-arguments-newline nil)
+  ;; (setq ess-offset-block nil)
+  ;; (setq ess-offset-continued nil)
+  ;; (ess-align-nested-calls . #1=("ifelse"))
+  ;; (setq ess-align-arguments-in-calls nil)
+  ;; (setq ess-align-continuations-in-calls nil)
+  ;; (ess-align-blocks . #3=(control-flow))
+  ;; (setq ess-indent-from-lhs nil)
+  ;; (setq ess-indent-from-chain-start nil)
+  ;; (setq ess-indent-with-fancy-comments nil)
+
+
+
+
+   ;; (setq ess-indent-offset nil)
+   ;; (setq ess-offset-arguments nil)
+   ;; (setq ess-offset-arguments-newline nil)
+   ;; (setq ess-offset-block nil)
+   ;; (setq ess-offset-continued nil)
+   ;; (setq ess-align-nested-calls nil)
+   ;; (setq ess-align-arguments-in-calls nil)
+   ;; (setq ess-align-continuations-in-calls nil)
+   ;; (setq ess-align-blocks nil)
+   ;; (setq ess-indent-from-lhs nil)
+   ;; (setq ess-indent-from-chain-start nil)
+   ;; (setq ess-indent-with-fancy-comments nil)
+
+
+
   ;; ~~~~~~~******~~~~~~******~~~~~~******~~~~~~******~~~~~******
   ;; tab-bar-mode
   ;; ~~~~~~~******~~~~~~******~~~~~~******~~~~~~******~~~~~******
@@ -769,6 +837,7 @@ before packages are loaded."
   ;; https://www.emacswiki.org/emacs/TabBarMode
   ;; #########################################################################################################
 
+  (blink-cursor-mode 1)
 
   ;; removes ** and // around bold and italics
   ;; this actually can get confusing if you don't show these
@@ -899,19 +968,24 @@ before packages are loaded."
    ((string= system-name "Don's-MacBook-Pro")
           (setq org-directory "") ;; need to make this empty else it gets prepended to everything below, probably a better way to think about it
           ;; TODO I really should just reorganize the directory itself so I can drop that in there
-          (setq org-agenda-files (list "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal.org"
-                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q3.org"
-                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q2.org"
-                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q1.org"
-                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q4.org"
-                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q3.org"
-                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q2.org"
-                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q1.org"
-                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_09_10_11_21.org"
-                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_06_07_08.org"
-                                       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_05.org"
-                                       "/Users/donbunk/Documents/org_mode/IXIS_todo.org_archive"
-                                       "/Users/donbunk/Documents/org_mode/IXIS_todo.org"))
+          ;; (setq org-agenda-files (list "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal.org"
+          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q3.org"
+          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q2.org"
+          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q1.org"
+          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q4.org"
+          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q3.org"
+          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q2.org"
+          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q1.org"
+          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_09_10_11_21.org"
+          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_06_07_08.org"
+          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_05.org"
+          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_todo.org_archive"
+          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_todo.org"))
+          ;; just adding the directory should actually be enough
+          (setq org-agenda-files (list
+                                  "/Users/donbunk/Documents/org_mode/"
+                                  "/Users/donbunk/Documents/org_mode/IXIS_journal/"
+          ))
     )
    ((string= system-name "DB-personal-Macbook-Pro.local")
           (setq org-directory "")
@@ -1035,7 +1109,7 @@ This function is called at the very end of Spacemacs initialization."
  '(ess-indent-with-fancy-comments nil)
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
-   '(helm-comint company-box frame-local move-text company-auctex company-math company-reftex evil-tex lsp-latex math-symbol-lists eziam-themes farmhouse-themes compat centaur-tabs tree-sitter-langs tree-sitter tsc lsp-docker texfrag auctex company-statistics company-quickhelp helm-lsp lsp-origami origami lsp-pyright lsp-python-ms lsp-ui command-log-mode keycast pdf-view-restore pdf-tools tablist mmm-mode markdown-toc gh-md sqlup-mode sql-indent rainbow-mode rainbow-identifiers color-identifiers-mode evil-vimish-fold vimish-fold yasnippet-snippets web-mode tagedit slim-mode scss-mode sass-mode pug-mode magit-gitflow magit-popup magit-delta helm-css-scss helm-company helm-c-yasnippet haml-mode fuzzy emmet-mode conda company-web web-completion-data company-anaconda auto-yasnippet ac-ispell auto-complete vimrc-mode dactyl-mode xterm-color vterm terminal-here shell-pop multi-term eshell-z eshell-prompt-extras esh-help outshine outorg treemacs-magit smeargle orgit-forge orgit helm-git-grep gitignore-templates git-timemachine git-modes git-messenger git-link forge yaml magit ghub closql emacsql-sqlite emacsql treepy magit-section git-commit with-editor ess-view-data csv-mode zonokai-emacs zenburn-theme zen-and-art-theme yapfify white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme sphinx-doc spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rebecca-theme railscasts-theme pytest pyenv-mode pydoc py-isort purple-haze-theme professional-theme poetry transient planet-theme pippel pipenv pyvenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme nose noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme modus-themes minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme live-py-mode light-soap-theme kaolin-themes jbeans-theme jazz-theme ir-black-theme inkpot-theme importmagic epc concurrent deferred heroku-theme hemisu-theme helm-pydoc hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme git-gutter-fringe fringe-helper git-gutter gandalf-theme flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flatui-theme flatland-theme farmhouse-theme eziam-theme exotica-theme evil-snipe ess-R-data-view ctable ess espresso-theme dracula-theme doom-themes django-theme darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme chocolate-theme autothemer cherry-blossom-theme busybee-theme bubbleberry-theme browse-at-remote blacken birds-of-paradise-plus-theme better-jumper badwolf-theme auto-dictionary apropospriate-theme anti-zenburn-theme anaconda-mode pythonic ample-zen-theme ample-theme alect-themes afternoon-theme org-rich-yank org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-contrib org-cliplink org json-reformat json-navigator hierarchy json-mode json-snatcher helm-org-rifle gnuplot evil-org web-beautify tern prettier-js npm-mode nodejs-repl livid-mode skewer-mode js2-refactor yasnippet multiple-cursors js2-mode js-doc import-js grizzl impatient-mode htmlize simple-httpd helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode markdown-mode counsel-gtags counsel swiper ivy add-node-modules-path yaml-mode company ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-terminal-cursor-changer evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
+   '(company-lua lua-mode helm-comint company-box frame-local move-text company-auctex company-math company-reftex evil-tex lsp-latex math-symbol-lists eziam-themes farmhouse-themes compat centaur-tabs tree-sitter-langs tree-sitter tsc lsp-docker texfrag auctex company-statistics company-quickhelp helm-lsp lsp-origami origami lsp-pyright lsp-python-ms lsp-ui command-log-mode keycast pdf-view-restore pdf-tools tablist mmm-mode markdown-toc gh-md sqlup-mode sql-indent rainbow-mode rainbow-identifiers color-identifiers-mode evil-vimish-fold vimish-fold yasnippet-snippets web-mode tagedit slim-mode scss-mode sass-mode pug-mode magit-gitflow magit-popup magit-delta helm-css-scss helm-company helm-c-yasnippet haml-mode fuzzy emmet-mode conda company-web web-completion-data company-anaconda auto-yasnippet ac-ispell auto-complete vimrc-mode dactyl-mode xterm-color vterm terminal-here shell-pop multi-term eshell-z eshell-prompt-extras esh-help outshine outorg treemacs-magit smeargle orgit-forge orgit helm-git-grep gitignore-templates git-timemachine git-modes git-messenger git-link forge yaml magit ghub closql emacsql-sqlite emacsql treepy magit-section git-commit with-editor ess-view-data csv-mode zonokai-emacs zenburn-theme zen-and-art-theme yapfify white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme sphinx-doc spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rebecca-theme railscasts-theme pytest pyenv-mode pydoc py-isort purple-haze-theme professional-theme poetry transient planet-theme pippel pipenv pyvenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme nose noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme modus-themes minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme live-py-mode light-soap-theme kaolin-themes jbeans-theme jazz-theme ir-black-theme inkpot-theme importmagic epc concurrent deferred heroku-theme hemisu-theme helm-pydoc hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme git-gutter-fringe fringe-helper git-gutter gandalf-theme flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flatui-theme flatland-theme farmhouse-theme eziam-theme exotica-theme evil-snipe ess-R-data-view ctable ess espresso-theme dracula-theme doom-themes django-theme darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme chocolate-theme autothemer cherry-blossom-theme busybee-theme bubbleberry-theme browse-at-remote blacken birds-of-paradise-plus-theme better-jumper badwolf-theme auto-dictionary apropospriate-theme anti-zenburn-theme anaconda-mode pythonic ample-zen-theme ample-theme alect-themes afternoon-theme org-rich-yank org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-contrib org-cliplink org json-reformat json-navigator hierarchy json-mode json-snatcher helm-org-rifle gnuplot evil-org web-beautify tern prettier-js npm-mode nodejs-repl livid-mode skewer-mode js2-refactor yasnippet multiple-cursors js2-mode js-doc import-js grizzl impatient-mode htmlize simple-httpd helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode markdown-mode counsel-gtags counsel swiper ivy add-node-modules-path yaml-mode company ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-terminal-cursor-changer evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
  '(trash-directory ""))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
