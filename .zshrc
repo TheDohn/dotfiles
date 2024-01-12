@@ -76,6 +76,10 @@ plugins=(
     zsh-vi-mode
     conda-zsh-completion
     docker
+    colored-man-pages
+    z
+    zsh-autosuggestions
+    history
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -128,13 +132,17 @@ fi
 alias g='git'
 alias d='docker'
 alias c='conda'
-alias cac='conda activate'
-alias cde='conda deactivate'
+# actually I don't need these with autocomplete now
+# alias cac='conda activate'
+# alias cde='conda deactivate'
+
 # spacemacs said to do this
 # https://develop.spacemacs.org/doc/FAQ.html
 export PATH=~/.local/bin:$PATH
 
-
+# trying to give lsp & dap the path to ruff
+export PATH=/opt/homebrew/Cellar:$PATH
+export PATH=/opt/homebrew/lib:$PATH
 
 # R recommended adding these in order to install the R openssl package
 # I only unquoted what I need in order to install that, leaving the rest for reference
@@ -209,7 +217,13 @@ conda deactivate
 # map ESC to jk
 ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 
+# Didn't get this to work, but I am also unclear what I want here
+# autosuggestion config
+# https://github.com/zsh-users/zsh-autosuggestions
+#bindkey '^I' autosuggest-accept
+# bindkey '^ ' autosuggest-accept
+# bindkey '\t' end-of-line
 
-
-
-
+#LAST PASS CONFIG
+LPASS_AGENT_TIMEOUT=60
+alias lpp="lpass show -c --password"
