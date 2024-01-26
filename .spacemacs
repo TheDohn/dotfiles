@@ -81,7 +81,7 @@ This function should only modify configuration layer settings."
                     auto-completion-tab-key-behavior 'cycle
                     auto-completion-complete-with-key-sequence "jk"
                     auto-completion-minimum-prefix-length 1
-                    auto-completion-idle-delay 0.0
+                    auto-completion-idle-delay 0.2 ;; setting this to 0.0 seemed to make company very slow
                     )
      ;; better-defaults ;; this is just for emacs
      emacs-lisp
