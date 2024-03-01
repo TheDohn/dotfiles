@@ -38,6 +38,7 @@ This function should only modify configuration layer settings."
      ;;python
      octave ;;I think this is for viewing Matlab files
      sql
+     ;; (sql :variables sql-auto-indent nil)
      html
      ;; needed to install mactex first and add append dir to PATH https://formulae.brew.sh/cask/mactex
      ;; (latex :variables latex-backend 'lsp) # I think this worked, but commented it out since lsp may have been given me problems overall
@@ -116,6 +117,7 @@ This function should only modify configuration layer settings."
              )
      (ess :variables
           ess-indent-level 5
+          ;; ess-style nil
           ;; added the stuff below trying to fix the indenting with evil-paste
           ;; ess-indent-with-fancy-comments nil
           ;; ess-tab-complete-in-script nil
@@ -662,6 +664,8 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
+  ;; (setq evil-auto-indent nil)
+
    ;; (setq ess-indent-offset nil)
    ;; (setq ess-offset-arguments nil)
    ;; (setq ess-offset-arguments-newline nil)
@@ -680,11 +684,20 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (with-eval-after-load 'lsp-mode
     ;; (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ixis\.kubernetes\\'") ;; trying to ignore the our directory. didn't get this to work
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns\\'") ;; ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\select_mlruns\\'") ;; ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlartifacts\\'") ;; ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlartifacts_OLD\\'") ;; ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns.*\\'") ;; more ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns_fine_but_had_to_rename\\'") ;; and more ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlartifacts_OLD\\'") ;; and more ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\TEST_RUNS\\'") ;; and more ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns_fine_but_OLD\\'") ;; and more ML Flow stuff
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\pipelines/.*stages\\'") ;; Spark stuff
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\kfp-tekton\\'") ;; some stuff in the kubernetes project
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\kubeflow\\'") ;; more stuff in the kubernetes project
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\jupyter\\'") ;; more stuff in the kubernetes project
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\tensorboard\\'") ;; more stuff in the kubernetes project
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\OLD_dont_watch_lsp\\'") ;; more stuff in the kubernetes project
     )
   ;; (add-to-list 'lsp-file-watch-ignored-files "[/\\\\]\\.my-files\\'")
 
@@ -773,6 +786,8 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  ;; (setq sql-auto-indent nil)
+  ;; (setq sql-use-indent-support nil)
 
   ;; (setq evil-auto-indent nil) ;; trying to eliminate indentation in ESS mode
 
