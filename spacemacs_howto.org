@@ -69,6 +69,13 @@ note that helm-do-ag is different than helm-ag:
 - while on a symbol you can hit '*' which will give a transient state that you can then hit things like 'e' to edit that variable
 or '/' to search for it
 ** in a Python script lsp-rename will change the variable everywhere
+** searching open buffers
+useful to search/compare text in two different buffers,
+     like in the case if the same env params are defined
+- open `helm-multi-occur-from-isearch`
+- select the buffers with SPC
+- then search
+
 * org mode
 * ess
 * Python
