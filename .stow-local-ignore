@@ -1,0 +1,7 @@
+\.git
+.*.org
+README.md
+Mac_OS_setup.txt
+surfingkeys.txt
+yasnippets/.*
+.DS_Store

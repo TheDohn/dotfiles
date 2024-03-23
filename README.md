@@ -1,6 +1,18 @@
 # dotfiles
 Doggedly documenting Don's dorky dogmatic dotfiles
 
+Use Gnu Stow to manage dotfiles.
+Rough instructions:
+1) Clone this repo to a new machine such that it lives in $HOME/
+2) cd into dotfiles
+3) run 'stow .', which creates symlinks in the $HOME directory
+source:
+https://systemcrafters.net/managing-your-dotfiles/using-gnu-stow/
+
+
+
+OLD Directions for symlinking which I no longer use, but might be useful.
+
 Strategy is:
 
 1) Move a config/dotfile to this directory (~/dotfiles) on my local machine:
