@@ -80,17 +80,24 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    git
-    zsh-vi-mode
+    colored-man-pages
     conda-zsh-completion
     docker
-    colored-man-pages
+    fzf
+    git
+    history
     z
     zsh-autosuggestions
-    history
+    zsh-vi-mode
 )
 
 source $ZSH/oh-my-zsh.sh
+
+# limit history to each tab (in iterm2)
+# https://superuser.com/questions/1245273/iterm2-version-3-individual-history-per-tab
+unsetopt inc_append_history
+unsetopt share_history
+
 
 # https://docs.conda.io/projects/conda/en/latest/user-guide/configuration/enable-tab-completion.html
 # https://github.com/conda-incubator/conda-zsh-completion/blob/cf03e636d74d0645ca97be371ef01875fc314da1/_conda
