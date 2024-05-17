@@ -31,6 +31,17 @@ I may need to run:
      docker compose build
      docker compose run <app ref'd in compose yaml>
 
+** Docker in EC2:
+
+install Docker:
+https://serverfault.com/questions/836198/how-to-install-docker-on-aws-ec2-instance-with-ami-ce-ee-update
+
+then fix permissions:
+https://stackoverflow.com/questions/48957195/how-to-fix-docker-got-permission-denied-issue
+
+I may need to install this, too, I forget:
+https://stackoverflow.com/questions/3160909/how-do-i-deal-with-certificates-using-curl-while-trying-to-access-an-https-url
+
 ** ray docker/Apple silicon:
 
 I think the only why I was able to get this to work was when I had the following specified:
