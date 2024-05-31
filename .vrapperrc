@@ -15,7 +15,7 @@
 " To get relative line number to work:
 " 1) Go to the Eclipse Market place (installation instructions above), search for "relative line number"
 " 2) Download "Relative line number ruler" and follow prompts.
-" 3) Preferences > Relative Number Ruler > Toggle check box
+" 3) Settings > Relative Number Ruler > Toggle check box
 
 " NOT SURE IF I NEED THIS PART OR NOT?
 " Also turn off absolute line numbers:
