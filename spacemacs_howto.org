@@ -138,5 +138,40 @@ since TAB autocomplete will work in a raw shell outside of Emacs
        - that will open a shell on the remote machine
   4. search and run 'tramp-cleanup-all-connections' or a similar variant to close connection(s)
 
+*update*:
+https://medium.com/@Drowzy/tramp-in-spacemacs-ef82b9e703ee
+I may be able to do this even differently and more easily
+1. SPC f f to find file
+2. delete everything down to '/'
+3. then type ssh:
+4) it should autocomplete the User and Host after that,
+and depending if you want to go to a file, then keep auto completing
+
+Note that I think you can only have one of these running at once,
+so once you are connected, it won't work if you try to do it again
+
+Note that in some cases I need to be on the VPN for the connection to work.
+
+** docker in a running EC2:
+
+to go a bit further, if you want to connect to a running docker container inside an EC2 use a similar process to the above:
+1) find find: SPC f f
+2) then /ssh:<Host>|docker:<container>:/ TAB to complete
+Ex: /ssh:db_med|docker:ecstatic_bardeen:/:
+
+if the above fails (if there is a typo) you can access docker shell first in a buffer, then just SPC f f to enter Dired
+
+* Docker on local machine:
+
+this seems to work for engaging with a running docker container:
+https://happihacking.com/blog/posts/2023/dev-containers-emacs/
+
+
+1. SPC f f to find file
+2. delete everything down to '/'
+3. then type docker:<container name>:
+
+and it should auto complete after that
+
 * Dired:
 ** use 'a' to access a dired folder, and kill the old one (so you don't open a ton of directories using ENT)

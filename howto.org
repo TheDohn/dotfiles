@@ -9,27 +9,38 @@
 
 ** how to:
 - write Dockerfile
-- write compose.yaml
-run:
-     docker build .
-     (what is the better way to be more specific here?)
+
+to build image from Dockerfile:
+$ docker build .
+(what is the better way to be more specific here?)
 
 or specify the image name as:
-     docker build -t <name> .
-     docker build -t dons_dc_example .
+$ docker build -t <name> .
+$ docker build -t dons_dc_example .
 
 get image name from
-     docker image ls
+$ docker image ls
 
-run interactively:
-     docker run -it <image_name> bash
-     docker run -it ccc51f4c6e41 bash
+run interactively (starts container, and then drops you in the shell)
+$ docker run -it <image_name> bash
+$ docker run -it ccc51f4c6e41 bash
 some ppl I see do `docker run -it <image_name> /bin/bash but either way seems to wor
+
+if the container is already running, then you can do:
+$ docker exec -it
+However, I think you typically need some sort of long-lived process to keep it running for this to work.
+And the run command above seems to work for me better.
 
 for compose and volume mounts:
 I may need to run:
-     docker compose build
-     docker compose run <app ref'd in compose yaml>
+$ docker compose build
+$ docker compose run <app ref'd in compose yaml>
+typically you want to run the compose in the background, otherwise you don't get a prompt back in that terminal, so:
+$ docker compose up -d
+
+
+get running containers:
+$ docker ps
 
 ** Docker in EC2:
 
@@ -69,9 +80,15 @@ docker run --platform=linux/x86_64 -it rayproject/ray /bin/bash
 *** figure out how to pull my dotfiles
 - this might cause issues since they are not necessarily made for Linux
 
+*** didn't I have instructions for connecting to EC2 inside spacemacs, for ESS specifically, maybe?
+
+that might be in spacemacs_howto
+
 * Ray HOW TO
 
 I was able to get the following to work:
+
+just auth at the CL as usual
 
 1) ray up example-full.yaml (this can take awhile, but seems to be faster with CPU variant)
 - note that you may need to wait and verify that EC2 is finished initializing, before 2 below
@@ -88,6 +105,24 @@ ray dashboard example-full.yaml and get port
 
 I forget exactly, but the following may have been what I following to get that working:
 https://docs.ray.io/en/latest/cluster/vms/user-guides/launching-clusters/aws.html?highlight=aws
+
+This was working, but when I tried on <2024-06-04 Tue> I got an error,
+which I think was just due to a command I had in the yaml, like:
+$ sudo apt-get update
+
+
+
+     Reading package lists... Done
+     E: The repository 'http://apt.kubernetes.io kubernetes-xenial Release' does not have a Release file.
+     N: Updating from such a repository can't be done securely, and is therefore disabled by default.
+     N: See apt-secure(8) manpage for repository creation and user configuration details.
+     Shared connection to 34.210.182.181 closed.
+     New status: update-failed
+     !!!
+     SSH command failed.
+     !!!
+
+     Failed to setup head node.
 
 
 ** TODO

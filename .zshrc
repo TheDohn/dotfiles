@@ -144,9 +144,10 @@ if [ $(hostname) = "Don's-MacBook-Pro" ]; then
 fi
 
 # basic aliases
-alias g='git'
-alias d='docker'
 alias c='conda'
+alias d='docker'
+alias g='git'
+alias ls='ls -lah'
 # actually I don't need these with autocomplete now
 # alias cac='conda activate'
 # alias cde='conda deactivate'
