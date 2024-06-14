@@ -161,6 +161,10 @@ Ex: /ssh:db_med|docker:ecstatic_bardeen:/:
 
 if the above fails (if there is a typo) you can access docker shell first in a buffer, then just SPC f f to enter Dired
 
+** tramp-unload-tramp
+
+I had to run tramp-unload-tramp to get magit working after using tramp, once
+
 * Docker on local machine:
 
 this seems to work for engaging with a running docker container:
@@ -173,5 +177,73 @@ https://happihacking.com/blog/posts/2023/dev-containers-emacs/
 
 and it should auto complete after that
 
+I don't know how to get a terminal or REPL in the Docker container...
+- this works for simple Python images, but not ones that contain conda
+- I think I need to update the "tramp-remote-path" so it knows about conda:
+https://www.gnu.org/software/emacs/manual/html_node/tramp/Remote-programs.html#Remote-programs
+i.e. (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
+also this
+https://www.reddit.com/r/emacs/comments/kymvrz/emacs_lsp_with_docker_conda/
+
+running 'conda init' then turning of the container, and turning it back on may have worked
+
+installing one or both of these:
+pip install python-lsp-server
+pip install pyright
+
+may have enabled LSP to at least work in the Python REPL, if not the Python files themselves
+
+I find that when I spin down a container, tangling buffers within Emacs will stall/crash
+- use "tramp-cleanup-all-buffers" to fix this
+- "tramp-cleanup-all-connections" cleans up the autocomplete that you get in find-file with /docker:<container id>
+
+
+when I edit a file:
+- inside the container it is reflecting OUTSIDE very quickly
+- outside the container, I need to run 'revert-buffer' to see the effect inside the container.
+   - I don't know why that is not more instantaneous
+   - or you can just run ":e", which seems like some sort of reload
+
+** docker compose after a rebuild
+
+I had a hell-of-a-time making sure docker compose was using the most recent build, i.e.
+$ docker build . --no-cashe
+$ docker compose up -d --force-recreate
+was still using some prior docker image/build
+
+I tried removing the volume
+https://stackoverflow.com/questions/67223144/docker-compose-up-not-using-latest-build-even-after-a-rebuild
+$ docker compose down -v
+
+but that didn't work either
+
+I ended up using docker prune -a to just basically restart
+
+** !WARNING! - recent files in docker tramp screw things up
+
+docker files that hang out in the recent files can cause problems. b/c emacs keeps trying to open them. furthermore, much of my config didn't load, which mad it hard to navigate.
+to fix this I needed to M-x, recentf-edit-list, then click in the region to the left of each docker file (of the form /docker:<container ID>:, then click "OK" at the bottom
+
+or I could just go to /Users/donbunk/.emacs.d/.cache/recentf and manually delete them
+
 * Dired:
 ** use 'a' to access a dired folder, and kill the old one (so you don't open a ton of directories using ENT)
+* refreshing packages
+
+I was getting errors about gpg and keys at one point:
+Failed to verify signature archive-contents.sig:
+No public key for 645357D2883A0966 created at 2024-06-14T05:05:05-0400 using EDDSA
+Command output:
+gpg: Signature made Fri Jun 14 05:05:05 2024 EDT
+gpg:                using EDDSA key 0327BE68D64D9A1A66859F15645357D2883A0966
+gpg: Can't check signature: No public key
+
+This prevented some packages from downloading. I don't know why this came up out of no where
+
+
+This worked:
+gpg --homedir ~/.emacs.d/elpa/gnupg --keyserver hkp://keyserver.ubuntu.com  --recv-keys 645357D2883A0966
+
+from here:
+https://github.com/syl20bnr/spacemacs/issues/13054#issuecomment-2131307249

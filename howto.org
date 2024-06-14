@@ -75,6 +75,13 @@ gives a warning
 docker pull --platform=linux/x86_64 rayproject/ray
 docker run --platform=linux/x86_64 -it rayproject/ray /bin/bash
 
+** get root access
+
+sometimes containers don't give you root access (ex: Ray containers start you with the "ray" user)
+to get root access"
+$docker exec -u 0 -it d9eff43f038c bash
+
+
 
 ** TODO
 *** figure out how to pull my dotfiles
