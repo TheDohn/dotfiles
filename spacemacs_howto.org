@@ -2,7 +2,7 @@
 
 * searching
 
-** in a project
+** in a project for text in a file
 
 - install ag (the silver searcher)
 - this is accessible via SPC-s-a-<family>, but likely will be default for SPC-/ now too
@@ -54,12 +54,13 @@ note that helm-do-ag is different than helm-ag:
 - if you search for a very common like "facebook" or "python" helm-do-ag may not return anything
   (likely bc it has defaults or knows it will crash, or is searching too much stuff)
 
-** for file or directory names:
+** for a file or directory names:
 
 *** find-name-dired:
 - SPC-f-d
 - have to select one directory (can't do CRT-SPC but I bet there is another option to do this somewhere)
 - * is the wildcard here
+- wildcards are not assumed: to search for any sub text "ob" in "foobar" you need to add * as in: "*ob*"
 
 ** search and replace a regex
 - just M-x for "replace-regex"
@@ -96,6 +97,18 @@ from: https://stackoverflow.com/questions/49886186/emacs-starting-a-new-inferior
 NOTE: I am not clear if this will give you autocomplete if the original shell was a docker container yet
 - actually I think is bc of what TAB is doing for the mode,
 since TAB autocomplete will work in a raw shell outside of Emacs
+
+** indent guides
+
+*** toggle-indent-guide which is basically this, I think:
+https://github.com/DarthFennec/highlight-indent-guides
+
+*** highlight-indentation-mode
+
+** lsp and flycheck
+- if lsp is not enabled (literally search for 'lsp' and activate it)
+then flycheck can't find certain docs, and will raise errors.
+so in short, activate LSP for flycheck to work right
 
 * DAP mode
 -NOTE for Python the Conda env must be activated for DAP mode to work!
@@ -166,6 +179,7 @@ if the above fails (if there is a typo) you can access docker shell first in a b
 I had to run tramp-unload-tramp to get magit working after using tramp, once
 
 * Docker on local machine:
+
 
 this seems to work for engaging with a running docker container:
 https://happihacking.com/blog/posts/2023/dev-containers-emacs/

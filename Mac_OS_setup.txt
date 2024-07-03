@@ -6,3 +6,9 @@ run the following in terminal so that the app display (command+TAB) will show on
 
 defaults write com.apple.Dock appswitcher-all-displays -bool true
 killall Dock
+
+
+
+other misc settings:
+1) To get evil scroll to go faster:
+System preferences > Keyboard > set 'Key repeat rat to the highest' and 'Delay until repeat' to the shortest
