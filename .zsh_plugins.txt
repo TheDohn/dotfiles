@@ -1,0 +1,50 @@
+
+
+# antidote plugins
+# this is a good example to follow:
+# https://github.com/getantidote/zdotdir/blob/main/.zsh_plugins.txt
+
+
+# jeffreytse/zsh-vi-mode
+# https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/vi-mode
+# https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/vi-mode/vi-mode.plugin.zsh
+# https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/vi-mode/vi-mode.plugin.zsh
+
+getantidote/use-omz        # handle OMZ dependencies
+ohmyzsh/ohmyzsh path:plugins/colored-man-pages
+# ohmyzsh/ohmyzsh path:plugins/docker
+ohmyzsh/ohmyzsh path:plugins/eza
+ohmyzsh/ohmyzsh path:plugins/fzf
+# ohmyzsh/ohmyzsh path:plugins/git # this may have been causing issues
+ohmyzsh/ohmyzsh path:plugins/history
+# I found it easier to clone the repo myself
+# ohmyzsh/ohmyzsh path:plugins/vi-mode
+ohmyzsh/ohmyzsh path:plugins/z
+
+https://github.com/conda-incubator/conda-zsh-completion
+
+# https://github.com/eza-community/eza
+
+# rupa/z
+
+# some of this stuff I don't think has a "plugin" version
+# https://github.com/junegunn/fzf/shell
+# junegunn/fzf/shell path:shell
+# junegunn/fzf/shell path:plugin
+# junegunn/fzf/shell path:.
+# junegunn/fzf/shell kind:path
+# junegunn/fzf path:
+# https://github.com/junegunn/fzf-git.sh
+# https://github.com/junegunn/fzf/
+# https://github.com/unixorn/fzf-zsh-plugin
+# junegunn/fzf
+# junegunn/fzf path:plugin
+# junegunn/fzf-git.sh kind:path
+# junegunn/fzf-git.sh
+
+https://github.com/Aloxaf/fzf-tab
+
+# conda-zsh-completion?
+# ls?
+# zsh-autosuggestions?
+#zsh-bat?

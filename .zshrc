@@ -1,139 +1,48 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+
+export STARSHIP_CONFIG=~/.starship/starship.toml
+
+#suppress the standard conda env so it only shows up in starship prompt
+# https://starship.rs/config/#conda
+conda config --set changeps1 False
+
+# I tried to install this w Antidote, and it kept getting screwed up.
+# just cloning the repo and calling this seems simpler
+source $HOME/.zsh-vi-mode/zsh-vi-mode.plugin.zsh
+# BELOW this was working, but seems to be taken care of by oh-my-zsh now
+# new way to get Vi key bindings in zsh
+# https://github.com/jeffreytse/zsh-vi-mode/tree/c4fc3a60d0c8ca9f435dd0e28cdc6ec42c4b7ad8
+# source $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+# map ESC to jk
+ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+ZVM_VI_ESCAPE_BINDKEY=jk
+
+# now, simply add these two lines in your ~/.zshrc
+
+# source antidote
+# source /path/to/antidote/antidote.zsh
+source $(brew --prefix)/opt/antidote/share/antidote/antidote.zsh
+# initialize plugins statically with ${ZDOTDIR:-~}/.zsh_plugins.txt
+# still not sure if I need this line below or not?
+zsh_plugins=~/.zsh_plugins.txt
+# zsh_plugins=~/.antidote_zsh_plugins.txt
+antidote load
 
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# eza gives an error, but seems to work
+ZSH_LS_BACKEND='eza'
+# ZSH_LS_BACKEND='exa'
+# ZSH_LS_BACKEND='ls'
 
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-# ZSH_THEME="robbyrussell"
-ZSH_THEME="powerlevel10k/powerlevel10k"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-# zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
-
-# Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(
-    colored-man-pages
-    conda-zsh-completion
-    docker
-    fzf
-    git
-    history
-    z
-    zsh-autosuggestions
-    zsh-vi-mode
-)
-
-source $ZSH/oh-my-zsh.sh
 
 # limit history to each tab (in iterm2)
 # https://superuser.com/questions/1245273/iterm2-version-3-individual-history-per-tab
 unsetopt inc_append_history
 unsetopt share_history
 
-
 # https://docs.conda.io/projects/conda/en/latest/user-guide/configuration/enable-tab-completion.html
 # https://github.com/conda-incubator/conda-zsh-completion/blob/cf03e636d74d0645ca97be371ef01875fc314da1/_conda
 autoload -U compinit && compinit
 
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-
-### EVERYTHING BELOW IS PRE-oh-my-zsh
-
-# may need this for Emacs to recongnize zsh themes
-#export EMACS="*term*"
 
 #if [ $(hostname) = 'MacBook-Pro' ]; then # this got changed when I updated to Ventura OS
 if [ $(hostname) = "Don's-MacBook-Pro" ]; then
@@ -145,12 +54,20 @@ fi
 
 # basic aliases
 alias c='conda'
+alias cat='bat'
 alias d='docker'
 alias g='git'
-alias ls='ls -lah'
+alias ls='eza -lah'
 # actually I don't need these with autocomplete now
 # alias cac='conda activate'
 # alias cde='conda deactivate'
+# add alias so I can open html files directly from command line
+alias chrome="open -a 'Google Chrome'"
+# making sure it asks before I delete files by putting rm in interactive mode by default
+alias rm="rm -i"
+# alias rmdir="rmdir -i" # this doesnn't work and I don't know how to get it to work with rmdir
+# make sure it asks before overwriting files when copying
+alias cp="cp -i"
 
 # spacemacs said to do this
 # https://develop.spacemacs.org/doc/FAQ.html
@@ -172,27 +89,14 @@ export PATH=/opt/homebrew/lib:$PATH
 #For pkg-config to find openssl@1.1 you may need to set:
 export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@1.1/lib/pkgconfig"
 
-
-# add alias so I can open html files directly from command line
-alias chrome="open -a 'Google Chrome'"
-
-
-
-# making sure it asks before I delete files by putting rm in interactive mode by default
-alias rm="rm -i"
-# alias rmdir="rmdir -i" # this doesnn't work and I don't know how to get it to work with rmdir
-# make sure it asks before overwriting files when copying
-alias cp="cp -i"
 # this doesn't seem to work
 # make sure it asks before overwriting files when copying
 # alias git checkout .="git checkout . -i"
 # flag autocompletion
 autoload -U compinit && compinit
 
-
 #deactivate conda off the bat in case it it running. There is probably a better way to do this
 conda deactivate
-
 
 
 # this standard way of getting vi key bindings in zsh makes the delete key not work
@@ -226,12 +130,6 @@ conda deactivate
 # echo -ne '\e[5 q' # Use beam shape cursor on startup.
 # preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
-# BELOW this was working, but seems to be taken care of by oh-my-zsh now
-# new way to get Vi key bindings in zsh
-# https://github.com/jeffreytse/zsh-vi-mode/tree/c4fc3a60d0c8ca9f435dd0e28cdc6ec42c4b7ad8
-# source $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
-# map ESC to jk
-ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 
 # Didn't get this to work, but I am also unclear what I want here
 # autosuggestion config
@@ -240,9 +138,13 @@ ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 # bindkey '^ ' autosuggest-accept
 # bindkey '\t' end-of-line
 
+
+
+
 #LAST PASS CONFIG
 LPASS_AGENT_TIMEOUT=60
 alias lpp="lpass show -c --password"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+#starship theme
+eval "$(starship init zsh)"
