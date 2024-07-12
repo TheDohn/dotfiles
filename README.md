@@ -14,7 +14,7 @@ https://systemcrafters.net/managing-your-dotfiles/using-gnu-stow/
 When adding new dotfiles (including directories of dotfiles)
 1) Move files or directories to my dotfiles/ dir
 2) run $stow .
-
+NOTE: if the file already exists outside the dotfiles/ dir, stow will typically raise an error
 OLD Directions for symlinking which I no longer use, but might be useful.
 
 Strategy is:

@@ -110,11 +110,25 @@ https://github.com/DarthFennec/highlight-indent-guides
 then flycheck can't find certain docs, and will raise errors.
 so in short, activate LSP for flycheck to work right
 
-* DAP mode
+
+* debugging
+
+** DAP mode
 -NOTE for Python the Conda env must be activated for DAP mode to work!
 
-** to start DAP
-- `,ddd` to run DAP, or `,dde` to edit DAP first (I think the window config? unsure about this one
+*** to start DAP
+- `,ddd` to run DAP, then I typically 'Run project from project directory'
+- or `,dde` to edit DAP first (I think the window config? unsure about this one
+
+
+** alternatives to DAP mode, since I have had problems with it:
+
+
+I can't get either of these to run from the project root, otherwise they work
+
+*** just run eval pdb
+
+*** eval realgud:pdb
 
 * LSP mode
 - lsp-rename `,rr` to rename that variable/function throughout the project
@@ -133,6 +147,9 @@ so in short, activate LSP for flycheck to work right
 - C-h b will give a list of commands in a buffer (like org or dired)
 
 * How to use tramp:
+
+note that you might need to open the EC2 first at the CL to verify the fingerprint, then this will work in Emacs
+
   1. add info to file [[~/.ssh/config][~/.ssh/config:]]
         # 'ForwardX11 yes' forwards graphics to current machine as per https://ess.r-project.org/Manual/ess.html
         Host amazon
