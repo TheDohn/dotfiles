@@ -1,0 +1,11 @@
+# my understanding is that this is the config for the "Readline" library
+
+# vi bindings in Python repl at command line etc.
+# https://stackoverflow.com/questions/537522/standard-python-interpreter-has-a-vi-command-mode
+# bind -v
+# not clear if this ever worked
+
+
+# below worked
+# https://www.reddit.com/r/Python/comments/2w1te5/you_can_use_vi_mode_editing_in_python_and_ipython/
+set editing-mode vi
