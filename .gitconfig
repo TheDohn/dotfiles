@@ -1,3 +1,5 @@
+#TODO: this file has duplicate keys I need to consolidate!
+
 [include] # include creds, I still need to make this part machine-specific
 	path = ~/local_dotfiles/.local_gitconfig
 [credential]
@@ -8,25 +10,43 @@
 # a single char could get confusing,
 # and I don't want to accidentally run `git checkout .` or something like that
 [alias]
+#NOTE: ALIASES ARE CASE INSENSITIVE!
 	aa = add --all
 	br = branch
 	cm = commit
 	cmm = commit -m
 	co = checkout
 	lg = log --graph --decorate --oneline --all
+	# misc log graphs from https://stackoverflow.com/questions/1838873/visualizing-branch-topology-in-git/34467298#34467298
+	lg1 = lg1-specific --all
+	lg2 = lg2-specific --all
+	lg3 = lg3-specific --all
+	lg1-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+	lg2-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
+	lg3-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
 	mg = merge
 	rb = rebase
 	st = status
 	sw = switch
-	F  = pull # think of this like a meta Fetch, which it is
-	P  = push
+	p  = push
+	f  = fetch
+	fm  = pull
+	# I eliminated these b/c git is case insensitive, but leaving here as a reminder
+	# P  = push
+	# F  = pull # think of this like a meta Fetch, which it is
+	# f  = fetch
 [status]
 	showStash = true
 [core]
 	excludesfile = /Users/donbunk/.gitignore_global
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
+     editor = vim
+# [diff]
+# 	tool = vimdiff
+[difftool]
+	prompt = false
+# [difftool "sourcetree"]
+	# cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	# path =
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
@@ -36,3 +56,26 @@
 [merge]
 	#no fast-forwarding. always create a commit when merging
 	ff = no
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+
+#******~~~~~~ #******~~~~~~ #******~~~~~~ #******~~~~~~
+# delta config #####
+# added July 28, 2024 for delta:
+# https://dandavison.github.io/delta/get-started.html
+#******~~~~~~ #******~~~~~~ #******~~~~~~ #******~~~~~~
+[core]
+    pager = delta
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true
+    side-by-side = true
+    # line-numbers = true # this screws up the Magit buffer
+[merge]
+    conflictstyle = diff3
+[diff]
+    colorMoved = default
+#******~~~~~~ #******~~~~~~ #******~~~~~~ #******~~~~~~
+

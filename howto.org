@@ -8,10 +8,12 @@
   - I assume from building it first w/o Docker? no, that seems wrong.
 
 ** how to:
+
 - write Dockerfile
 
 to build image from Dockerfile:
 $ docker build .
++ not that for Rockerverse, and maybe other images I need to build w flag --platform linux/x86_64
 (what is the better way to be more specific here?)
 
 or specify the image name as:
@@ -24,17 +26,25 @@ $ docker image ls
 run interactively (starts container, and then drops you in the shell)
 $ docker run -it <image_name> bash
 $ docker run -it ccc51f4c6e41 bash
-some ppl I see do `docker run -it <image_name> /bin/bash but either way seems to wor
+some ppl I see do `docker run -it <image_name> /bin/bash but either way seems to work
 
 if the container is already running, then you can do:
-$ docker exec -it
+$ docker exec -it <container_name> bash
 However, I think you typically need some sort of long-lived process to keep it running for this to work.
 And the run command above seems to work for me better.
 
-for compose and volume mounts:
+*** for compose and volume mounts:
+
 I may need to run:
 $ docker compose build
++ may need to add some sort of platform flag for the above, which I haven't figured out yet
+  + I think adding the platform right to the Dockerfile is the way to go
+
 $ docker compose run <app ref'd in compose yaml>
+ + note that sometimes the above starts python at the shell (maybe the base image is doing this?)
+   at any rate, running $ docker compose run <app in compose yaml> bash
+   will make it start up the shell
+
 typically you want to run the compose in the background, otherwise you don't get a prompt back in that terminal, so:
 $ docker compose up -d
 
@@ -80,8 +90,6 @@ docker run --platform=linux/x86_64 -it rayproject/ray /bin/bash
 sometimes containers don't give you root access (ex: Ray containers start you with the "ray" user)
 to get root access"
 $docker exec -u 0 -it d9eff43f038c bash
-
-
 
 ** TODO
 *** figure out how to pull my dotfiles
@@ -150,7 +158,6 @@ I think a subtlety comes up is if that browser() isn't nested inside something t
 this will actually default to the workflow of the vanilla Python debugger, which can be confusing
 https://docs.python.org/3/library/pdb.html
 
-
 * AWS how-to
 ** create a new role and assume it
 
@@ -188,4 +195,27 @@ export AWS_ACCESS_KEY_ID=
 export AWS_SECRET_ACCESS_KEY=
 export AWS_SESSION_TOKEN=
 
+
+
+* Python
+
+** debugging
+
+*** post-mortem debugging
+
+https://www.youtube.com/watch?v=s8Nx2frW4ps
+
+run script as:
+
+- $ python -m pdb <script.py>
+- debugger seems to start, but just enter 'c' to continue
+- then the script will crash, /then/ it will enter an interactive debugger
+
+NOTE that this does NOT seem to work for pdb++
+https://github.com/pdbpp/pdbpp
+
+pdb++ has some nice stuff, like sticky mode
+
+pudb also works
+- ctrl+x to go between the source and the REPL
 

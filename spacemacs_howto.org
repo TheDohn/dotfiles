@@ -70,6 +70,8 @@ note that helm-do-ag is different than helm-ag:
 - while on a symbol you can hit '*' which will give a transient state that you can then hit things like 'e' to edit that variable
 or '/' to search for it
 ** in a Python script lsp-rename will change the variable everywhere
+- I don't know if this works across, say, yaml & python files
+
 ** searching open buffers
 useful to search/compare text in two different buffers,
      like in the case if the same env params are defined
@@ -110,7 +112,6 @@ https://github.com/DarthFennec/highlight-indent-guides
 then flycheck can't find certain docs, and will raise errors.
 so in short, activate LSP for flycheck to work right
 
-
 * debugging
 
 ** DAP mode
@@ -129,6 +130,11 @@ I can't get either of these to run from the project root, otherwise they work
 *** just run eval pdb
 
 *** eval realgud:pdb
+
+** when sourcing a script with a breakpoint() in if __name__ == '__main__':
+
+just replacing the if with something like the following works well:
+if __name__ == '__main__' or __name__ == 'src.train':
 
 * LSP mode
 - lsp-rename `,rr` to rename that variable/function throughout the project
@@ -257,6 +263,9 @@ docker files that hang out in the recent files can cause problems. b/c emacs kee
 to fix this I needed to M-x, recentf-edit-list, then click in the region to the left of each docker file (of the form /docker:<container ID>:, then click "OK" at the bottom
 
 or I could just go to /Users/donbunk/.emacs.d/.cache/recentf and manually delete them
+
+generally it seems best to run something like "tramp-cleanup-all-connections" *before* I spin down the container
+
 
 * Dired:
 ** use 'a' to access a dired folder, and kill the old one (so you don't open a ton of directories using ENT)

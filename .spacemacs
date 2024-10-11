@@ -32,8 +32,9 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
-     ;;docker
+   '(toml
+     ibuffer
+     ;; docker
      (lua :variables
           lua-backend 'lsp)
      ;;python
@@ -47,12 +48,14 @@ This function should only modify configuration layer settings."
      vimscript
      javascript
      yaml
+     debug
      ;; dap
-     (dap ;;:variables
+     (dap :variables
           dap-python-debugger 'debugpy ;; this is ptvsd is default I think, but that is deprecated
+          ;; dap-auto-configure-features '(sessions locals controls tooltip)
           ;; just trying this
           ;; dap-auto-configure-features '(sessions locals controls tooltip)
-     )
+          )
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -73,33 +76,36 @@ This function should only modify configuration layer settings."
      ;;                  auto-completion-use-company-box nil
      ;;                  auto-completion-enable-sort-by-usage nil)
      (auto-completion :variables
-                     ;; nice page about yasnippets: https://jaketrent.com/post/code-snippets-spacemacs/
-                    auto-completion-return-key-behavior 'complete
-                    auto-completion-private-snippets-directory "/Users/donbunk/dotfiles/yasnippets"
-                    auto-completion-enable-snippets-in-popup t
-                    auto-completion-enable-sort-by-usage t
-                    auto-completion-enable-help-tooltip t
-                    auto-completion-use-company-box t
-                    auto-completion-tab-key-behavior 'cycle
-                    auto-completion-complete-with-key-sequence "jk"
-                    auto-completion-minimum-prefix-length 1
-                    auto-completion-idle-delay 0.2 ;; setting this to 0.0 seemed to make company very slow
-                    )
+                      ;; nice page about yasnippets: https://jaketrent.com/post/code-snippets-spacemacs/
+                      auto-completion-return-key-behavior 'complete
+                      auto-completion-private-snippets-directory "/Users/donbunk/dotfiles/yasnippets"
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-enable-sort-by-usage t
+                      auto-completion-enable-help-tooltip t
+                      auto-completion-use-company-box t
+                      auto-completion-tab-key-behavior 'cycle
+                      ;; auto-completion-tab-key-behavior 'complete
+                      ;; auto-completion-tab-key-behavior nil
+                      auto-completion-complete-with-key-sequence "jk"
+                      auto-completion-minimum-prefix-length 1
+                      auto-completion-idle-delay 0.2 ;; setting this to 0.0 seemed to make company very slow
+                      ;; spacemacs-default-company-backends '(company-anaconda)
+                      )
      ;; better-defaults ;; this is just for emacs
      emacs-lisp
      (git :variables
           git-enable-magit-delta-plugin t
           git-enable-magit-gitflow-plugin t)
      helm
-     ;;lsp
+     lsp
      ;;(lsp :variables lsp-lens-enable t) ;; not 100% sure how to work this yet
      ;; lsp ;; I don't think I want this on for everything
      markdown
      multiple-cursors
      org
      (shell :variables
-             shell-default-height 30
-             shell-default-position 'bottom)
+            shell-default-height 30
+            shell-default-position 'bottom)
      outshine ;; this gives section -folding in ess (and maybe other) modes
      spell-checking
      syntax-checking
@@ -108,14 +114,15 @@ This function should only modify configuration layer settings."
      ;; python
      (python :variables
              ;; python-backend 'anaconda
-               python-backend 'lsp ;; this does seem to offer more functionality
-               ;; python-lsp-server 'pylsp
-               ;; Oct 21, 2023: I needed to run `brew install python-lsp-server' to get any python-lsp-server to work
-               python-lsp-server 'mspyls ;; the default OCT 21, 2023 - couldn't get this to install
-               ;; python-lsp-server 'pyright ;; PYRIGHT MAY HANG PYTHON FILES!!!(Oct 21, 2023) seems like the new version after msplys ;; THIS MAY HAVE CAUSED PROBLEMS WITH TOO MANY FILES (buffers?) OPEN!!
-               lsp-headerline-breadcrumb-enable nil ;; shows directory at top
-               lsp-lens-enable t ;; not entirely sure if this is working
-     )
+             python-backend 'lsp ;; this does seem to offer more functionality
+             python-spacemacs-indent-guess 'nil
+             ;; python-lsp-server 'pylsp
+             ;; Oct 21, 2023: I needed to run `brew install python-lsp-server' to get any python-lsp-server to work
+             ;; python-lsp-server 'mspyls ;; the default OCT 21, 2023 - couldn't get this to install, July 6, 2024: mspyls may be deprecated?
+             python-lsp-server 'pyright ;; PYRIGHT MAY HANG PYTHON FILES!!!(Oct 21, 2023) seems like the new version after msplys ;; THIS MAY HAVE CAUSED PROBLEMS WITH TOO MANY FILES (buffers?) OPEN!!
+             lsp-headerline-breadcrumb-enable nil ;; shows directory at top
+             lsp-lens-enable t ;; not entirely sure if this is working
+             )
      (ess :variables
           ess-indent-level 5
           ;; ess-style nil
@@ -139,9 +146,9 @@ This function should only modify configuration layer settings."
           ;; ess-r-backend 'lsp
           ) ;; I can't tell what this does?
      ;; I think I want to turn f an t off since they interfere with searching help buffers etc. for which ESC closes
-     (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
-          ;; ess-r-backend 'lsp ;; note that TAB completion with a popup doesn't see to work at all with lsp backend (?)
-          ;;) this ) may be screwing things up
+     ;; (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
+     ;; ess-r-backend 'lsp ;; note that TAB completion with a popup doesn't see to work at all with lsp backend (?)
+     ;;) this ) may be screwing things up
      (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
      ;; evil-better-jumper ;; had this on old machine but didn't move it over
      themes-megapack
@@ -186,10 +193,12 @@ This function should only modify configuration layer settings."
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(
-     ess-view-data
-     ;; org-modern ;; couldn't get this to work
-     ;; general-auto-unbind-keys
-     )
+                                      ess-view-data
+                                      dockerfile-mode
+                                      ;; ejc-sql
+                                      ;; org-modern ;; couldn't get this to work
+                                      ;; general-auto-unbind-keys
+                                      )
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -205,7 +214,7 @@ This function should only modify configuration layer settings."
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
    dotspacemacs-install-packages 'used-only)
-) ;;this ) may have screwed things up
+  ) ;;this ) may have screwed things up
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -656,7 +665,7 @@ default it calls `spacemacs/load-spacemacs-env' which loads the environment
 variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
 See the header of this file for more information."
   (spacemacs/load-spacemacs-env)
-)
+  )
 
 (defun dotspacemacs/user-init ()
   "Initialization for user code:
@@ -665,44 +674,109 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
+
+  ;; evil-shift-right got really screwed up in visual mode in ~mid 2024
+  ;; this appears to fix it
+  ;; https://emacs.stackexchange.com/questions/48719/keep-text-selection-after-indenting-with-evil
+  (defun my/evil-shift-right ()
+    (interactive)
+    (evil-shift-right evil-visual-beginning evil-visual-end)
+    (evil-normal-state)
+    (evil-visual-restore))
+  (defun my/evil-shift-left ()
+    (interactive)
+    (evil-shift-left evil-visual-beginning evil-visual-end)
+    (evil-normal-state)
+    (evil-visual-restore))
+  (evil-define-key 'visual global-map (kbd ">") 'my/evil-shift-right)
+  (evil-define-key 'visual global-map (kbd "<") 'my/evil-shift-left)
+
+
+
+  ;; https://deepumohan.com/tech/query-aws-athena-with-emacs-using-jdbc/
+  ;; (plist-put ejc-jdbc-drivers
+  ;;            "awsathena"
+  ;;            [com.simba.athena/athena-jdbc "2.0.9"])
+  ;; (ejc-create-connection "sandbox"
+  ;;                        :dbtype "awsathena"
+  ;;                        ;; TODO need to find out where this lives
+  ;;                        :classpath "~/.m2/repository/com/simba/athena/athena-jdbc/2.0.9/athena-jdbc-2.0.9.jar"
+  ;;                        ;; :classname "com.simba.athena.jdbc.Driver"
+  ;;                        ;; :subprotocol "awsathena"
+  ;;                        ;; :subname "//athena.eu-west-1.amazonaws.com:443/my_database;S3OutputLocation=s3://my-athena-bucket/"
+  ;;                        ;; :user (getenv "AWS_ACCESS_KEY_ID")
+  ;;                        ;; :password (getenv "AWS_SECRET_ACCESS_KEY")
+  ;;                        ;; You can also use connectin-uri like below
+  ;;                        :connection-uri (concat "jdbc:awsathena://athena.us-east-1.amazonaws.com:443/my_database;"
+  ;;                                                "User=MEEEEEEEEE;"
+  ;;                                                "Password=MYPASSORD";"
+  ;;                                                "S3OutputLocation=s3://athena-query-results-STAGE-ACCOUNT_ID"))
+
+
+
+  ;; open docker files in shell-script mode
+  ;; (add-to-list 'auto-mode-alist '("\\.bar\\'" . foo-mode))
+
   ;; this may be changing indents on save, unless they are nill (otherwise changing indents on a save is a PITA)
   (setq emacs-lisp-format-on-save nil)
   (setq buffer-auto-save-file-format nil)
 
   ;; (setq evil-auto-indent nil)
 
-   ;; (setq ess-indent-offset nil)
-   ;; (setq ess-offset-arguments nil)
-   ;; (setq ess-offset-arguments-newline nil)
-   ;; (setq ess-offset-block nil)
-   ;; (setq ess-offset-continued nil)
-   ;; (setq ess-align-nested-calls nil)
-   ;; (setq ess-align-arguments-in-calls nil)
-   ;; (setq ess-align-continuations-in-calls nil)
-   ;; (setq ess-align-blocks nil)
-   ;; (setq ess-indent-from-lhs nil)
-   ;; (setq ess-indent-from-chain-start nil)
-   ;; (setq ess-indent-with-fancy-comments nil)
+  ;; (setq ess-indent-offset nil)
+  ;; (setq ess-offset-arguments nil)
+  ;; (setq ess-offset-arguments-newline nil)
+  ;; (setq ess-offset-block nil)
+  ;; (setq ess-offset-continued nil)
+  ;; (setq ess-align-nested-calls nil)
+  ;; (setq ess-align-arguments-in-calls nil)
+  ;; (setq ess-align-continuations-in-calls nil)
+  ;; (setq ess-align-blocks nil)
+  ;; (setq ess-indent-from-lhs nil)
+  ;; (setq ess-indent-from-chain-start nil)
+  ;; (setq ess-indent-with-fancy-comments nil)
 
- ;; LSP is watching too much stuff
+  ;;https://github.com/syl20bnr/spacemacs/issues/10638#issuecomment-386519064
+  ;; (eval-after-load "company"
+  ;; '(add-to-list 'company-backends 'company-anaconda))
+
+  ;; LSP is watching too much stuff
   ;; https://emacs-lsp.github.io/lsp-mode/page/file-watchers/
   (with-eval-after-load 'lsp-mode
     ;; (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ixis\.kubernetes\\'") ;; trying to ignore the our directory. didn't get this to work
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns\\'") ;; ML Flow stuff
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\select_mlruns\\'") ;; ML Flow stuff
+    ;; ML Flow stuff for some reason I don't think this one works? that might be bc/ it is excluded in the git ignore?
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\select_mlruns\\'")
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\select_mlruns.*\\'")
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.*select_mlruns.*\\'")
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\prod_mlruns\\'") ;; ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\prod_mlruns_testing\\'") ;; ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns_testing\\'") ;; ML Flow stuff
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlartifacts\\'") ;; ML Flow stuff
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlartifacts_OLD\\'") ;; ML Flow stuff
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns.*\\'") ;; more ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\scratch/mlruns.*\\'") ;; more ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\scratch/misc_mlflow.*\\'") ;; more ML Flow stuff
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns_fine_but_had_to_rename\\'") ;; and more ML Flow stuff
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlartifacts_OLD\\'") ;; and more ML Flow stuff
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\TEST_RUNS\\'") ;; and more ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\old_files\\'") ;; misc stuff in p2e
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns_fine_but_OLD\\'") ;; and more ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ray_misc\\'") ;; Ray stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ray_misc/ray_examples/checkpoints\\'") ;; Ray stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ray_misc/ray_examples/checkpoints.*\\'") ;; Ray stuff
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\pipelines/.*stages\\'") ;; Spark stuff
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\kfp-tekton\\'") ;; some stuff in the kubernetes project
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\kubeflow\\'") ;; more stuff in the kubernetes project
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\jupyter\\'") ;; more stuff in the kubernetes project
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\tensorboard\\'") ;; more stuff in the kubernetes project
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.jupyter\\'") ;; more stuff in the kubernetes project
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.tensorboard\\'") ;; more stuff in the kubernetes project
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\OLD_dont_watch_lsp\\'") ;; more stuff in the kubernetes project
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\metaflow\\'") ;; metaflow might blow this up
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\metaflow\\'") ;; metaflow might blow this up
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\metaflow_card_cache\\'") ;; metaflow might blow this up
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\output\\'") ;; output dir esp in p2e
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.idea\\'") ;; I think PyCharm might create this
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.ropeproject\\'") ;; I don't know what this is
     )
   ;; (add-to-list 'lsp-file-watch-ignored-files "[/\\\\]\\.my-files\\'")
 
@@ -745,20 +819,25 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; this was just a test - it worked, but I had to restart spacemacs to get it to work
   (setq theming-modifications
         '((cyberpunk
-               (org-todo :foreground "#0000FF")
+           (org-todo :foreground "#0000FF")
            )
           (gruvbox-dark-hard
            ;;(org-todo :foreground "#0000FF") ;; tried blue as a test
-               (org-todo :foreground "#fabd2f")
+           (org-todo :foreground "#fabd2f")
            ;; make the background in search less harsh in Gruvbox - but I couldn't get this to work
            ;;(set-face-attribute 'lazy-highlight nil :foreground "black" :background "green")
            )
           ;; I found this from using describe-char
           (doom-oceanic-next
            ;; default is Foreground: #65737E, but that is too light in some cases
-           ;  (font-lock-comment-face :foreground "#111111") ;; insert another color here to lighten comments
-          )
-        ))
+                                        ;  (font-lock-comment-face :foreground "#111111") ;; insert another color here to lighten comments
+           ;; this got hard to see in Emacs 29.X for some reason
+           ;; (default  :distant-foreground "gray97")
+           (default  :distant-foreground "gray93")
+           ;; (default  :distant-foreground "plum1")
+           ;; (default  :distant-foreground "LightGoldenrod1")
+           )
+          ))
   ;; set window size and placement
   (setq initial-frame-alist '((top . 30) (left . 300) (width . 152) (height . 81)))
 
@@ -781,7 +860,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 This function is called only while dumping Spacemacs configuration. You can
 `require' or `load' the libraries of your choice that will be included in the
 dump."
-)
+  )
 
 
 (defun dotspacemacs/user-config ()
@@ -790,6 +869,16 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+
+  ;; trying to get company autocomplete working in python buffers
+  ;;https://github.com/syl20bnr/spacemacs/issues/10638#issuecomment-386519064
+  (eval-after-load "company"
+    '(add-to-list 'company-backends 'company-anaconda))
+  ;; https://github.com/pythonic-emacs/company-anaconda
+  (eval-after-load "company"
+    '(add-to-list 'company-backends '(company-anaconda :with company-capf)))
+
+  ;; (setq dap-python-debugger 'debugpy)
 
   ;; (setq sql-auto-indent nil)
   ;; (setq sql-use-indent-support nil)
@@ -812,18 +901,18 @@ before packages are loaded."
 
 
 
-   ;; (setq ess-indent-offset nil)
-   ;; (setq ess-offset-arguments nil)
-   ;; (setq ess-offset-arguments-newline nil)
-   ;; (setq ess-offset-block nil)
-   ;; (setq ess-offset-continued nil)
-   ;; (setq ess-align-nested-calls nil)
-   ;; (setq ess-align-arguments-in-calls nil)
-   ;; (setq ess-align-continuations-in-calls nil)
-   ;; (setq ess-align-blocks nil)
-   ;; (setq ess-indent-from-lhs nil)
-   ;; (setq ess-indent-from-chain-start nil)
-   ;; (setq ess-indent-with-fancy-comments nil)
+  ;; (setq ess-indent-offset nil)
+  ;; (setq ess-offset-arguments nil)
+  ;; (setq ess-offset-arguments-newline nil)
+  ;; (setq ess-offset-block nil)
+  ;; (setq ess-offset-continued nil)
+  ;; (setq ess-align-nested-calls nil)
+  ;; (setq ess-align-arguments-in-calls nil)
+  ;; (setq ess-align-continuations-in-calls nil)
+  ;; (setq ess-align-blocks nil)
+  ;; (setq ess-indent-from-lhs nil)
+  ;; (setq ess-indent-from-chain-start nil)
+  ;; (setq ess-indent-with-fancy-comments nil)
 
 
 
@@ -869,10 +958,10 @@ before packages are loaded."
   ;;TODO: look into alternatives since dump jump says dump-jump-go is deprecated in favor of xref-find stuff
 
   ;; OPTION 1 this stopped working around April 22, 2023, so I changed it directly to xref-find-references as below
-   ;; (define-key evil-normal-state-map (kbd "gd") 'dumb-jump-go)
+  ;; (define-key evil-normal-state-map (kbd "gd") 'dumb-jump-go)
   ;; OPTION 2 this stopped working for R files around May 15, 2023, so I dropped the definition completely ()
   ;; I was getting an error "(assertion failed: (directory-name-p dir) emacs),""
-     ;; (define-key evil-normal-state-map (kbd "gd") 'xref-find-references)
+  ;; (define-key evil-normal-state-map (kbd "gd") 'xref-find-references)
   ;; Version 3: June 17, 2023.
   ;; This link had a similar situation to me:
   ;;https://martinfowler.com/articles/2023-xref-problem.html
@@ -884,6 +973,8 @@ before packages are loaded."
   ;; ideally I would have something here that defaults to lsp to find definitions (lsp-find-definition) in python mode, and dumb jump for R, but that will require some work
   ;; this works well enough for both
 
+  ;; the default helm buffer list is filtered, switch this to the unfiltered version
+  (define-key evil-normal-state-map (kbd "<SPC>bb") 'lazy-helm/spacemacs/helm-buffers-list-unfiltered )
 
   ;; around July 7 2023 this got screwed up so forcing this to be Evil motion for avy-goto-char-timer
   (define-key evil-normal-state-map (kbd "<SPC>jj") 'evil-avy-goto-char-timer)
@@ -961,55 +1052,55 @@ before packages are loaded."
   ;; I can't change the name of my work machine, so it is this generic string
 
 
-;; just testing, can delete
-;; but settled on the (cond ...) function below
-;;  (setq org-directory "") ;; need to make this empty else it gets prepended to everything below, probably a better way to think about it
+  ;; just testing, can delete
+  ;; but settled on the (cond ...) function below
+  ;;  (setq org-directory "") ;; need to make this empty else it gets prepended to everything below, probably a better way to think about it
 
-;;  (if  (string= system-name "MacBook-Pro")
-;;     (
- ;;       (setq org-directory "") ;; need to make this empty else it gets prepended to everything below, probably a better way to think about it
-; ;       (setq org-agenda-files (list "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal.org"
-;;                                    "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q2.org"
-;;                                    "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q1.org"
-;;                                    "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_09_10_11_21.org"
-;;                                    "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_06_07_08.org"
-;;                                    "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_05.org"
-;;                                    "/Users/donbunk/Documents/org_mode/IXIS_todo.org_archive"
-;;                                    "/Users/donbunk/Documents/org_mode/IXIS_todo.org"))
-;;     ))
-;;  (if (string= system-name "DB-personal-Macbook-Pro.local")
-;;      (
-;;       (setq org-directory "")
-;;       (setq org-agenda-files nil)
-;;       ))
+  ;;  (if  (string= system-name "MacBook-Pro")
+  ;;     (
+  ;;       (setq org-directory "") ;; need to make this empty else it gets prepended to everything below, probably a better way to think about it
+                                        ; ;       (setq org-agenda-files (list "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal.org"
+  ;;                                    "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q2.org"
+  ;;                                    "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q1.org"
+  ;;                                    "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_09_10_11_21.org"
+  ;;                                    "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_06_07_08.org"
+  ;;                                    "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_05.org"
+  ;;                                    "/Users/donbunk/Documents/org_mode/IXIS_todo.org_archive"
+  ;;                                    "/Users/donbunk/Documents/org_mode/IXIS_todo.org"))
+  ;;     ))
+  ;;  (if (string= system-name "DB-personal-Macbook-Pro.local")
+  ;;      (
+  ;;       (setq org-directory "")
+  ;;       (setq org-agenda-files nil)
+  ;;       ))
 
 
   (cond
    ((string= system-name "Don's-MacBook-Pro")
-          (setq org-directory "") ;; need to make this empty else it gets prepended to everything below, probably a better way to think about it
-          ;; TODO I really should just reorganize the directory itself so I can drop that in there
-          ;; (setq org-agenda-files (list "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal.org"
-          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q3.org"
-          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q2.org"
-          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q1.org"
-          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q4.org"
-          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q3.org"
-          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q2.org"
-          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q1.org"
-          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_09_10_11_21.org"
-          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_06_07_08.org"
-          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_05.org"
-          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_todo.org_archive"
-          ;;                              "/Users/donbunk/Documents/org_mode/IXIS_todo.org"))
-          ;; just adding the directory should actually be enough
-          (setq org-agenda-files (list
-                                  "/Users/donbunk/Documents/org_mode/"
-                                  "/Users/donbunk/Documents/org_mode/IXIS_journal/"
-          ))
+    (setq org-directory "") ;; need to make this empty else it gets prepended to everything below, probably a better way to think about it
+    ;; TODO I really should just reorganize the directory itself so I can drop that in there
+    ;; (setq org-agenda-files (list "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal.org"
+    ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q3.org"
+    ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q2.org"
+    ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q1.org"
+    ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q4.org"
+    ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q3.org"
+    ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q2.org"
+    ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q1.org"
+    ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_09_10_11_21.org"
+    ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_06_07_08.org"
+    ;;                              "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_05.org"
+    ;;                              "/Users/donbunk/Documents/org_mode/IXIS_todo.org_archive"
+    ;;                              "/Users/donbunk/Documents/org_mode/IXIS_todo.org"))
+    ;; just adding the directory should actually be enough
+    (setq org-agenda-files (list
+                            "/Users/donbunk/Documents/org_mode/"
+                            "/Users/donbunk/Documents/org_mode/IXIS_journal/"
+                            ))
     )
    ((string= system-name "DB-personal-Macbook-Pro.local")
-          (setq org-directory "")
-          (setq org-agenda-files nil)
+    (setq org-directory "")
+    (setq org-agenda-files nil)
     )
    )
 
@@ -1022,8 +1113,8 @@ before packages are loaded."
 
 
   ;; set org clock tables to collect data in the way I record, and larger width bc of long ticket names
-   (setq org-clock-clocktable-default-properties
-     '(:scope subtree :maxlevel 4 :narrow 80!))
+  (setq org-clock-clocktable-default-properties
+        '(:scope subtree :maxlevel 4 :narrow 80!))
 
 
   ;; I am taking this out for now since it means I can't use h & l to navigate as I am in a text doc
@@ -1037,7 +1128,13 @@ before packages are loaded."
   ;;  "l" 'dired-find-file)
   (evil-collection-define-key 'normal 'dired-mode-map
     "H" 'dired-up-directory
-    "L" 'dired-find-file)
+    "L" 'dired-find-file
+    ;; "a" evil-append
+    )
+
+  ;; (with-eval-after-load 'dired
+  ;; (define-key dired-mode-map "a" 'evil-append))
+
 
   (setq-default tab-width 5)
   (setq-default evil-shift-width 5)
@@ -1108,47 +1205,17 @@ before packages are loaded."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ess-R-font-lock-keywords
-   '((ess-R-fl-keyword:keywords . t)
-     (ess-R-fl-keyword:constants . t)
-     (ess-R-fl-keyword:modifiers . t)
-     (ess-R-fl-keyword:fun-defs . t)
-     (ess-R-fl-keyword:assign-ops . t)
-     (ess-R-fl-keyword:%op% . t)
-     (ess-fl-keyword:fun-calls . t)
-     (ess-fl-keyword:numbers . t)
-     (ess-fl-keyword:operators . t)
-     (ess-fl-keyword:delimiters . t)
-     (ess-fl-keyword:=)
-     (ess-R-fl-keyword:F&T)))
- '(ess-indent-with-fancy-comments nil)
- '(ess-own-style-list
-   '((ess-indent-offset)
-     (ess-offset-arguments)
-     (ess-offset-arguments-newline)
-     (ess-offset-block)
-     (ess-offset-continued)
-     (ess-align-nested-calls)
-     (ess-align-arguments-in-calls)
-     (ess-align-continuations-in-calls)
-     (ess-align-blocks)
-     (ess-indent-from-lhs)
-     (ess-indent-from-chain-start)
-     (ess-indent-with-fancy-comments)))
- '(evil-want-Y-yank-to-eol nil)
- '(package-selected-packages
-   '(lsp-docker eat ef-themes spinner seq queue company-lua lua-mode helm-comint company-box frame-local move-text company-auctex company-math company-reftex evil-tex lsp-latex math-symbol-lists eziam-themes farmhouse-themes compat centaur-tabs tree-sitter-langs tree-sitter tsc texfrag auctex company-statistics company-quickhelp helm-lsp lsp-origami origami lsp-pyright lsp-python-ms lsp-ui command-log-mode keycast pdf-view-restore pdf-tools tablist mmm-mode markdown-toc gh-md sqlup-mode sql-indent rainbow-mode rainbow-identifiers color-identifiers-mode evil-vimish-fold vimish-fold yasnippet-snippets web-mode tagedit slim-mode scss-mode sass-mode pug-mode magit-gitflow magit-popup magit-delta helm-css-scss helm-company helm-c-yasnippet haml-mode fuzzy emmet-mode conda company-web web-completion-data company-anaconda auto-yasnippet ac-ispell auto-complete vimrc-mode dactyl-mode xterm-color vterm terminal-here shell-pop multi-term eshell-z eshell-prompt-extras esh-help outshine outorg treemacs-magit smeargle orgit-forge orgit helm-git-grep gitignore-templates git-timemachine git-modes git-messenger git-link forge yaml magit ghub closql emacsql-sqlite emacsql treepy magit-section git-commit with-editor ess-view-data csv-mode zonokai-emacs zenburn-theme zen-and-art-theme yapfify white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme sphinx-doc spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rebecca-theme railscasts-theme pytest pyenv-mode pydoc py-isort purple-haze-theme professional-theme poetry transient planet-theme pippel pipenv pyvenv pip-requirements phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme nose noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme modus-themes minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme live-py-mode light-soap-theme kaolin-themes jbeans-theme jazz-theme ir-black-theme inkpot-theme importmagic epc concurrent deferred heroku-theme hemisu-theme helm-pydoc hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme git-gutter-fringe fringe-helper git-gutter gandalf-theme flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flatui-theme flatland-theme farmhouse-theme eziam-theme exotica-theme evil-snipe ess-R-data-view ctable ess espresso-theme dracula-theme doom-themes django-theme darktooth-theme darkokai-theme darkmine-theme darkburn-theme dakrone-theme cython-mode cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme chocolate-theme autothemer cherry-blossom-theme busybee-theme bubbleberry-theme browse-at-remote blacken birds-of-paradise-plus-theme better-jumper badwolf-theme auto-dictionary apropospriate-theme anti-zenburn-theme anaconda-mode pythonic ample-zen-theme ample-theme alect-themes afternoon-theme org-rich-yank org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-contrib org-cliplink org json-reformat json-navigator hierarchy json-mode json-snatcher helm-org-rifle gnuplot evil-org web-beautify tern prettier-js npm-mode nodejs-repl livid-mode skewer-mode js2-refactor yasnippet multiple-cursors js2-mode js-doc import-js grizzl impatient-mode htmlize simple-httpd helm-gtags ggtags dap-mode lsp-treemacs bui lsp-mode markdown-mode counsel-gtags counsel swiper ivy add-node-modules-path yaml-mode company ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org symon symbol-overlay string-inflection string-edit spaceline-all-the-icons restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio font-lock+ flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-terminal-cursor-changer evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line))
- '(trash-directory ""))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t)
- '(org-todo ((t (:foreground "#fabd2f")))))
-)
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(package-selected-packages
+     '(afternoon-theme alect-themes ample-theme ample-zen-theme anti-zenburn-theme apropospriate-theme auto-dictionary auto-yasnippet badwolf-theme better-jumper birds-of-paradise-plus-theme browse-at-remote bubbleberry-theme busybee-theme cherry-blossom-theme chocolate-theme clues-theme color-identifiers-mode color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow command-log-mode company-anaconda company-box frame-local company-lua company-quickhelp company-statistics company-web web-completion-data conda cyberpunk-theme dactyl-mode dakrone-theme dap-mode lsp-docker bui darkmine-theme darkokai-theme darktooth-theme diff-hl django-theme dockerfile-mode doom-themes dracula-theme eat ef-themes emmet-mode esh-help eshell-prompt-extras eshell-z espresso-theme ess-view-data csv-mode evil-mc evil-org evil-snipe exotica-theme eziam-themes farmhouse-themes flatland-theme flatui-theme flycheck-pos-tip pos-tip flyspell-correct-helm flyspell-correct gandalf-theme gh-md git-link git-messenger git-modes git-timemachine gitignore-templates gnuplot gotham-theme grandshell-theme gruber-darker-theme gruvbox-theme hc-zenburn-theme helm-c-yasnippet helm-company helm-css-scss helm-git-grep helm-ls-git helm-lsp helm-org-rifle hemisu-theme heroku-theme ibuffer-projectile impatient-mode htmlize inkpot-theme ir-black-theme jazz-theme jbeans-theme js-doc js2-refactor multiple-cursors json-mode json-navigator hierarchy json-reformat json-snatcher kaolin-themes keycast light-soap-theme livid-mode lsp-origami origami lsp-pyright lsp-treemacs lsp-ui lsp-mode lua-mode lush-theme madhat2r-theme magit-delta magit-gitflow magit-popup majapahit-themes markdown-toc material-theme minimal-theme modus-themes moe-theme molokai-theme monochrome-theme monokai-theme multi-term multi-vterm xref mustang-theme naquadah-theme noctilux-theme nodejs-repl npm-mode nyan-mode obsidian-theme occidental-theme oldlace-theme omtose-phellack-theme org-cliplink org-contrib org-download org-mime org-pomodoro alert log4e gntp org-present org-projectile org-project-capture org-category-capture org-rich-yank organic-green-theme orgit-forge orgit forge yaml markdown-mode ghub closql emacsql treepy org outshine outorg pdf-view-restore pdf-tools tablist phoenix-dark-mono-theme phoenix-dark-pink-theme planet-theme prettier-js professional-theme pug-mode purple-haze-theme railscasts-theme rainbow-identifiers rainbow-mode realgud test-simple loc-changes load-relative rebecca-theme reverse-theme sass-mode haml-mode scss-mode seti-theme shell-pop skewer-mode js2-mode simple-httpd slim-mode smeargle smyx-theme soft-charcoal-theme soft-morning-theme soft-stone-theme solarized-theme soothe-theme autothemer spacegray-theme sql-indent subatomic-theme subatomic256-theme sublime-themes sunny-day-theme tagedit tango-2-theme tango-plus-theme tangotango-theme tao-theme terminal-here tern texfrag auctex toml-mode toxi-theme tree-sitter-langs tree-sitter tsc treemacs-magit magit magit-section git-commit with-editor twilight-anti-bright-theme twilight-bright-theme twilight-theme ujelly-theme underwater-theme vimrc-mode vterm web-beautify web-mode white-sand-theme xterm-color yasnippet-snippets yasnippet zen-and-art-theme zenburn-theme company yaml-mode evil-evilified-state holy-mode hybrid-mode yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org term-cursor symon symbol-overlay string-inflection string-edit-at-point sphinx-doc spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc restart-emacs request rainbow-delimiters quickrun pytest pylookup pyenv-mode pydoc py-isort popwin poetry pippel pipenv pip-requirements pcre2el password-generator paradox overseer org-superstar open-junk-file nose nameless multi-line macrostep lorem-ipsum live-py-mode link-hint inspector info+ indent-guide importmagic hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-descbinds helm-comint helm-ag google-translate golden-ratio flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu ess-R-data-view emr elisp-slime-nav elisp-demos elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word cython-mode column-enforce-mode code-cells clean-aindent-mode centered-cursor-mode blacken auto-highlight-symbol auto-compile anaconda-mode all-the-icons aggressive-indent ace-link ace-jump-helm-line)))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   )
+  )

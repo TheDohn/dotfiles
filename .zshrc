@@ -1,3 +1,8 @@
+#forgit
+[ -f $HOMEBREW_PREFIX/share/forgit/forgit.plugin.zsh ] && source $HOMEBREW_PREFIX/share/forgit/forgit.plugin.zsh
+
+# for gitu
+export GIT_EDITOR=vim
 
 export STARSHIP_CONFIG=~/.starship/starship.toml
 
@@ -15,6 +20,12 @@ source $HOME/.zsh-vi-mode/zsh-vi-mode.plugin.zsh
 # map ESC to jk
 ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 ZVM_VI_ESCAPE_BINDKEY=jk
+
+# this seems to help CTRL+r work in insert mode as well as visual mode
+# https://stackoverflow.com/questions/73033698/fzf-keybindings-doesnt-work-with-zsh-vi-mode
+# https://github.com/jeffreytse/zsh-vi-mode#initialization-mode
+# Do the initialization when the script is sourced (i.e. Initialize instantly)
+ZVM_INIT_MODE=sourcing
 
 # now, simply add these two lines in your ~/.zshrc
 
@@ -50,6 +61,18 @@ if [ $(hostname) = "Don's-MacBook-Pro" ]; then
     #    #TODO get this working on my local machine
     # elif [$(hostname) = 'XXX Dons macbook pro']; then
     #     source XXX /Users/donbunk/local_dotfiles/.local_zshrc
+    ###################
+    #atm I have downloaded emacs for mac osx from https://emacsformacosx.com/
+    # on this machine
+    # and I need tis alias so I can open from and in the terminal
+    # open the Emacs GUI
+    # alias emacs='$(/Applications/Emacs.app/Contents/MacOS/Emacs "$@")'
+    # er, seems better to update the PATH for this
+    # export PATH=/Applications/Emacs.app/Contents/MacOS/$PATH
+    # export PATH=/Applications/Emacs.app/Contents/MacOS$PATH
+    # open Emacs at the terminal
+    # this is the  only way I could get this to work
+    alias emacs_nw='$(/Applications/Emacs.app/Contents/MacOS/emacs-nw)'
 fi
 
 # basic aliases
@@ -76,6 +99,7 @@ export PATH=~/.local/bin:$PATH
 # trying to give lsp & dap the path to ruff
 export PATH=/opt/homebrew/Cellar:$PATH
 export PATH=/opt/homebrew/lib:$PATH
+
 
 # R recommended adding these in order to install the R openssl package
 # I only unquoted what I need in order to install that, leaving the rest for reference
@@ -148,3 +172,5 @@ alias lpp="lpass show -c --password"
 
 #starship theme
 eval "$(starship init zsh)"
+
+source /Users/donbunk/.config/broot/launcher/bash/br
