@@ -95,9 +95,18 @@ This function should only modify configuration layer settings."
      emacs-lisp
      (git :variables
           git-enable-magit-delta-plugin t
-          git-enable-magit-gitflow-plugin t)
+          git-enable-magit-gitflow-plugin t
+;;         :packages I think I had this from when I was having magit problems, but don't need it anymore
+;;          magit magit-section evil-collection evil-surround git-timemachine transient
+          ) ;; provides magit
      helm
-     lsp
+     ;; lsp
+     (lsp
+      lsp-sonarlint t
+      lsp-headerline-breadcrumb-enable nil ;; shows directory at top
+      lsp-headerline-breadcrumb-mode nil
+      lsp-lens-enable t ;; not entirely sure if this is working
+      )
      ;;(lsp :variables lsp-lens-enable t) ;; not 100% sure how to work this yet
      ;; lsp ;; I don't think I want this on for everything
      markdown
@@ -120,8 +129,6 @@ This function should only modify configuration layer settings."
              ;; Oct 21, 2023: I needed to run `brew install python-lsp-server' to get any python-lsp-server to work
              ;; python-lsp-server 'mspyls ;; the default OCT 21, 2023 - couldn't get this to install, July 6, 2024: mspyls may be deprecated?
              python-lsp-server 'pyright ;; PYRIGHT MAY HANG PYTHON FILES!!!(Oct 21, 2023) seems like the new version after msplys ;; THIS MAY HAVE CAUSED PROBLEMS WITH TOO MANY FILES (buffers?) OPEN!!
-             lsp-headerline-breadcrumb-enable nil ;; shows directory at top
-             lsp-lens-enable t ;; not entirely sure if this is working
              )
      (ess :variables
           ess-indent-level 5
@@ -195,6 +202,10 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages '(
                                       ess-view-data
                                       dockerfile-mode
+                                      ;; dired+
+                                      ;; dired+ emacs-wiki
+                                      ;; dirvish
+                                      ;; pdf-tools ;; I seem to have needed to install this separately for it to work with dirvish
                                       ;; ejc-sql
                                       ;; org-modern ;; couldn't get this to work
                                       ;; general-auto-unbind-keys
@@ -674,6 +685,7 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
+  ;; (dirvish-override-dired-mode)
 
   ;; evil-shift-right got really screwed up in visual mode in ~mid 2024
   ;; this appears to fix it
@@ -777,6 +789,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\output\\'") ;; output dir esp in p2e
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.idea\\'") ;; I think PyCharm might create this
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.ropeproject\\'") ;; I don't know what this is
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\local_registry\\'") ;; local model registry for Rocky Horror
     )
   ;; (add-to-list 'lsp-file-watch-ignored-files "[/\\\\]\\.my-files\\'")
 
@@ -869,6 +882,9 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+
+  ;; (require 'dired+)  ; Enable dired+ as per link below:
+  ;; https://gist.github.com/synic/5c1a494eaad1406c5519
 
   ;; trying to get company autocomplete working in python buffers
   ;;https://github.com/syl20bnr/spacemacs/issues/10638#issuecomment-386519064
@@ -1205,17 +1221,17 @@ before packages are loaded."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-  (custom-set-variables
-   ;; custom-set-variables was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   '(package-selected-packages
-     '(afternoon-theme alect-themes ample-theme ample-zen-theme anti-zenburn-theme apropospriate-theme auto-dictionary auto-yasnippet badwolf-theme better-jumper birds-of-paradise-plus-theme browse-at-remote bubbleberry-theme busybee-theme cherry-blossom-theme chocolate-theme clues-theme color-identifiers-mode color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow command-log-mode company-anaconda company-box frame-local company-lua company-quickhelp company-statistics company-web web-completion-data conda cyberpunk-theme dactyl-mode dakrone-theme dap-mode lsp-docker bui darkmine-theme darkokai-theme darktooth-theme diff-hl django-theme dockerfile-mode doom-themes dracula-theme eat ef-themes emmet-mode esh-help eshell-prompt-extras eshell-z espresso-theme ess-view-data csv-mode evil-mc evil-org evil-snipe exotica-theme eziam-themes farmhouse-themes flatland-theme flatui-theme flycheck-pos-tip pos-tip flyspell-correct-helm flyspell-correct gandalf-theme gh-md git-link git-messenger git-modes git-timemachine gitignore-templates gnuplot gotham-theme grandshell-theme gruber-darker-theme gruvbox-theme hc-zenburn-theme helm-c-yasnippet helm-company helm-css-scss helm-git-grep helm-ls-git helm-lsp helm-org-rifle hemisu-theme heroku-theme ibuffer-projectile impatient-mode htmlize inkpot-theme ir-black-theme jazz-theme jbeans-theme js-doc js2-refactor multiple-cursors json-mode json-navigator hierarchy json-reformat json-snatcher kaolin-themes keycast light-soap-theme livid-mode lsp-origami origami lsp-pyright lsp-treemacs lsp-ui lsp-mode lua-mode lush-theme madhat2r-theme magit-delta magit-gitflow magit-popup majapahit-themes markdown-toc material-theme minimal-theme modus-themes moe-theme molokai-theme monochrome-theme monokai-theme multi-term multi-vterm xref mustang-theme naquadah-theme noctilux-theme nodejs-repl npm-mode nyan-mode obsidian-theme occidental-theme oldlace-theme omtose-phellack-theme org-cliplink org-contrib org-download org-mime org-pomodoro alert log4e gntp org-present org-projectile org-project-capture org-category-capture org-rich-yank organic-green-theme orgit-forge orgit forge yaml markdown-mode ghub closql emacsql treepy org outshine outorg pdf-view-restore pdf-tools tablist phoenix-dark-mono-theme phoenix-dark-pink-theme planet-theme prettier-js professional-theme pug-mode purple-haze-theme railscasts-theme rainbow-identifiers rainbow-mode realgud test-simple loc-changes load-relative rebecca-theme reverse-theme sass-mode haml-mode scss-mode seti-theme shell-pop skewer-mode js2-mode simple-httpd slim-mode smeargle smyx-theme soft-charcoal-theme soft-morning-theme soft-stone-theme solarized-theme soothe-theme autothemer spacegray-theme sql-indent subatomic-theme subatomic256-theme sublime-themes sunny-day-theme tagedit tango-2-theme tango-plus-theme tangotango-theme tao-theme terminal-here tern texfrag auctex toml-mode toxi-theme tree-sitter-langs tree-sitter tsc treemacs-magit magit magit-section git-commit with-editor twilight-anti-bright-theme twilight-bright-theme twilight-theme ujelly-theme underwater-theme vimrc-mode vterm web-beautify web-mode white-sand-theme xterm-color yasnippet-snippets yasnippet zen-and-art-theme zenburn-theme company yaml-mode evil-evilified-state holy-mode hybrid-mode yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org term-cursor symon symbol-overlay string-inflection string-edit-at-point sphinx-doc spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc restart-emacs request rainbow-delimiters quickrun pytest pylookup pyenv-mode pydoc py-isort popwin poetry pippel pipenv pip-requirements pcre2el password-generator paradox overseer org-superstar open-junk-file nose nameless multi-line macrostep lorem-ipsum live-py-mode link-hint inspector info+ indent-guide importmagic hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-descbinds helm-comint helm-ag google-translate golden-ratio flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu ess-R-data-view emr elisp-slime-nav elisp-demos elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word cython-mode column-enforce-mode code-cells clean-aindent-mode centered-cursor-mode blacken auto-highlight-symbol auto-compile anaconda-mode all-the-icons aggressive-indent ace-link ace-jump-helm-line)))
-  (custom-set-faces
-   ;; custom-set-faces was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   )
-  )
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(cl-lib seq dirvish afternoon-theme alect-themes ample-theme ample-zen-theme anti-zenburn-theme apropospriate-theme auto-dictionary auto-yasnippet badwolf-theme better-jumper birds-of-paradise-plus-theme browse-at-remote bubbleberry-theme busybee-theme cherry-blossom-theme chocolate-theme clues-theme color-identifiers-mode color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow command-log-mode company-anaconda company-box frame-local company-lua company-quickhelp company-statistics company-web web-completion-data conda cyberpunk-theme dactyl-mode dakrone-theme dap-mode lsp-docker bui darkmine-theme darkokai-theme darktooth-theme diff-hl django-theme dockerfile-mode doom-themes dracula-theme eat ef-themes emmet-mode esh-help eshell-prompt-extras eshell-z espresso-theme ess-view-data csv-mode evil-mc evil-org evil-snipe exotica-theme eziam-themes farmhouse-themes flatland-theme flatui-theme flycheck-pos-tip pos-tip flyspell-correct-helm flyspell-correct gandalf-theme gh-md git-link git-messenger git-modes git-timemachine gitignore-templates gnuplot gotham-theme grandshell-theme gruber-darker-theme gruvbox-theme hc-zenburn-theme helm-c-yasnippet helm-company helm-css-scss helm-git-grep helm-ls-git helm-lsp helm-org-rifle hemisu-theme heroku-theme ibuffer-projectile impatient-mode htmlize inkpot-theme ir-black-theme jazz-theme jbeans-theme js-doc js2-refactor multiple-cursors json-mode json-navigator hierarchy json-reformat json-snatcher kaolin-themes keycast light-soap-theme livid-mode lsp-origami origami lsp-pyright lsp-treemacs lsp-ui lsp-mode lua-mode lush-theme madhat2r-theme magit-delta magit-gitflow magit-popup majapahit-themes markdown-toc material-theme minimal-theme modus-themes moe-theme molokai-theme monochrome-theme monokai-theme multi-term multi-vterm xref mustang-theme naquadah-theme noctilux-theme nodejs-repl npm-mode nyan-mode obsidian-theme occidental-theme oldlace-theme omtose-phellack-theme org-cliplink org-contrib org-download org-mime org-pomodoro alert log4e gntp org-present org-projectile org-project-capture org-category-capture org-rich-yank organic-green-theme orgit-forge orgit forge yaml markdown-mode ghub closql emacsql treepy org outshine outorg pdf-view-restore pdf-tools tablist phoenix-dark-mono-theme phoenix-dark-pink-theme planet-theme prettier-js professional-theme pug-mode purple-haze-theme railscasts-theme rainbow-identifiers rainbow-mode realgud test-simple loc-changes load-relative rebecca-theme reverse-theme sass-mode haml-mode scss-mode seti-theme shell-pop skewer-mode js2-mode simple-httpd slim-mode smeargle smyx-theme soft-charcoal-theme soft-morning-theme soft-stone-theme solarized-theme soothe-theme autothemer spacegray-theme sql-indent subatomic-theme subatomic256-theme sublime-themes sunny-day-theme tagedit tango-2-theme tango-plus-theme tangotango-theme tao-theme terminal-here tern texfrag auctex toml-mode toxi-theme tree-sitter-langs tree-sitter tsc treemacs-magit magit magit-section git-commit with-editor twilight-anti-bright-theme twilight-bright-theme twilight-theme ujelly-theme underwater-theme vimrc-mode vterm web-beautify web-mode white-sand-theme xterm-color yasnippet-snippets yasnippet zen-and-art-theme zenburn-theme company yaml-mode evil-evilified-state holy-mode hybrid-mode yapfify ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil toc-org term-cursor symon symbol-overlay string-inflection string-edit-at-point sphinx-doc spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc restart-emacs request rainbow-delimiters quickrun pytest pylookup pyenv-mode pydoc py-isort popwin poetry pippel pipenv pip-requirements pcre2el password-generator paradox overseer org-superstar open-junk-file nose nameless multi-line macrostep lorem-ipsum live-py-mode link-hint inspector info+ indent-guide importmagic hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-descbinds helm-comint helm-ag google-translate golden-ratio flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu ess-R-data-view emr elisp-slime-nav elisp-demos elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word cython-mode column-enforce-mode code-cells clean-aindent-mode centered-cursor-mode blacken auto-highlight-symbol auto-compile anaconda-mode all-the-icons aggressive-indent ace-link ace-jump-helm-line)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:distant-foreground "gray93")))))
+)

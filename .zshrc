@@ -91,6 +91,8 @@ alias rm="rm -i"
 # alias rmdir="rmdir -i" # this doesnn't work and I don't know how to get it to work with rmdir
 # make sure it asks before overwriting files when copying
 alias cp="cp -i"
+alias p="python -i"
+alias pt="ptpython -i --vi"
 
 # spacemacs said to do this
 # https://develop.spacemacs.org/doc/FAQ.html
@@ -119,8 +121,9 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@1.1/lib/pkgconfig"
 # flag autocompletion
 autoload -U compinit && compinit
 
+# I shouldn't need this
 #deactivate conda off the bat in case it it running. There is probably a better way to do this
-conda deactivate
+# conda deactivate
 
 
 # this standard way of getting vi key bindings in zsh makes the delete key not work
@@ -173,4 +176,5 @@ alias lpp="lpass show -c --password"
 #starship theme
 eval "$(starship init zsh)"
 
+# ugh, where did this come from?
 source /Users/donbunk/.config/broot/launcher/bash/br
