@@ -12,6 +12,19 @@
 
 - I can't use control-n to edit that, but you can use SPC-s-e
 
+note that ag doesn't search dot files by default.
+
+from the CL there are two ways to do this:
+when searching for eza in dotfiles:
+$ ag -u eza
+$ ag eza .*
+there are some differences I didn't explore between the two
+
+for emacs, this means project search won't work but the ag search might:
+searching directory in spacemacs: SPC s a d
+then "-u eza"
+
+
 ** in a file
 
 *** swoop

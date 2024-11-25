@@ -56,6 +56,8 @@
 [merge]
 	#no fast-forwarding. always create a commit when merging
 	ff = no
+     # recommended by Magit https://magit.vc/manual/magit/Resolving-Conflicts.html
+     conflictStyle = diff3
 [pull]
     rebase = false
 [difftool "sourcetree"]
