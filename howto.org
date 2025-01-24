@@ -7,6 +7,23 @@
 - when specifying requirements.txt, how do you initially determine the pandas version?
   - I assume from building it first w/o Docker? no, that seems wrong.
 
+** basic workflow
+
+- write a Dockerfile
+- in that directory, $ docker build .
+- find the image w $ docker image ls
+- run the image with $ docker run <image_id>
+
+** for building a specific stage
+
+- in that directory, $ docker build --target <stage> .
+
+and potentially, if we want to force it to rebuild from scratch:
+
+
+$ docker build --no-cache --target <stage> .
+
+
 ** how to:
 
 - write Dockerfile
@@ -28,7 +45,7 @@ $ docker run -it <image_name> bash
 $ docker run -it ccc51f4c6e41 bash
 some ppl I see do `docker run -it <image_name> /bin/bash but either way seems to work
 
-if the container is already running, then you can do:
++ if the container is *already running*, then you can do:
 $ docker exec -it <container_name> bash
 However, I think you typically need some sort of long-lived process to keep it running for this to work.
 And the run command above seems to work for me better.
@@ -51,6 +68,11 @@ $ docker compose up -d
 
 get running containers:
 $ docker ps
+
+*** verify mounts
+
+https://stackoverflow.com/questions/30133664/how-do-you-list-volumes-in-docker-containers
+docker inspect -f '{{ .Mounts }}' containerid
 
 ** Docker in EC2:
 
@@ -194,8 +216,6 @@ need this from time-to-time:
 export AWS_ACCESS_KEY_ID=
 export AWS_SECRET_ACCESS_KEY=
 export AWS_SESSION_TOKEN=
-
-
 
 * Python
 

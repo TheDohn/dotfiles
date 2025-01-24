@@ -93,6 +93,12 @@ useful to search/compare text in two different buffers,
 - then search
 
 * org mode
+
+- enable auto-fill-mode to wrap text and set "fill-column" to set "hard" line breaks
+  - I don't set this as a default b/c it will destroy org tables, and generally isn't the default for scripting etc.
+    but it is useful for writing prose, notes, etc.
+- if necessary, run org-fill-paragraph to force wrapping
+
 * ess
 * Python
 - treesitter - this gives syntax highlighting
@@ -216,7 +222,6 @@ I had to run tramp-unload-tramp to get magit working after using tramp, once
 
 * Docker on local machine:
 
-
 this seems to work for engaging with a running docker container:
 https://happihacking.com/blog/posts/2023/dev-containers-emacs/
 
@@ -255,6 +260,14 @@ when I edit a file:
    - I don't know why that is not more instantaneous
    - or you can just run ":e", which seems like some sort of reload
 
+I tried this randomly later and I found that just connection to a running Docker container had problems if the Docker container crashed
++ this seems to be due to tramp-cleanup-all-connections itself, since if I run $
+  docker compose stop or $ docker compose down
+everything might be okay for some time, but they if I try to clean up connections with tramp, then Emacs starts to hang/ enters this infinite loops of Lisp code
+
++ I found that running emacs in the command line via emacs_nw doesn't suffer from this problem, so that is a possible fix
+
+
 ** docker compose after a rebuild
 
 I had a hell-of-a-time making sure docker compose was using the most recent build, i.e.
@@ -268,7 +281,11 @@ $ docker compose down -v
 
 but that didn't work either
 
-I ended up using docker prune -a to just basically restart
+I ended up using docker system prune -a to just basically restart
+
+>> $ docker compose up --build -d seems to do the trick!
+
+
 
 ** !WARNING! - recent files in docker tramp screw things up
 
@@ -279,6 +296,10 @@ or I could just go to /Users/donbunk/.emacs.d/.cache/recentf and manually delete
 
 generally it seems best to run something like "tramp-cleanup-all-connections" *before* I spin down the container
 
+** misc docker stuff
+
+often you want to check if a file is being updated inside/outside the container
+running 'revert buffer' SPC b R will reload the buffer
 
 * Dired:
 ** use 'a' to access a dired folder, and kill the old one (so you don't open a ton of directories using ENT)

@@ -122,8 +122,9 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@1.1/lib/pkgconfig"
 autoload -U compinit && compinit
 
 # I shouldn't need this
-#deactivate conda off the bat in case it it running. There is probably a better way to do this
-# conda deactivate
+#deactivate conda off the bat in case it it running. seems like conda wants to activate base right away in a fresh session, which can get confusing
+#There is probably a better way to do this
+conda deactivate
 
 
 # this standard way of getting vi key bindings in zsh makes the delete key not work
@@ -176,5 +177,36 @@ alias lpp="lpass show -c --password"
 #starship theme
 eval "$(starship init zsh)"
 
-# ugh, where did this come from?
+# ugh, where did this come from? broot may have added it?
 source /Users/donbunk/.config/broot/launcher/bash/br
+
+# various aliases
+# jiggle
+# alias jiggle='bash ~/Documents/mouse_jiggle/jiggle.sh'
+# need to get directories straightened out in the python script itself to get this to work
+# alias submit_tempo='source ~/Documents/org_mode/IXIS_journal/org_clock_scraper/submit_tempo.sh'
+
+# jiggle () {
+#     conda activate jiggle
+#     python ~/Documents/mouse_jiggle/jiggle.py ${1}
+# }
+
+# # this may run in the background, and not show in the terminal, which is not ideal
+# #TODO: make this more like my jiggle function, with updates
+# caffeinate_hours() {
+#     if [ $# -eq 0 ]; then
+#         echo "Usage: caffeinate_hours <hours>"
+#         return 1
+#     fi
+
+#     # Convert hours to seconds
+#     local seconds=$(( $1 * 3600 ))
+
+#     # Run caffeinate with the calculated seconds
+#     caffeinate -disu -t "$seconds" #&
+
+#     # echo "Caffeinate activated for $1 hours ($seconds seconds)."
+# }
+
+
+# alias rosetta="arch -x86_64 /bin/zsh"

@@ -1,3 +1,4 @@
 .DS_Store
 *.~undo-tree~
 misc_old/*
+.spacemacs_minimal_for_testing

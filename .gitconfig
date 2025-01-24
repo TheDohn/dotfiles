@@ -55,7 +55,8 @@
 	template = /Users/donbunk/.stCommitMsg
 [merge]
 	#no fast-forwarding. always create a commit when merging
-	ff = no
+	# I tried this for awhile, but this became confusing since then I always had extra commit(s) that staging etc didn't have
+	# ff = no
      # recommended by Magit https://magit.vc/manual/magit/Resolving-Conflicts.html
      conflictStyle = diff3
 [pull]

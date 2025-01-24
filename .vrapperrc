@@ -1,6 +1,6 @@
 "DBeaver config for vim-like bindings
 
-" Install Vim keybdings as per: https://github.com/dbeaver/dbeaver/issues/8219#issuecomment-601698540
+" Install Vim keybindings as per: https://github.com/dbeaver/dbeaver/issues/8219#issuecomment-601698540
 "What you need to do is install Eclipse Marketplace:
 "1) Click Help -> install new software
 "2) in "Work with:" field click the drop down, and select something like "Eclipse YYYY-MM - https://download.eclipse.org/releases/YYYY-MM/"
