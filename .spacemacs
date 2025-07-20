@@ -102,10 +102,11 @@ This function should only modify configuration layer settings."
      helm
      ;; lsp
      (lsp :variables
-          lsp-sonarlint t
+          lsp-sonarlint nil ;; I had this running at one point, but I forget why, so I turned it back off for performance (I think it slows down lsp)
           lsp-headerline-breadcrumb-enable nil ;; shows directory at top
           ;; lsp-headerline-breadcrumb-mode nil
           lsp-lens-enable t ;; not entirely sure if this is working
+          ;; lsp-ui-remap-xref-keybindings t ;; not sure I want this or not
           )
      ;;(lsp :variables lsp-lens-enable t) ;; not 100% sure how to work this yet
      ;; lsp ;; I don't think I want this on for everything
@@ -125,10 +126,13 @@ This function should only modify configuration layer settings."
              ;; python-backend 'anaconda
              python-backend 'lsp ;; this does seem to offer more functionality
              python-spacemacs-indent-guess 'nil
-             ;; python-lsp-server 'pylsp
+             ;; python-lsp-server 'pylsp ;; trying this March 28, 2025 - this also seems to work
              ;; Oct 21, 2023: I needed to run `brew install python-lsp-server' to get any python-lsp-server to work
              ;; python-lsp-server 'mspyls ;; the default OCT 21, 2023 - couldn't get this to install, July 6, 2024: mspyls may be deprecated?
-             python-lsp-server 'pyright ;; PYRIGHT MAY HANG PYTHON FILES!!!(Oct 21, 2023) seems like the new version after msplys ;; THIS MAY HAVE CAUSED PROBLEMS WITH TOO MANY FILES (buffers?) OPEN!!
+             ;; pyright was what I used up until March 28, 2025
+             ;; PYRIGHT MAY HANG PYTHON FILES!!!(Oct 21, 2023) seems like the new version after msplys ;; THIS MAY HAVE CAUSED PROBLEMS WITH TOO MANY FILES (buffers?) OPEN!!
+             ;; ChatGPT suggested pyright is faster, so trying it again
+             python-lsp-server 'pyright
              )
      (ess :variables
           ess-indent-level 5
@@ -687,6 +691,21 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
+
+  ;; don't format/indent text when pasting
+  ;; got this advice from the help for spacemacs//yank-indent-region
+  (add-to-list 'spacemacs-indent-sensitive-modes 'ess-r-mode)
+  (add-to-list 'spacemacs-indent-sensitive-modes 'sql-mode)
+
+  ;; suggestion for my Python REPL problems
+  ;; https://github.com/syl20bnr/spacemacs/issues/16841
+  ;; (require 'debug)
+  ;; (debug-on-variable-change 'python-shell-interpreter)
+
+  ;; (debug-on-variable-change 'spacemacs/evil-mc-paste-after)
+  ;; (require 'debug)
+  ;; (debug-on-entry 'evil-paste-after)
+
   ;; trying to decrease this so that if Docker container crashes, Tramp won't hang
   ;; (setq tramp-connection-timeout 5)
 
@@ -772,46 +791,52 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; (eval-after-load "company"
   ;; '(add-to-list 'company-backends 'company-anaconda))
 
-  ;; LSP is watching too much stuff
-  ;; https://emacs-lsp.github.io/lsp-mode/page/file-watchers/
-  (with-eval-after-load 'lsp-mode
-    ;; (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ixis\.kubernetes\\'") ;; trying to ignore the our directory. didn't get this to work
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns\\'") ;; ML Flow stuff
-    ;; ML Flow stuff for some reason I don't think this one works? that might be bc/ it is excluded in the git ignore?
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\select_mlruns\\'")
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\select_mlruns.*\\'")
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.*select_mlruns.*\\'")
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\prod_mlruns\\'") ;; ML Flow stuff
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\prod_mlruns_testing\\'") ;; ML Flow stuff
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns_testing\\'") ;; ML Flow stuff
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlartifacts\\'") ;; ML Flow stuff
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlartifacts_OLD\\'") ;; ML Flow stuff
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns.*\\'") ;; more ML Flow stuff
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\scratch/mlruns.*\\'") ;; more ML Flow stuff
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\scratch/misc_mlflow.*\\'") ;; more ML Flow stuff
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns_fine_but_had_to_rename\\'") ;; and more ML Flow stuff
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlartifacts_OLD\\'") ;; and more ML Flow stuff
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\TEST_RUNS\\'") ;; and more ML Flow stuff
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\old_files\\'") ;; misc stuff in p2e
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns_fine_but_OLD\\'") ;; and more ML Flow stuff
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ray_misc\\'") ;; Ray stuff
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ray_misc/ray_examples/checkpoints\\'") ;; Ray stuff
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ray_misc/ray_examples/checkpoints.*\\'") ;; Ray stuff
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\pipelines/.*stages\\'") ;; Spark stuff
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\kfp-tekton\\'") ;; some stuff in the kubernetes project
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\kubeflow\\'") ;; more stuff in the kubernetes project
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.jupyter\\'") ;; more stuff in the kubernetes project
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.tensorboard\\'") ;; more stuff in the kubernetes project
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\OLD_dont_watch_lsp\\'") ;; more stuff in the kubernetes project
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\metaflow\\'") ;; metaflow might blow this up
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\metaflow\\'") ;; metaflow might blow this up
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\metaflow_card_cache\\'") ;; metaflow might blow this up
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\output\\'") ;; output dir esp in p2e
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.idea\\'") ;; I think PyCharm might create this
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.ropeproject\\'") ;; I don't know what this is
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\local_registry\\'") ;; local model registry for Rocky Horror
-    )
-  ;; (add-to-list 'lsp-file-watch-ignored-files "[/\\\\]\\.my-files\\'")
+  ;; moving this lower into (defun dotspacemacs/user-config ()
+  ;; ;; LSP is watching too much stuff
+
+  ;; ;; https://emacs-lsp.github.io/lsp-mode/page/file-watchers/
+  ;; (with-eval-after-load 'lsp-mode
+  ;;   ;; (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ixis\.kubernetes\\'") ;; trying to ignore the our directory. didn't get this to work
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns\\'") ;; ML Flow stuff
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlrunnnnns\\'") ;; ML Flow stuff
+  ;;   ;; ML Flow stuff for some reason I don't think this one works? that might be bc/ it is excluded in the git ignore?
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\select_mlruns\\'")
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\select_mlruns.*\\'")
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.*select_mlruns.*\\'")
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\prod_mlruns\\'") ;; ML Flow stuff
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\prod_mlruns_testing\\'") ;; ML Flow stuff
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns_testing\\'") ;; ML Flow stuff
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlartifacts\\'") ;; ML Flow stuff
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlartifacts_OLD\\'") ;; ML Flow stuff
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns.*\\'") ;; more ML Flow stuff
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\scratch/mlruns.*\\'") ;; more ML Flow stuff
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\scratch/misc_mlflow.*\\'") ;; more ML Flow stuff
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns_fine_but_had_to_rename\\'") ;; and more ML Flow stuff
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlartifacts_OLD\\'") ;; and more ML Flow stuff
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\TEST_RUNS\\'") ;; and more ML Flow stuff
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\old_files\\'") ;; misc stuff in p2e
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns_fine_but_OLD\\'") ;; and more ML Flow stuff
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ray_misc\\'") ;; Ray stuff
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ray_misc/ray_examples/checkpoints\\'") ;; Ray stuff
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ray_misc/ray_examples/checkpoints.*\\'") ;; Ray stuff
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ray_examples\\'") ;; Ray stuff
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\pipelines/.*stages\\'") ;; Spark stuff
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\kfp-tekton\\'") ;; some stuff in the kubernetes project
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\kubeflow\\'") ;; more stuff in the kubernetes project
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.jupyter\\'") ;; more stuff in the kubernetes project
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.tensorboard\\'") ;; more stuff in the kubernetes project
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\OLD_dont_watch_lsp\\'") ;; more stuff in the kubernetes project
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\scratch/OLD_dont_watch_lsp\\'") ;; stuff in p2e
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\scratch/OLD_dont_watch_lsp.*\\'") ;; stuff in p2e
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\metaflow\\'") ;; metaflow might blow this up
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\metaflow\\'") ;; metaflow might blow this up
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\metaflow_card_cache\\'") ;; metaflow might blow this up
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\output\\'") ;; output dir esp in p2e
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.idea\\'") ;; I think PyCharm might create this
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.ropeproject\\'") ;; I don't know what this is
+  ;;   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\local_registry\\'") ;; local model registry for Rocky Horror
+  ;;   )
+  ;; ;; (add-to-list 'lsp-file-watch-ignored-files "[/\\\\]\\.my-files\\'")
 
   ;; testing if I remove caching lsp completion will speed up
   (setq lsp-completion-no-cache t)
@@ -890,7 +915,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
 
 
-
+;; Note that This is the function I think I should be putting more of my config in, by default
+;; so I should test that, and move to this in time
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
 This function is called only while dumping Spacemacs configuration. You can
@@ -898,7 +924,7 @@ This function is called only while dumping Spacemacs configuration. You can
 dump."
   )
 
-
+;; note - I think this is the section I should be putting more of my config into
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
@@ -906,16 +932,26 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+
+
+  ;; trying to remove the magit "x" discard changes key since that is dangerously close to stage ('s')
+  ;;https://emacs.stackexchange.com/questions/21978/remove-key-binding-in-magit-status-mode
+  ;; needed to add the 'normal b/c of Evil mode
+  (with-eval-after-load 'magit
+    (evil-define-key 'normal magit-status-mode-map (kbd "x") nil))
+
+
   ;; (require 'dired+)  ; Enable dired+ as per link below:
   ;; https://gist.github.com/synic/5c1a494eaad1406c5519
 
+  ;; NOTE I commented this out 2025-06-27, but this was here for awhile prior to that
   ;; trying to get company autocomplete working in python buffers
   ;;https://github.com/syl20bnr/spacemacs/issues/10638#issuecomment-386519064
-  (eval-after-load "company"
-    '(add-to-list 'company-backends 'company-anaconda))
+  ;; (eval-after-load "company"
+  ;; '(add-to-list 'company-backends 'company-anaconda))
   ;; https://github.com/pythonic-emacs/company-anaconda
-  (eval-after-load "company"
-    '(add-to-list 'company-backends '(company-anaconda :with company-capf)))
+  ;; (eval-after-load "company"
+  ;; '(add-to-list 'company-backends '(company-anaconda :with company-capf)))
 
   ;; (setq dap-python-debugger 'debugpy)
 
@@ -1233,6 +1269,75 @@ before packages are loaded."
   ;; from the docs https://docs.projectile.mx/projectile/configuration.html
   ;; this doesn't seem to work all the time though (?)
   (setq projectile-switch-project-action #'projectile-dired)
+
+
+  ;; LSP is watching too much stuff - this has to be here, in dotspacemacs/user-config or else it isn't loaded correctly for startup
+  ;; and LSP watches too much stuff until I potentially reload my config
+  ;; this seems to
+  ;; https://emacs-lsp.github.io/lsp-mode/page/file-watchers/
+  (with-eval-after-load 'lsp-mode
+    ;; NOTE the single \' in all of these apparently matches the end of the string in Emacs regex.
+    ;; (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ixis\.kubernetes\\'") ;; trying to ignore the our directory. didn't get this to work
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns\\'") ;; ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlrunnnnns\\'") ;; ML Flow stuff
+    ;; ML Flow stuff for some reason I don't think this one works? that might be bc/ it is excluded in the git ignore?
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\select_mlruns\\'")
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\select_mlruns.*\\'")
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.*select_mlruns.*\\'")
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\prod_mlruns\\'") ;; ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\prod_mlruns_testing\\'") ;; ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns_testing\\'") ;; ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlartifacts\\'") ;; ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlartifacts_OLD\\'") ;; ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns.*\\'") ;; more ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\scratch/mlruns.*\\'") ;; more ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\scratch/misc_mlflow.*\\'") ;; more ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns_fine_but_had_to_rename\\'") ;; and more ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlartifacts_OLD\\'") ;; and more ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\TEST_RUNS\\'") ;; and more ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\old_files\\'") ;; misc stuff in p2e
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\mlruns_fine_but_OLD\\'") ;; and more ML Flow stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ray_misc\\'") ;; Ray stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ray_misc/ray_examples/checkpoints\\'") ;; Ray stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ray_misc/ray_examples/checkpoints.*\\'") ;; Ray stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ray_examples\\'") ;; Ray stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\pipelines/.*stages\\'") ;; Spark stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\kfp-tekton\\'") ;; some stuff in the kubernetes project
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\kubeflow\\'") ;; more stuff in the kubernetes project
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.jupyter\\'") ;; more stuff in the kubernetes project
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.tensorboard\\'") ;; more stuff in the kubernetes project
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\OLD_dont_watch_lsp\\'") ;; more stuff in the kubernetes project
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\scratch/OLD_dont_watch_lsp\\'") ;; stuff in p2e
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\scratch/OLD_dont_watch_lsp.*\\'") ;; stuff in p2e
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\metaflow\\'") ;; metaflow might blow this up
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.metaflow\\'") ;; metaflow might blow this up
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\metaflow_card_cache\\'") ;; metaflow might blow this up
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\output\\'") ;; output dir esp in p2e
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.idea\\'") ;; I think PyCharm might create this
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.ropeproject\\'") ;; I don't know what this is
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\local_registry\\'") ;; local model registry for Rocky Horror
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\scratch\\'") ;; don't bother watching scratch folders
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\foobar\\'") ;; misc stuff
+    ;; > this one may not have worked
+    ;; trying to clear out the DS Refinery since that has a tone of stuff in it
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\src/dbt/projects\\'")
+    ;; trying to clear out the DS Refinery since that has a tone of stuff in it
+    ;; > I think this one worked
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.*src/dbt/projects.*\\'")
+    ;; aider stuff
+    (add-to-list 'lsp-file-watch-ignored-directories ".*aider.*")
+    )
+  ;; (add-to-list 'lsp-file-watch-ignored-files "[/\\\\]\\.my-files\\'")
+
+  ;; things ChatGPT suggested would speed up Python mode
+  ;; (setq lsp-enable-symbol-highlighting nil)
+  ;; (setq lsp-enable-file-watchers nil)
+  ;; (setq company-idle-delay 0.3)
+  (setq company-minimum-prefix-length 2)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  ;; (setq gc-cons-threshold 100000000) ;; Bigger GC threshold
+
+
 
   )
 
