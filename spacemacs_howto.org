@@ -24,7 +24,6 @@ for emacs, this means project search won't work but the ag search might:
 searching directory in spacemacs: SPC s a d
 then "-u eza"
 
-
 ** in a file
 
 *** swoop
@@ -77,7 +76,20 @@ note that helm-do-ag is different than helm-ag:
 
 ** search and replace a regex
 - just M-x for "replace-regex"
+- just M-x for "query replace" does the same thing
 - this works well when it is not a variable overall that I am changing, but maybe a prefix on a bunch of variables
+
+Is there an evil/Spacemacs way to do this?
+
+there is also "re-builder" that looks interesting
+some config might help:
+https://www.masteringemacs.org/article/re-builder-interactive-regexp-builder
+
+** search and replace in a project:
+SPC p R
+enter initial str
+enter replacement
+then hit y or n for each instance
 
 ** misc symbol search
 - while on a symbol you can hit '*' which will give a transient state that you can then hit things like 'e' to edit that variable
@@ -91,6 +103,11 @@ useful to search/compare text in two different buffers,
 - open `helm-multi-occur-from-isearch`
 - select the buffers with SPC
 - then search
+
+** SPC-SPC occur
+gives list in current file, which is more specific than SPC / project search
+
+in the occur buffer hit enter to go to that place in the file
 
 * org mode
 
@@ -130,6 +147,9 @@ https://github.com/DarthFennec/highlight-indent-guides
 - if lsp is not enabled (literally search for 'lsp' and activate it)
 then flycheck can't find certain docs, and will raise errors.
 so in short, activate LSP for flycheck to work right
+
+*** lsp-peek-find-references
+this shows a very useful view of where a function or class is used
 
 * debugging
 
@@ -321,3 +341,9 @@ gpg --homedir ~/.emacs.d/elpa/gnupg --keyserver hkp://keyserver.ubuntu.com  --re
 
 from here:
 https://github.com/syl20bnr/spacemacs/issues/13054#issuecomment-2131307249
+
+* Git/Magit
+
+** time-machine-transient-state
+
+SPC-g-t allows you to cycle through commits (with n & p) got a given file

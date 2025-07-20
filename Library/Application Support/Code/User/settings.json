@@ -1,0 +1,83 @@
+{
+    "editor.accessibilitySupport": "off",
+    "workbench.colorTheme": "Bearded Theme Stained Blue",
+    "workbench.editor.enablePreview": false,
+    "terminal.integrated.inheritEnv": false,
+    "window.zoomLevel": 1,
+    "vim.easymotion": true,
+    "vim.useSystemClipboard": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<space>"
+            ],
+            "commands": [
+                "vspacecode.space"
+            ]
+        },
+        {
+            "before": [
+                ","
+            ],
+            "commands": [
+                "vspacecode.space",
+                {
+                    "command": "whichkey.triggerKey",
+                    "args": "m"
+                }
+            ]
+        }
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<space>"
+            ],
+            "commands": [
+                "vspacecode.space"
+            ]
+        },
+        {
+            "before": [
+                ","
+            ],
+            "commands": [
+                "vspacecode.space",
+                {
+                    "command": "whichkey.triggerKey",
+                    "args": "m"
+                }
+            ]
+        },
+        {
+            "before": [
+                ">"
+            ],
+            "commands": [
+                "editor.action.indentLines"
+            ]
+        },
+        {
+            "before": [
+                "<"
+            ],
+            "commands": [
+                "editor.action.outdentLines"
+            ]
+        }
+    ],
+    "vim.insertModeKeyBindings": [
+        {
+            "before": [
+                "j",
+                "k"
+            ],
+            "after": [
+                "<Esc>"
+            ]
+        }],
+    "python.defaultInterpreterPath": "/opt/homebrew/Caskroom/miniconda/base/envs/sql_parser/bin/python",
+    "python.REPL.enableREPLSmartSend": false,
+    "editor.minimap.enabled": false,
+    "docker.lsp.telemetry": "error"
+}

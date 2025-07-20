@@ -1,0 +1,34 @@
+
+* General conventions
+- Be brief when you explain something, but not necessarily with code
+- When I say HELL you say YEAH!
+- Don't apologize, just let me know if you think you made a mistake
+- For every replacement you make to a file:
+  - Add <<< on a new line before the change
+  - Add >>> on a new line after the change
+  - These markers must be included in the actual file content
+  - These are different from aider's internal diff markers
+  - Example:
+    <<<
+    def new_function():
+        return "Hello"
+    >>>
+
+* General code conventions
+- Strive to make code self explanatory and easy to read
+- Limit line length to 80 characters or less
+- Include or recommend unit tests when possible as comments
+- New lines are okay, but DO NOT leave any whitespace in any of your updates
+
+* Python specific conventions
+- Use dataclasses for classes
+- Add type hints where ever possible
+- Use NumPy/SciPy Style docstring style
+
+* R Conventions
+- Use Tidyverse packages over base R by default
+
+* SQL conventions
+- Use Presto/Trino/AWS Athena SQL unless otherwise specified
+- Use CTEs instead of sub-queries where possible
+- For SQL, use Java regular expressions unless otherwise specified

@@ -35,6 +35,8 @@
 	# P  = push
 	# F  = pull # think of this like a meta Fetch, which it is
 	# f  = fetch
+	#Eric L's: create and push to origin in one command, but just using the[push] autoSetupRemote = true below for now
+	# newb = !git switch -c $1 && git push --set-upstream origin $1 && :
 [status]
 	showStash = true
 [core]
@@ -61,10 +63,12 @@
      conflictStyle = diff3
 [pull]
     rebase = false
+
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
-
+[push]
+    autoSetupRemote = true
 #******~~~~~~ #******~~~~~~ #******~~~~~~ #******~~~~~~
 # delta config #####
 # added July 28, 2024 for delta:

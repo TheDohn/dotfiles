@@ -6,6 +6,16 @@ export GIT_EDITOR=vim
 
 export STARSHIP_CONFIG=~/.starship/starship.toml
 
+# trying this for Python at the command line
+# I also have some stuff in .inputrc for this
+# but this doesn't work
+# set -o vi
+
+# newer python repls don't seem to support VI keybindings, so need to default to the old one
+# https://github.com/python/cpython/issues/118840
+PYTHON_BASIC_REPL=1
+# although I can't get this to work
+
 #suppress the standard conda env so it only shows up in starship prompt
 # https://starship.rs/config/#conda
 conda config --set changeps1 False
@@ -210,3 +220,6 @@ source /Users/donbunk/.config/broot/launcher/bash/br
 
 
 # alias rosetta="arch -x86_64 /bin/zsh"
+
+# stop R asking if I want to save the damn workspace
+alias R='R --no-save'

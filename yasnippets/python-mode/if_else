@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: if_else
+# key: if_else
+# --
+
+if $1:
+
+elif $2:
+
+else $3:
