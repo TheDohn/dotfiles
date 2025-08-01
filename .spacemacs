@@ -37,7 +37,6 @@ This function should only modify configuration layer settings."
      ;; docker
      (lua :variables
           lua-backend 'lsp)
-     ;;python
      octave ;;I think this is for viewing Matlab files
      sql
      ;; (sql :variables sql-auto-indent nil)
@@ -80,16 +79,20 @@ This function should only modify configuration layer settings."
                       auto-completion-return-key-behavior 'complete
                       auto-completion-private-snippets-directory "/Users/donbunk/dotfiles/yasnippets"
                       auto-completion-enable-snippets-in-popup t
-                      auto-completion-enable-sort-by-usage t
                       auto-completion-enable-help-tooltip t
                       auto-completion-use-company-box t
                       auto-completion-tab-key-behavior 'cycle
-                      ;; auto-completion-tab-key-behavior 'complete
-                      ;; auto-completion-tab-key-behavior nil
                       auto-completion-complete-with-key-sequence "jk"
                       auto-completion-minimum-prefix-length 1
                       auto-completion-idle-delay 0.2 ;; setting this to 0.0 seemed to make company very slow
+                      ;; auto-completion-enable-sort-by-usage t;;Spacemacs actually says this might make it slow
+                      ;; auto-completion-tab-key-behavior 'complete
+                      ;; auto-completion-tab-key-behavior nil
                       ;; spacemacs-default-company-backends '(company-anaconda)
+                      ;; couldn't get this to work
+                      ;; add-to-list 'company-backends 'company-yasnippet
+                      ;; add-to-list 'company-backends '(company-yasnippet)
+                      ;; add-to-list 'company-backends '(company-yasnippet company-capf company-anaconda)
                       )
      ;; better-defaults ;; this is just for emacs
      emacs-lisp
@@ -107,6 +110,10 @@ This function should only modify configuration layer settings."
           ;; lsp-headerline-breadcrumb-mode nil
           lsp-lens-enable t ;; not entirely sure if this is working
           ;; lsp-ui-remap-xref-keybindings t ;; not sure I want this or not
+          ;; first part of managing company-backends in python specially as per:
+          ;; https://www.spacemacs.org/layers/+tools/lsp/README.html#management-of-company-backends
+          ;; in user-config I sent company-backends specifically for Python mode
+          lsp-manage-backends-manually '(python-mode)
           )
      ;;(lsp :variables lsp-lens-enable t) ;; not 100% sure how to work this yet
      ;; lsp ;; I don't think I want this on for everything
@@ -133,6 +140,7 @@ This function should only modify configuration layer settings."
              ;; PYRIGHT MAY HANG PYTHON FILES!!!(Oct 21, 2023) seems like the new version after msplys ;; THIS MAY HAVE CAUSED PROBLEMS WITH TOO MANY FILES (buffers?) OPEN!!
              ;; ChatGPT suggested pyright is faster, so trying it again
              python-lsp-server 'pyright
+             ;; flycheck-checker 'python-ruff
              )
      (ess :variables
           ess-indent-level 5
@@ -845,12 +853,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; make this wider, or else peek mode wraps between the two windows
   (setq lsp-ui-peek-list-width 100)
 
-  ;; overwrite zsh default for now while I play with iterm2
-  ;; while I don't like iterm2 customization
-  ;; it is nice bc when I launch a terminal from Emacs (SPC ")
-  ;; it automatically adds that as a tab to iterm2, which is really nice for organization
-  (setq terminal-here-mac-terminal-command 'iterm2)
-
   ;; I was getting an error about svgs after I upgraded my work machine to OS 13.3.1 on April 19, 2023
   ;; A comment on this stack overflow post said to add this to my config:
   ;; and it worked
@@ -915,8 +917,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
 
 
-;; Note that This is the function I think I should be putting more of my config in, by default
-;; so I should test that, and move to this in time
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
 This function is called only while dumping Spacemacs configuration. You can
@@ -925,6 +925,7 @@ dump."
   )
 
 ;; note - I think this is the section I should be putting more of my config into
+;; so I should test that, and move to this in time
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
@@ -932,9 +933,47 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  ;; overwrite zsh default for now while I play with iterm2
+  ;; while I don't like iterm2 customization
+  ;; it is nice bc when I launch a terminal from Emacs (SPC ")
+  ;; it automatically adds that as a tab to iterm2, which is really nice for organization
+  (setq terminal-here-mac-terminal-command 'iterm2)
 
 
-  ;; trying to remove the magit "x" discard changes key since that is dangerously close to stage ('s')
+  ;; trying to get yasnippet to show options in Python mode, but I can't get it to work
+  ;;https://emacs.stackexchange.com/questions/67991/how-to-enable-yasnippets-for-all-modes
+  ;; this doesn't seem to work, but leaving it here for now
+  ;; (require 'company-yasnippet)
+  ;; (add-to-list 'company-backends '(company-yasnippet))
+  ;; this may have done something, unclear what though
+  ;; (require 'company)
+  ;; (setq company-backends '(company-yasnippet))
+  ;; (require 'company-yasnippet)
+  ;; (add-to-list 'company-backends-inferior-python-mode '(company-yasnippet))
+  ;; (require 'company-yasnippet)
+  ;; (require 'company)
+  ;; (add-to-list 'company-backends-inferior-python-mode '(:with company-yasnippet))
+  ;; (add-to-list 'company-backends '(company-tabnine))
+
+  ;; second part to setting company-backends in Python specifically
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (setq-local company-backends '((company-capf company-files :with company-yasnippet)))))
+
+  ;; lsp keeps setting this to 'lsp, I can manually update it though
+  ;; trying to set the flychecker to ruff, which seems to have to overwrite lsp setting this to lsp
+  ;; (add-hook 'python-mode-hook
+  ;; (lambda ()
+  ;; (setq-local flycheck-checker 'python-ruff)))
+
+  ;; again trying to set flychecker to python-ruff
+  ;; (with-eval-after-load 'flycheck
+  ;; (setq-default flycheck-checker 'python-ruff))
+
+  ;; activate company-mode python-mode
+  (add-hook 'python-mode-hook 'company-mode)
+
+  ;; remove the magit "x" discard changes key since that is dangerously close to stage ('s')
   ;;https://emacs.stackexchange.com/questions/21978/remove-key-binding-in-magit-status-mode
   ;; needed to add the 'normal b/c of Evil mode
   (with-eval-after-load 'magit

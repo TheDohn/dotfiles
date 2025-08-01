@@ -1,5 +1,6 @@
 changeps1: false
 # the channels bit below suppresses Conda from adding "defaults" to the environment.yaml file when I export envs
+channel_priority: strict
 channels:
   - conda-forge
 default_channels: []

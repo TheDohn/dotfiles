@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: dataclass
-# key: dc
+# key: dataclass
 # group: object oriented
 # --
 @dataclass

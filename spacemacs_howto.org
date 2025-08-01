@@ -151,6 +151,14 @@ so in short, activate LSP for flycheck to work right
 *** lsp-peek-find-references
 this shows a very useful view of where a function or class is used
 
+** finding functions/class etc.
+
+1) 'imenu-list'
+2) there is also lsp-ui-imenu
+3) there is also SPC-j-i -> helm-jump-in-buffer
+
+still not sure if any of this is the best way to do this
+
 * debugging
 
 ** DAP mode
@@ -347,3 +355,44 @@ https://github.com/syl20bnr/spacemacs/issues/13054#issuecomment-2131307249
 ** time-machine-transient-state
 
 SPC-g-t allows you to cycle through commits (with n & p) got a given file
+
+* code folding:
+
+
+
+the following works in Python:
+
+# * >  foo rbar
+
+from dataclasses import dataclass
+
+@dataclass
+class FOOBAR:
+    """TODO"""
+
+    def __post_init__(self):
+
+        def foobar():
+            return None
+
+
+this works for R:
+
+## * > minimal R code folding
+
+foobar <- function(args){
+     return(stuff)
+}
+
+
+
+
+# **** > adfasdf
+
+
+# more stuff
+
+* aligning text
+
+** g l or G L
+** OR use align-regexp to type arbitrary text

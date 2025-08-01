@@ -76,8 +76,10 @@
                 "<Esc>"
             ]
         }],
-    "python.defaultInterpreterPath": "/opt/homebrew/Caskroom/miniconda/base/envs/sql_parser/bin/python",
+    "python.defaultInterpreterPath": "/opt/homebrew/Caskroom/miniconda/base/envs/ixpedite/bin/python",
     "python.REPL.enableREPLSmartSend": false,
     "editor.minimap.enabled": false,
-    "docker.lsp.telemetry": "error"
+    "docker.lsp.telemetry": "error",
+    "python-envs.defaultEnvManager": "ms-python.python:conda",
+    "python-envs.defaultPackageManager": "ms-python.python:conda"
 }
