@@ -396,3 +396,9 @@ foobar <- function(args){
 
 ** g l or G L
 ** OR use align-regexp to type arbitrary text
+* writing prose, letters etc.
+
+** turn on auto-fill-mode to wrap lines as I type
+
+the only issue here is that if you turn it on after you write a long line,
+you need to run org-fill-paragraph to wrap line
