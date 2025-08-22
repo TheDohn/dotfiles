@@ -73,6 +73,7 @@
 # delta config #####
 # added July 28, 2024 for delta:
 # https://dandavison.github.io/delta/get-started.html
+# it is possible this doesn't work with git diff <staging> -- <path to file>, and you just have to search for the file within the total diff viewer
 #******~~~~~~ #******~~~~~~ #******~~~~~~ #******~~~~~~
 [core]
     pager = delta

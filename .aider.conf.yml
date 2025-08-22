@@ -88,6 +88,7 @@ alias:
  # - "claude3d5v2:bedrock/anthropic.claude-3-5-sonnet-20241022-v2:0"
 # Note that you really need to use the inference profile ID
 # which is available in Amazon Bedrock > Inference and Assessment > Cross-region Inference
+# TODO: experiment with claude4
 # https://aider.chat/docs/llms/bedrock.html
   - "default:bedrock/us.anthropic.claude-3-5-sonnet-20241022-v2:0"
   - "claude3d5v2:bedrock/us.anthropic.claude-3-5-sonnet-20241022-v2:0"

@@ -239,3 +239,29 @@ pdb++ has some nice stuff, like sticky mode
 pudb also works
 - ctrl+x to go between the source and the REPL
 
+
+* aider
+
+I have my config set so I can just run
+aider --model default
+
+* dbt
+** compile model
+
+$ dbt compile -s aoa_xi_fs_con_visits_test_v5 --vars '{start_date: "2024-03-01", end_date: "2024-04-01"}' --quiet
+
+this will compile to an executable SQL script in, for example:
+
+/ds-data-refinery/src/dbt/projects/client=aoa/target/compiled/ixis_athena_aoa/models/aoa_experience_index/aoa_xi_fs_con_visits_test_v5.sql
+
+
+** build
+
+$ dbt build -s aoa_xi_fs_con_visits_test_v5 --vars '{start_date: "2024-03-01", end_date: "2024-03-03"}' --quiet
+
+
+* CLI
+
+** keep iterm awake
+
+$ caffeinate -disu -t $((60*60*<hours>))

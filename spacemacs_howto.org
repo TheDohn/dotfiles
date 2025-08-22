@@ -75,9 +75,11 @@ note that helm-do-ag is different than helm-ag:
 - wildcards are not assumed: to search for any sub text "ob" in "foobar" you need to add * as in: "*ob*"
 
 ** search and replace a regex
-- just M-x for "replace-regex"
-- just M-x for "query replace" does the same thing
+- just M-x for "query-replace-regexp", then type y for each replacement
 - this works well when it is not a variable overall that I am changing, but maybe a prefix on a bunch of variables
+
+- note that "replace-regexp" will replace all occurences all at once without confirmation
+
 
 Is there an evil/Spacemacs way to do this?
 
@@ -108,6 +110,13 @@ useful to search/compare text in two different buffers,
 gives list in current file, which is more specific than SPC / project search
 
 in the occur buffer hit enter to go to that place in the file
+
+** searching and saving results
+
+1) either using ag (SPC s a <various>)
+or helm project search (SPC /)
+
+2) then type CTRL-z will give options for copying output to a buffer, which can be useful for creating a TODO list based on search results
 
 * org mode
 
