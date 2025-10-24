@@ -1,7 +1,7 @@
 #+TITLE: Various How To
 
 
-* Docker how to:
+* Docker
 
 ** questions:
 - when specifying requirements.txt, how do you initially determine the pandas version?
@@ -22,7 +22,6 @@ and potentially, if we want to force it to rebuild from scratch:
 
 
 $ docker build --no-cache --target <stage> .
-
 
 ** how to:
 
@@ -121,7 +120,7 @@ $docker exec -u 0 -it d9eff43f038c bash
 
 that might be in spacemacs_howto
 
-* Ray HOW TO
+* Ray
 
 I was able to get the following to work:
 
@@ -180,7 +179,7 @@ I think a subtlety comes up is if that browser() isn't nested inside something t
 this will actually default to the workflow of the vanilla Python debugger, which can be confusing
 https://docs.python.org/3/library/pdb.html
 
-* AWS how-to
+* AWS
 ** create a new role and assume it
 
 1) Add the new role in the web gui
@@ -210,7 +209,7 @@ aws sts assume-role --role-arn "arn:aws:iam::ACCOUNT-ID:role/my-iam-role" --role
 This can be useful for verifying policies for a role:
 
  aws iam list-attached-role-policies --role-name <role-name>
- 
+
 need this from time-to-time:
 
 export AWS_ACCESS_KEY_ID=
@@ -239,11 +238,15 @@ pdb++ has some nice stuff, like sticky mode
 pudb also works
 - ctrl+x to go between the source and the REPL
 
-
 * aider
 
+** inside a repo
 I have my config set so I can just run
-aider --model default
+$ aider --model default
+
+** outside a git repo
+
+$ aider --model default --no-git
 
 * dbt
 ** compile model
@@ -258,7 +261,6 @@ this will compile to an executable SQL script in, for example:
 ** build
 
 $ dbt build -s aoa_xi_fs_con_visits_test_v5 --vars '{start_date: "2024-03-01", end_date: "2024-03-03"}' --quiet
-
 
 * CLI
 

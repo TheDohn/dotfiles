@@ -13,7 +13,7 @@ export STARSHIP_CONFIG=~/.starship/starship.toml
 
 # newer python repls don't seem to support VI keybindings, so need to default to the old one
 # https://github.com/python/cpython/issues/118840
-PYTHON_BASIC_REPL=1
+export PYTHON_BASIC_REPL=1
 # although I can't get this to work
 
 #suppress the standard conda env so it only shows up in starship prompt

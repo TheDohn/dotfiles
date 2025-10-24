@@ -257,7 +257,7 @@ if the above fails (if there is a typo) you can access docker shell first in a b
 
 I had to run tramp-unload-tramp to get magit working after using tramp, once
 
-* Docker on local machine:
+* Docker on local machine
 
 this seems to work for engaging with a running docker container:
 https://happihacking.com/blog/posts/2023/dev-containers-emacs/
