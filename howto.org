@@ -257,10 +257,9 @@ this will compile to an executable SQL script in, for example:
 
 /ds-data-refinery/src/dbt/projects/client=aoa/target/compiled/ixis_athena_aoa/models/aoa_experience_index/aoa_xi_fs_con_visits_test_v5.sql
 
+** run
 
-** build
-
-$ dbt build -s aoa_xi_fs_con_visits_test_v5 --vars '{start_date: "2024-03-01", end_date: "2024-03-03"}' --quiet
+$ dbt run -s aoa_xi_fs_con_visits_test_v5 --vars '{start_date: "2024-03-01", end_date: "2024-03-03"}'
 
 * CLI
 
