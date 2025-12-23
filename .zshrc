@@ -83,6 +83,10 @@ if [ $(hostname) = "Don's-MacBook-Pro" ]; then
     # open Emacs at the terminal
     # this is the  only way I could get this to work
     alias emacs_nw='$(/Applications/Emacs.app/Contents/MacOS/emacs-nw)'
+    # just simplifying this
+    alias emacs='open -a Emacs'
+    alias spacemacs='open -a Emacs --args --init-directory ~/.emacs_configs/.spacemacs'
+    alias donmacs='open -a Emacs --args --init-directory ~/.emacs_configs/.donmacs'
 fi
 
 # basic aliases
@@ -111,6 +115,9 @@ export PATH=~/.local/bin:$PATH
 # trying to give lsp & dap the path to ruff
 export PATH=/opt/homebrew/Cellar:$PATH
 export PATH=/opt/homebrew/lib:$PATH
+
+# trying to get scipy to find openblas, as per Claude
+# export OPENBLAS=$(brew --prefix openblas)
 
 
 # R recommended adding these in order to install the R openssl package
