@@ -86,7 +86,7 @@ if [ $(hostname) = "Don's-MacBook-Pro" ]; then
     # just simplifying this
     alias emacs='open -a Emacs'
     alias spacemacs='open -a Emacs --args --init-directory ~/.emacs_configs/.spacemacs'
-    alias donmacs='open -a Emacs --args --init-directory ~/.emacs_configs/.donmacs'
+    alias minemacs='open -a Emacs --args --init-directory ~/.emacs_configs/.minemacs'
 fi
 
 # basic aliases

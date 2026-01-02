@@ -6,6 +6,7 @@
 "2) in "Work with:" field click the drop down, and select something like "Eclipse YYYY-MM - https://download.eclipse.org/releases/YYYY-MM/"
 "3) In the "type filter text" text box, search for "marketplace" and click on something like "Markplace Client"
 "4) click on "Next>", follow prompts. You often have to accept some certificates.
+" and DBeaver may need to restart
 "5) Click Help -> Eclipse Marketplace
 "6) Search for Vrapper plugin, click "Install"
 "  NOTE that there are sub packages like Vim surround to install!

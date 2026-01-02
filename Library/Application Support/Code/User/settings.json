@@ -76,7 +76,7 @@
                 "<Esc>"
             ]
         }],
-    "python.defaultInterpreterPath": "/opt/homebrew/Caskroom/miniconda/base/envs/ixpedite",
+    "python.defaultInterpreterPath": "/opt/homebrew/Caskroom/miniconda/base",
     "python.REPL.enableREPLSmartSend": false,
     "editor.minimap.enabled": false,
     "docker.lsp.telemetry": "error",

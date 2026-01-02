@@ -7,8 +7,12 @@
 ;;I could use general.el for this, but it requires some reading
 ;;https://github.com/noctuid/general.el
 ;; 4) Reconsider how this is organized, in particular the package/use-package references
-
-
+;; 5) emacs is still writing to the corresponding init.el with customizations
+;; I am not sure how to set that to something else for *all* init-directories.
+;; Could try this:
+;;https://www.reddit.com/r/emacs/comments/1jm1vr6/emacs_writing_to_my_initel/
+;; or an early-init file
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Early-Init-File.html
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)

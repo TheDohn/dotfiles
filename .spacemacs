@@ -992,6 +992,7 @@ before packages are loaded."
   (add-hook 'python-mode-hook
             (lambda ()
               (setq-local company-backends '((company-jedi company-capf company-files :with company-yasnippet)))))
+              ;; (setq-local company-backends '((company-anaconda company-capf company-files :with company-yasnippet)))))
 
   ;; lsp keeps setting this to 'lsp, I can manually update it though
   ;; trying to set the flychecker to ruff, which seems to have to overwrite lsp setting this to lsp

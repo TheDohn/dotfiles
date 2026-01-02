@@ -3,6 +3,14 @@
 
 * Docker
 
+** build
+
+to just build the image:
+$ docker build .
+
+better yet, name it:
+$ docker build -t image_name:tag_name .
+
 ** questions:
 - when specifying requirements.txt, how do you initially determine the pandas version?
   - I assume from building it first w/o Docker? no, that seems wrong.

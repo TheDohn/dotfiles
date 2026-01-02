@@ -661,3 +661,11 @@
 
 -- -- Hotkey: Ctrl + Alt + Tab cycles all monitors
 -- hs.hotkey.bind({"ctrl", "alt"}, "tab", cycleAllDisplays)
+
+
+-- https://github.com/franzbu/EnhancedSpaces.spoon/tree/main
+-- local EnhancedSpaces = hs.loadSpoon('EnhancedSpaces')
+-- EnhancedSpaces:new({
+--     mSpaces = { '1', '2', '3', 'E', 'T' }, -- default { '1', '2', '3' }
+--     startmSpace = 'E', -- default 2
+-- })
