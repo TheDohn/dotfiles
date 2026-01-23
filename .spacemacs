@@ -1391,6 +1391,9 @@ before packages are loaded."
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\local_registry\\'") ;; local model registry for Rocky Horror
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\scratch\\'") ;; don't bother watching scratch folders
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\foobar\\'") ;; misc stuff
+    ;; this started out of no-where
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\opt/homebrew\\'") ;; misc stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\opt/homebrew.*\\'") ;; misc stuff
     ;; > this one may not have worked
     ;; trying to clear out the DS Refinery since that has a tone of stuff in it
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\src/dbt/projects\\'")
