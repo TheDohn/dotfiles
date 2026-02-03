@@ -17,14 +17,12 @@
 " 2) Download "Relative line number ruler" and follow prompts.
 " 3) Settings > Relative Number Ruler > Toggle check box
 
-" NOT SURE IF I NEED THIS PART OR NOT?
-" Also turn off absolute line numbers:
+" *IF* two sets of line numbers appear, turn off absolute line numbers:
 " Preferences > Editors > Text Editors > Toggle "Show line numbers" checkbox
 
 "Evil escape
 inoremap jk <Esc>
 inoremap kj <Esc>
-
 
 "remove underscore from the definition of a word
 :set iskeyword-=_
