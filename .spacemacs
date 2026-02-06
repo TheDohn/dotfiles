@@ -1437,6 +1437,38 @@ This function is called at the very end of Spacemacs initialization."
                (let ((load-path (cons "../package-build" load-path)))
                  (require 'package-recipe-mode nil t)))
            (package-recipe-mode))))
+ '(org-agenda-files
+   '("/Users/donbunk/Documents/org_mode/IXIS_todo.org"
+     "/Users/donbunk/Documents/org_mode/DONTUSE_org_mode_demo_for_DS_demo_day_june_2_2023.org"
+     "/Users/donbunk/Documents/org_mode/DS_demo_day.org"
+     "/Users/donbunk/Documents/org_mode/emacs_how_tos.org"
+     "/Users/donbunk/Documents/org_mode/moving_to_multiple_emacs_inits.org"
+     "/Users/donbunk/Documents/org_mode/new_renamed_file_from_test.org"
+     "/Users/donbunk/Documents/org_mode/org_mode_demo_for_DS_demo_day.org"
+     "/Users/donbunk/Documents/org_mode/org_mode_demo_for_DS_demo_day_march_4.org"
+     "/Users/donbunk/Documents/org_mode/org_testing.org"
+     "/Users/donbunk/Documents/org_mode/org_todo.org"
+     "/Users/donbunk/Documents/org_mode/spacemacs_register_and_macros.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q1.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q2.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q3.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q4.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q1.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q2.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q3.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q4.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2024_Q1.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2024_Q2.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2024_Q3.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2024_Q4.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2025_Q1.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2025_Q2.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2025_Q3.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2025_Q4.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_05.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_06_07_08.org"
+     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_09_10_11_21.org"))
  '(package-selected-packages
    '(ace-jump-helm-line ace-link afternoon-theme aggressive-indent aidermacs aio
                         alect-themes alert all-the-icons ample-theme

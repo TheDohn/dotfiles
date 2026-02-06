@@ -171,7 +171,9 @@ still not sure if any of this is the best way to do this
 * debugging
 
 ** DAP mode
--NOTE for Python the Conda env must be activated for DAP mode to work!
+-NOTE
+1) for Python the Conda env must be activated for DAP mode to work!
+2) Also debugpy must be installed in that Conda env!
 
 *** to start DAP
 - `,ddd` to run DAP, then I typically 'Run project from project directory'
