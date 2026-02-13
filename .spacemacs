@@ -1402,6 +1402,8 @@ before packages are loaded."
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.*src/dbt/projects.*\\'")
     ;; aider stuff
     (add-to-list 'lsp-file-watch-ignored-directories ".*aider.*")
+    ;; these can get out of control, they seem to build a ton of stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.aws-sam\\'")
     )
   ;; (add-to-list 'lsp-file-watch-ignored-files "[/\\\\]\\.my-files\\'")
 
