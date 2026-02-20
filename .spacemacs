@@ -1348,6 +1348,10 @@ before packages are loaded."
   ;; and LSP watches too much stuff until I potentially reload my config
   ;; this seems to
   ;; https://emacs-lsp.github.io/lsp-mode/page/file-watchers/
+  ;; [/\\\\] matches:
+  ;; - / (forward slash - Unix/Linux/Mac)
+  ;; - \ (backslash - Windows) since \\\\ reduces to a single \
+  ;; In ELisp \\ escapes to \, so \\\\ escapes to \\, and then regex itself escapes to the final single \
   (with-eval-after-load 'lsp-mode
     ;; NOTE the single \' in all of these apparently matches the end of the string in Emacs regex.
     ;; (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\ixis\.kubernetes\\'") ;; trying to ignore the our directory. didn't get this to work
@@ -1385,7 +1389,10 @@ before packages are loaded."
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\metaflow\\'") ;; metaflow might blow this up
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.metaflow\\'") ;; metaflow might blow this up
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\metaflow_card_cache\\'") ;; metaflow might blow this up
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\output\\'") ;; output dir esp in p2e
+    ;; (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.*output.*\\'") ;; output dir esp in p2e
+    ;; (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.*output.*\\'") ;; output dir esp in p2e
+    ;; this seems to be the best way currently, and I should start to use this
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\].*output.*")
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.idea\\'") ;; I think PyCharm might create this
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.ropeproject\\'") ;; I don't know what this is
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\local_registry\\'") ;; local model registry for Rocky Horror
