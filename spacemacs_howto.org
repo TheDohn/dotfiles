@@ -24,6 +24,18 @@ for emacs, this means project search won't work but the ag search might:
 searching directory in spacemacs: SPC s a d
 then "-u eza"
 
+** searching dot files
+
+I am on ripgrep right now. That (and ag) seem to accept a hidden flag
+
+at the command line this looks like:
+$ ag --hidden "search terms"
+or
+$ rg --hidden "search terms"
+
+and projectile search seems to work the same way, namely type "SPC /" to search a project, then add the hidden flag to the search:
+-hidden "search term"
+
 ** in a file
 
 *** swoop
@@ -117,6 +129,7 @@ in the occur buffer hit enter to go to that place in the file
 or helm project search (SPC /)
 
 2) then type CTRL-z will give options for copying output to a buffer, which can be useful for creating a TODO list based on search results
+
 
 * org mode
 
@@ -413,3 +426,9 @@ foobar <- function(args){
 
 the only issue here is that if you turn it on after you write a long line,
 you need to run org-fill-paragraph to wrap line
+* slow saving files, especially org
+
+** some times saving my large org mode Journals gets slow so I need to clear the history
+
+(setq buffer-undo-list nil)
+
