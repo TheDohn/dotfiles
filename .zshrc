@@ -230,3 +230,8 @@ source /Users/donbunk/.config/broot/launcher/bash/br
 
 # stop R asking if I want to save the damn workspace
 alias R='R --no-save'
+
+# Cursor CLI--------------------------------
+alias agent='agent --plan'
+alias cursor='agent --plan'
+
