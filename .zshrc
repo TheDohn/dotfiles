@@ -235,3 +235,5 @@ alias R='R --no-save'
 alias agent='agent --plan'
 alias cursor='agent --plan'
 
+
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
