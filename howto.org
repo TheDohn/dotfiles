@@ -246,6 +246,12 @@ pdb++ has some nice stuff, like sticky mode
 pudb also works
 - ctrl+x to go between the source and the REPL
 
+** virtual env
+
+$ python.<version> -m venv <env name>
+
+$ activate <path to env>
+
 * aider
 
 ** inside a repo
@@ -265,12 +271,16 @@ this will compile to an executable SQL script in, for example:
 
 /ds-data-refinery/src/dbt/projects/client=aoa/target/compiled/ixis_athena_aoa/models/aoa_experience_index/aoa_xi_fs_con_visits_test_v5.sql
 
+the above started to still print stuff out, so I switched to:
+
+$ dbt compile -s adobe_vwoa_visit_segments --vars '{start_date: "2026-01-01", end_date: "2026-01-03"}' --quiet > /dev/null
+
 ** run
 
 $ dbt run -s aoa_xi_fs_con_visits_test_v5 --vars '{start_date: "2024-03-01", end_date: "2024-03-03"}'
 
-* CLI
+* CLI misc
 
-** keep iterm awake
+** caffeinate: keep iterm awake
 
 $ caffeinate -disu -t $((60*60*<hours>))
