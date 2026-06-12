@@ -66,7 +66,9 @@ autoload -U compinit && compinit
 
 
 #if [ $(hostname) = 'MacBook-Pro' ]; then # this got changed when I updated to Ventura OS
-if [ $(hostname) = "Don's-MacBook-Pro" ]; then
+#if [ $(hostname) = "Don's-MacBook-Pro" ]; then 2021 M1 work machine
+# M3 work machine
+if [ $(hostname) = "Dons-MacBook-Pro-NEW-06082026.local" ]; then
     source /Users/donbunk/local_dotfiles/.local_zshrc
     #    #TODO get this working on my local machine
     # elif [$(hostname) = 'XXX Dons macbook pro']; then
