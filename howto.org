@@ -284,3 +284,27 @@ $ dbt run -s aoa_xi_fs_con_visits_test_v5 --vars '{start_date: "2024-03-01", end
 ** caffeinate: keep iterm awake
 
 $ caffeinate -disu -t $((60*60*<hours>))
+* Git
+
+** Stash
+
+https://stackoverflow.com/questions/11269256/how-do-i-name-and-retrieve-a-git-stash-by-name
+
+*** stash push
+
+
+OLD: $ git stash -m "my_stash_name"
+
+CURRENT: $ git stash push -m "my_stash_name"
+
+*** Stash pop
+
+I couldn't get this to work:
+$ git stash apply stash^{/my_stash_name}
+
+so use the following to list:
+$ git stash list
+
+find the <N> for your stash then replace <N> in the below to pop:
+
+$ git stash pop stash@{<N>}
