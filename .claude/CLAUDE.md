@@ -32,3 +32,8 @@
 - Use CTEs instead of sub-queries where possible
 - For SQL, use Java regular expressions unless otherwise specified
 
+# Git
+
+- Do not default to performing git add or commit operations, only I, the user, will git add or commit
+
+
