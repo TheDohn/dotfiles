@@ -11,6 +11,8 @@
 
 # General code conventions
 
+- Keep things as simple and readable as possible.
+- If you feel like the limited approach doesn't provide functionality, just make recommendations for next steps, but in the meantime, keep the code simple
 - Strive to make code self explanatory and easy to read
 - Limit line length to 80 characters or less
 - Include or recommend unit tests when possible as comments
@@ -18,6 +20,7 @@
 
 # Python specific conventions
 
+- If you cannot find a Python executable in the PATH, let me know, and DO NOT create a new python environment. I probably need to activate a Conda environment for you.
 - Use dataclasses for classes
 - Add type hints where ever possible
 - Use NumPy/SciPy Style docstring style
