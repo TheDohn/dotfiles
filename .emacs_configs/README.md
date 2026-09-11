@@ -1,0 +1,2 @@
+- Note that only some files get symlinked here.
+- Because of the way the spacemacs config works **DO NOT SYM LINK .spacemacs here!**
