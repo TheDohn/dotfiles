@@ -29,12 +29,12 @@ then "-u eza"
 I am on ripgrep right now. That (and ag) seem to accept a hidden flag
 
 at the command line this looks like:
-$ ag --hidden "search terms"
+$ ag --hidden <search terms>
 or
-$ rg --hidden "search terms"
+$ rg --hidden <search terms>
 
 and projectile search seems to work the same way, namely type "SPC /" to search a project, then add the hidden flag to the search:
--hidden "search term"
+--hidden <search term>
 
 ** in a file
 
@@ -186,7 +186,7 @@ still not sure if any of this is the best way to do this
 ** DAP mode
 -NOTE
 1) for Python the Conda env must be activated for DAP mode to work!
-2) Also debugpy must be installed in that Conda env!
+2) DEBUGPY MUST BE INSTALLED IN THAT CONDA ENV!
 
 *** to start DAP
 - `,ddd` to run DAP, then I typically 'Run project from project directory'

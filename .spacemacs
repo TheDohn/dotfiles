@@ -82,9 +82,11 @@ This function should only modify configuration layer settings."
                       auto-completion-enable-help-tooltip t
                       auto-completion-use-company-box t
                       auto-completion-tab-key-behavior 'cycle
+                      ;; In retrospect I am confused why this is 'jk' but Google validates that is a reasonable choice for Evil users
                       auto-completion-complete-with-key-sequence "jk"
                       ;; tried 0 on this, which is good for files, but annoying for everything else
                       ;; 2025-11-22 I think 2 is reasonable for this, company-jedi seems to autocomplete for any length in Python mode, which is nice
+                      ;; 2026-09-06 this seems to be auto-completing for 0 length prefix, which is fine, but I don't know how that is working (perhaps it is Jedi working at 0 length)
                       auto-completion-minimum-prefix-length 2
                       auto-completion-idle-delay 0.2 ;; setting this to 0.0 seemed to make company very slow ;; 0.2 worked for awhile
                       ;; auto-completion-enable-sort-by-usage t;;Spacemacs actually says this might make it slow
@@ -198,7 +200,7 @@ This function should only modify configuration layer settings."
                   ;; tree-sitter-fold-enable t ;; something spacemacs has, I don't think I want
                   ;; tree-sitter-fold-indicators-enable nil ;; something spacemacs has, I don't think I want
                   )
-     aider
+     ;; aider
      (claude-code :variables
                   claude-code-ide-window-side 'right
                   claude-code-ide-window-width 100)
@@ -228,6 +230,7 @@ This function should only modify configuration layer settings."
                                       dockerfile-mode
                                       sqlite3 ;; for magit
                                       company-jedi
+                                      agent-shell
                                       ;; dired+
                                       ;; dired+ emacs-wiki
                                       ;; dirvish
@@ -939,6 +942,63 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  ;; ;; didn't work
+  ;; ;; attempt to stop minibuffer from adding '\' to '/' in directory completions
+  ;; ;; (setq comint-completion-addsuffix '("/" . " "))
+  ;; (when (eq system-type 'darwin)
+  ;;   ;; Force standard Unix/POSIX style path handling
+  ;;   (setq directory-sep-char ?/)
+  ;;   ;; Prevent Emacs from using backslashes for completion quoting if triggered by a subshell
+  ;;   (setq-default comint-completion-addsuffix '("/" . ""))
+  ;;   ;; If using pcomplete/eshell, ensure it uses standard forward slashes
+  ;;   (with-eval-after-load 'pcomplete
+  ;;     (setq pcomplete-directory-name-separator "/")))
+
+  ;; didn't work
+  ;; Fix the <directory>\/ escaping completion bug on macOS
+  ;; (setq comint-completion-addsuffix nil)
+  ;; (setq comint-completion-recexact nil)
+  ;; Force Emacs to treat standard completions as unquoted literals
+  ;; (with-eval-after-load 'minibuffer
+    ;; (setq completion-styles '(substring partial-completion flex)))
+
+
+
+    ;; didn't work
+    ;; ;; 1. Prevent comint from adding escaping backslashes to filenames/directories
+    ;; (setq comint-completion-addsuffix nil)
+    ;; ;; 2. Force the filename quoting function to do nothing and return the string untouched
+    ;; (with-eval-after-load 'comint
+    ;;   (defun comint-quote-filename (filename)
+    ;;     filename))
+    ;; ;; 3. If using eshell or shell-based completions, skip quoting there too
+    ;; (with-eval-after-load 'pcomplete
+    ;;   (defun pcomplete-quote-argument (argument)
+    ;;     argument))
+
+
+
+  (defun my/python-repl-in-project-root (orig-fun &rest args)
+    "Start or switch to Python REPL with `default-directory` set to project root."
+    (let ((default-directory (or (and (fboundp 'projectile-project-root)
+                                      (projectile-project-root))
+                                 default-directory)))
+      (apply orig-fun args)))
+  ;;
+  (advice-add 'spacemacs/python-start-or-switch-repl :around #'my/python-repl-in-project-root)
+
+
+
+
+  ;; sexy comments
+  (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
+  ;; super neat, but unreadable in some cases. TOO sexy
+  ;; ;; https://rubjo.github.io/victor-mono/
+  ;; (set-face-attribute 'font-lock-comment-face nil
+  ;;                     :family "Victor Mono"
+  ;;                     :slant 'italic
+  ;;                     :weight 'normal
+  ;;                     :height 1.0)
 
   ;; don't format/indent text when pasting
   ;; got this advice from the help for spacemacs//yank-indent-region
@@ -988,11 +1048,25 @@ before packages are loaded."
   ;; (add-to-list 'company-backends-inferior-python-mode '(:with company-yasnippet))
   ;; (add-to-list 'company-backends '(company-tabnine))
 
+  ;; NOTE: I can't seem to reset this by reloading my dotfile. I need to restart Emacs
   ;; second part to setting company-backends in Python specifically
   (add-hook 'python-mode-hook
             (lambda ()
-              (setq-local company-backends '((company-jedi company-capf company-files :with company-yasnippet)))))
+              ;; this version worked for a while:
+              ;; (setq-local company-backends '((company-jedi company-capf company-files :with company-yasnippet)))))
+              ;; trying to move company-files sooner so it works better, that works fine too
+              ;; (setq-local company-backends '((company-jedi company-files company-capf  :with company-yasnippet)))))
+              ;; CURRENT WORKING VERSION
+              (setq-local company-backends '((company-files company-jedi company-capf  :with company-yasnippet)))))
+              ;; probably an old version:
               ;; (setq-local company-backends '((company-anaconda company-capf company-files :with company-yasnippet)))))
+              ;; trying this: this worked worse
+              ;; (setq-local company-backends '((company-files )))))
+              ;; (setq-local company-backends '(()))))
+              ;;  incrementally adding things back in
+              ;; (setq-local company-backends '(()))))
+
+
 
   ;; lsp keeps setting this to 'lsp, I can manually update it though
   ;; trying to set the flychecker to ruff, which seems to have to overwrite lsp setting this to lsp
@@ -1128,6 +1202,42 @@ before packages are loaded."
   (define-key evil-normal-state-map (kbd "<SPC>jj") 'evil-avy-goto-char-timer)
 
 
+  ;; (define-key evil-normal-state-map (kbd "<SPC>qr")
+          ;; '(spacemacs/restart-emacs-resume-layouts '("--init-directory" "~/.emacs_configs/.spacemacs"))
+          ;; )
+  ;; (define-key evil-normal-state-map (kbd "<SPC>qR")
+          ;; '(spacemacs/restart-emacs '("--init-directory" "~/.emacs_configs/.spacemacs"))
+  ;; )
+  ;; (spacemacs/set-leader-keys "qr"
+     ;; '(spacemacs/restart-emacs '("--init-directory" "~/.emacs_configs/.spacemacs"))
+   ;; )
+  ;; (spacemacs/set-leader-keys "qr"
+     ;; '(spacemacs/restart-emacs '("--init-directory" "~/.emacs_configs/.spacemacs"))
+   ;; )
+
+  ;; restart with Spacemacs config
+  ;; Gemini said I needed to do it like this, I think b/c of the argument I need to send to it
+  ;; TODO I would love a way that consolidates this and combines the keybinding and which-key redef
+  (spacemacs/set-leader-keys
+    "q R" (lambda ()
+            (interactive)
+            (spacemacs/restart-emacs '("--init-directory" "~/.emacs_configs/.spacemacs"))
+            )
+    )
+  ;; Add updated hint to which-key
+  (which-key-add-key-based-replacements "SPC q R" "Restart Spacemacs")
+  ;;
+  (spacemacs/set-leader-keys
+    "q r" (lambda ()
+            (interactive)
+            (spacemacs/restart-emacs-resume-layouts '("--init-directory" "~/.emacs_configs/.spacemacs"))
+            )
+    )
+  ;; Add updated hint to which-key
+  (which-key-add-key-based-replacements "SPC q r" "Restart Spacemacs-resume layouts")
+
+
+
   ;; try to unset this since it is too dangerous to live (too easy to hit accidentally)
   ;; unbinding keys that involve the leader key might be challenging:
   ;; https://emacs.stackexchange.com/questions/68328/general-el-error-key-sequence-starts-with-non-prefix-key
@@ -1138,7 +1248,8 @@ before packages are loaded."
   ;; (global-set-key (kbd "SPCqq") nil)
   ;; (global-set-key (kbd "q q") nil)
   ;; (define-key (kbd "SPC q q ") nil) ;; this doesn't work
-  (spacemacs/set-leader-keys "qq" nil) ;; ok this works but the option still shows in the keybinding prompts but whatever
+  (spacemacs/set-leader-keys "q q" nil) ;; ok this works but the option still shows in the keybinding prompts but whatever
+  (spacemacs/set-leader-keys "q Q" nil) ;; ok this works but the option still shows in the keybinding prompts but whatever
 
   ;; this kills buffers and is kind of dangerous (although I think is saves them)
   (global-unset-key (kbd "s-k"))
@@ -1435,159 +1546,160 @@ before packages are loaded."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ignored-local-variable-values
-   '((eval and buffer-file-name (not (eq major-mode 'package-recipe-mode))
-           (or (require 'package-recipe-mode nil t)
-               (let ((load-path (cons "../package-build" load-path)))
-                 (require 'package-recipe-mode nil t)))
-           (package-recipe-mode))))
- '(org-agenda-files
-   '("/Users/donbunk/Documents/org_mode/IXIS_todo.org"
-     "/Users/donbunk/Documents/org_mode/DONTUSE_org_mode_demo_for_DS_demo_day_june_2_2023.org"
-     "/Users/donbunk/Documents/org_mode/DS_demo_day.org"
-     "/Users/donbunk/Documents/org_mode/emacs_how_tos.org"
-     "/Users/donbunk/Documents/org_mode/moving_to_multiple_emacs_inits.org"
-     "/Users/donbunk/Documents/org_mode/new_renamed_file_from_test.org"
-     "/Users/donbunk/Documents/org_mode/org_mode_demo_for_DS_demo_day.org"
-     "/Users/donbunk/Documents/org_mode/org_mode_demo_for_DS_demo_day_march_4.org"
-     "/Users/donbunk/Documents/org_mode/org_testing.org"
-     "/Users/donbunk/Documents/org_mode/org_todo.org"
-     "/Users/donbunk/Documents/org_mode/spacemacs_register_and_macros.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q1.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q2.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q3.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q4.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q1.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q2.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q3.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q4.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2024_Q1.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2024_Q2.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2024_Q3.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2024_Q4.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2025_Q1.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2025_Q2.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2025_Q3.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2025_Q4.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_05.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_06_07_08.org"
-     "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_09_10_11_21.org"))
- '(package-selected-packages
-   '(ace-jump-helm-line ace-link afternoon-theme aggressive-indent aidermacs aio
-                        alect-themes alert all-the-icons ample-theme
-                        ample-zen-theme anaconda-mode anti-zenburn-theme
-                        apropospriate-theme auctex auctex-latexmk auto-compile
-                        auto-dictionary auto-highlight-symbol auto-yasnippet
-                        autothemer badwolf-theme better-jumper
-                        birds-of-paradise-plus-theme blacken browse-at-remote
-                        bubbleberry-theme bui busybee-theme centered-cursor-mode
-                        cherry-blossom-theme chocolate-theme cl-lib
-                        clean-aindent-mode closql clues-theme code-cells
-                        color-identifiers-mode color-theme-sanityinc-solarized
-                        color-theme-sanityinc-tomorrow column-enforce-mode
-                        command-log-mode company company-anaconda company-auctex
-                        company-box company-jedi company-lua company-math
-                        company-quickhelp company-reftex company-statistics
-                        company-web concurrent conda consult csv-mode
-                        cyberpunk-theme cython-mode dactyl-mode dakrone-theme
-                        dap-mode darkmine-theme darkokai-theme darktooth-theme
-                        define-word devdocs diff-hl diminish dired-quick-sort
-                        dirvish django-theme docker docker-tramp dockerfile-mode
-                        doom-themes dotenv-mode dracula-theme drag-stuff
-                        dumb-jump eat editorconfig ef-themes eldoc elisp-def
-                        elisp-demos elisp-slime-nav emacsql emmet-mode emr epc
-                        esh-help eshell-prompt-extras eshell-z espresso-theme
-                        ess-R-data-view ess-view-data eval-sexp-fu evil-anzu
-                        evil-args evil-cleverparens evil-collection
-                        evil-easymotion evil-escape evil-evilified-state
-                        evil-exchange evil-goggles evil-iedit-state
-                        evil-indent-plus evil-lion evil-lisp-state evil-matchit
-                        evil-mc evil-nerd-commenter evil-numbers evil-org
-                        evil-snipe evil-surround evil-tex evil-textobj-line
-                        evil-tutor evil-unimpaired evil-visual-mark-mode
-                        evil-visualstar exotica-theme expand-region eyebrowse
-                        eziam-themes fancy-battery farmhouse-themes
-                        flatland-theme flatui-theme flx-ido flycheck-elsa
-                        flycheck-package flycheck-pos-tip flyspell-correct
-                        flyspell-correct-helm forge frame-local gandalf-theme
-                        gh-md ghub git-commit git-link git-messenger git-modes
-                        git-timemachine gitignore-templates gntp gnuplot
-                        golden-ratio google-translate gotham-theme
-                        grandshell-theme gruber-darker-theme gruvbox-theme
-                        haml-mode hc-zenburn-theme helm-ag helm-c-yasnippet
-                        helm-comint helm-company helm-core helm-css-scss
-                        helm-descbinds helm-git-grep helm-ls-git helm-lsp
-                        helm-make helm-mode-manager helm-org helm-org-rifle
-                        helm-projectile helm-purpose helm-pydoc helm-swoop
-                        helm-themes helm-xref hemisu-theme heroku-theme
-                        hide-comnt hierarchy highlight-indentation
-                        highlight-numbers highlight-parentheses hl-todo
-                        holy-mode htmlize hungry-delete hybrid-mode
-                        ibuffer-projectile impatient-mode importmagic
-                        indent-guide info+ inkpot-theme inspector ir-black-theme
-                        jazz-theme jbeans-theme jedi-core js-doc js2-mode
-                        js2-refactor json-mode json-navigator json-reformat
-                        json-snatcher kaolin-themes keycast light-soap-theme
-                        link-hint live-py-mode livid-mode llama load-relative
-                        loc-changes log4e lorem-ipsum lsp-docker lsp-mode
-                        lsp-origami lsp-pyright lsp-sonarlint lsp-treemacs
-                        lsp-ui lua-mode lush-theme macrostep madhat2r-theme
-                        magit magit-delta magit-gitflow magit-popup
-                        magit-section majapahit-themes markdown-mode
-                        markdown-toc material-theme math-symbol-lists
-                        minimal-theme modus-themes moe-theme molokai-theme
-                        monochrome-theme monokai-theme multi-line multi-term
-                        multi-vterm multiple-cursors mustang-theme nameless
-                        naquadah-theme noctilux-theme nodejs-repl nose npm-mode
-                        nyan-mode obsidian-theme occidental-theme oldlace-theme
-                        omtose-phellack-theme open-junk-file org
-                        org-category-capture org-cliplink org-contrib
-                        org-download org-mime org-pomodoro org-present
-                        org-project-capture org-projectile org-rich-yank
-                        org-superstar organic-green-theme orgit orgit-forge
-                        origami outorg outshine overseer paradox
-                        password-generator pcre2el pdf-tools pdf-view-restore
-                        phoenix-dark-mono-theme phoenix-dark-pink-theme
-                        pip-requirements pipenv pippel planet-theme poetry
-                        popwin pos-tip prettier-js professional-theme pug-mode
-                        purple-haze-theme py-isort pydoc pyenv-mode pylookup
-                        pytest python-environment python-view-data quickrun
-                        railscasts-theme rainbow-delimiters rainbow-identifiers
-                        rainbow-mode realgud rebecca-theme request restart-emacs
-                        reverse-theme sass-mode scss-mode seq seti-theme
-                        shell-pop simple-httpd skewer-mode slim-mode smeargle
-                        smyx-theme soft-charcoal-theme soft-morning-theme
-                        soft-stone-theme solarized-theme soothe-theme space-doc
-                        spacegray-theme spaceline spacemacs-purpose-popwin
-                        spacemacs-whitespace-cleanup sphinx-doc sql-indent
-                        sqlite3 string-edit-at-point string-inflection
-                        subatomic-theme subatomic256-theme sublime-themes
-                        sunny-day-theme symbol-overlay symon tablist tagedit
-                        tango-2-theme tango-plus-theme tangotango-theme
-                        tao-theme term-cursor terminal-here tern test-simple
-                        texfrag toc-org toml-mode toxi-theme transient
-                        tree-sitter tree-sitter-langs treemacs-evil
-                        treemacs-icons-dired treemacs-magit treemacs-persp
-                        treemacs-projectile treepy tsc
-                        twilight-anti-bright-theme twilight-bright-theme
-                        twilight-theme ujelly-theme underwater-theme undo-tree
-                        use-package uuidgen vi-tilde-fringe vimrc-mode
-                        volatile-highlights vterm web-beautify
-                        web-completion-data web-mode wgrep which-key
-                        white-sand-theme winum with-editor writeroom-mode
-                        ws-butler xref xterm-color yaml yaml-mode yapfify
-                        yasnippet yasnippet-snippets zen-and-art-theme
-                        zenburn-theme)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:distant-foreground "gray93")))))
-)
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(ignored-local-variable-values
+     '((eval and buffer-file-name (not (eq major-mode 'package-recipe-mode))
+             (or (require 'package-recipe-mode nil t)
+                 (let ((load-path (cons "../package-build" load-path)))
+                   (require 'package-recipe-mode nil t)))
+             (package-recipe-mode))))
+   '(org-agenda-files
+     '("/Users/donbunk/Documents/org_mode/IXIS_todo.org"
+       "/Users/donbunk/Documents/org_mode/DONTUSE_org_mode_demo_for_DS_demo_day_june_2_2023.org"
+       "/Users/donbunk/Documents/org_mode/DS_demo_day.org"
+       "/Users/donbunk/Documents/org_mode/emacs_how_tos.org"
+       "/Users/donbunk/Documents/org_mode/moving_to_multiple_emacs_inits.org"
+       "/Users/donbunk/Documents/org_mode/new_renamed_file_from_test.org"
+       "/Users/donbunk/Documents/org_mode/org_mode_demo_for_DS_demo_day.org"
+       "/Users/donbunk/Documents/org_mode/org_mode_demo_for_DS_demo_day_march_4.org"
+       "/Users/donbunk/Documents/org_mode/org_testing.org"
+       "/Users/donbunk/Documents/org_mode/org_todo.org"
+       "/Users/donbunk/Documents/org_mode/spacemacs_register_and_macros.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q1.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q2.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q3.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2022_Q4.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q1.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q2.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q3.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2023_Q4.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2024_Q1.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2024_Q2.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2024_Q3.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2024_Q4.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2025_Q1.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2025_Q2.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2025_Q3.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_Journal_2025_Q4.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_05.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_06_07_08.org"
+       "/Users/donbunk/Documents/org_mode/IXIS_journal/IXIS_journal_2021_09_10_11_21.org"))
+   '(package-selected-packages
+     '(ace-jump-helm-line ace-link acp afternoon-theme agent-shell aggressive-indent
+                          aidermacs aio alect-themes alert all-the-icons
+                          ample-theme ample-zen-theme anaconda-mode
+                          anti-zenburn-theme apropospriate-theme auctex
+                          auctex-latexmk auto-compile auto-dictionary
+                          auto-highlight-symbol auto-yasnippet autothemer
+                          badwolf-theme better-jumper birds-of-paradise-plus-theme
+                          blacken browse-at-remote bubbleberry-theme bui
+                          busybee-theme centered-cursor-mode cherry-blossom-theme
+                          chocolate-theme cl-lib clean-aindent-mode closql
+                          clues-theme code-cells color-identifiers-mode
+                          color-theme-sanityinc-solarized
+                          color-theme-sanityinc-tomorrow column-enforce-mode
+                          command-log-mode company company-anaconda company-auctex
+                          company-box company-jedi company-lua company-math
+                          company-quickhelp company-reftex company-statistics
+                          company-web concurrent conda consult csv-mode
+                          cyberpunk-theme cython-mode dactyl-mode dakrone-theme
+                          dap-mode darkmine-theme darkokai-theme darktooth-theme
+                          define-word devdocs diff-hl diminish dired-quick-sort
+                          dirvish django-theme docker docker-tramp dockerfile-mode
+                          doom-themes dotenv-mode dracula-theme drag-stuff
+                          dumb-jump eat editorconfig ef-themes eldoc elisp-def
+                          elisp-demos elisp-slime-nav emacsql emmet-mode emr epc
+                          esh-help eshell-prompt-extras eshell-z espresso-theme
+                          ess-R-data-view ess-view-data eval-sexp-fu evil-anzu
+                          evil-args evil-cleverparens evil-collection
+                          evil-easymotion evil-escape evil-evilified-state
+                          evil-exchange evil-goggles evil-iedit-state
+                          evil-indent-plus evil-lion evil-lisp-state evil-matchit
+                          evil-mc evil-nerd-commenter evil-numbers evil-org
+                          evil-snipe evil-surround evil-tex evil-textobj-line
+                          evil-tutor evil-unimpaired evil-visual-mark-mode
+                          evil-visualstar exotica-theme expand-region eyebrowse
+                          eziam-themes fancy-battery farmhouse-themes
+                          flatland-theme flatui-theme flx-ido flycheck-elsa
+                          flycheck-package flycheck-pos-tip flyspell-correct
+                          flyspell-correct-helm forge frame-local gandalf-theme
+                          gh-md ghub git-commit git-link git-messenger git-modes
+                          git-timemachine gitignore-templates gntp gnuplot
+                          golden-ratio google-translate gotham-theme
+                          grandshell-theme gruber-darker-theme gruvbox-theme
+                          haml-mode hc-zenburn-theme helm-ag helm-c-yasnippet
+                          helm-comint helm-company helm-core helm-css-scss
+                          helm-descbinds helm-git-grep helm-ls-git helm-lsp
+                          helm-make helm-mode-manager helm-org helm-org-rifle
+                          helm-projectile helm-purpose helm-pydoc helm-swoop
+                          helm-themes helm-xref hemisu-theme heroku-theme
+                          hide-comnt hierarchy highlight-indentation
+                          highlight-numbers highlight-parentheses hl-todo
+                          holy-mode htmlize hungry-delete hybrid-mode
+                          ibuffer-projectile impatient-mode importmagic
+                          indent-guide info+ inkpot-theme inspector ir-black-theme
+                          jazz-theme jbeans-theme jedi-core js-doc js2-mode
+                          js2-refactor json-mode json-navigator json-reformat
+                          json-snatcher kaolin-themes keycast light-soap-theme
+                          link-hint live-py-mode livid-mode llama load-relative
+                          loc-changes log4e lorem-ipsum lsp-docker lsp-mode
+                          lsp-origami lsp-pyright lsp-sonarlint lsp-treemacs
+                          lsp-ui lua-mode lush-theme macrostep madhat2r-theme
+                          magit magit-delta magit-gitflow magit-popup
+                          magit-section majapahit-themes markdown-mode
+                          markdown-toc material-theme math-symbol-lists
+                          minimal-theme modus-themes moe-theme molokai-theme
+                          monochrome-theme monokai-theme multi-line multi-term
+                          multi-vterm multiple-cursors mustang-theme nameless
+                          naquadah-theme noctilux-theme nodejs-repl nose npm-mode
+                          nyan-mode obsidian-theme occidental-theme oldlace-theme
+                          omtose-phellack-theme open-junk-file org
+                          org-category-capture org-cliplink org-contrib
+                          org-download org-mime org-pomodoro org-present
+                          org-project-capture org-projectile org-rich-yank
+                          org-superstar organic-green-theme orgit orgit-forge
+                          origami outorg outshine overseer paradox
+                          password-generator pcre2el pdf-tools pdf-view-restore
+                          phoenix-dark-mono-theme phoenix-dark-pink-theme
+                          pip-requirements pipenv pippel planet-theme poetry
+                          popwin pos-tip prettier-js professional-theme pug-mode
+                          purple-haze-theme py-isort pydoc pyenv-mode pylookup
+                          pytest python-environment python-view-data quickrun
+                          railscasts-theme rainbow-delimiters rainbow-identifiers
+                          rainbow-mode realgud rebecca-theme request restart-emacs
+                          reverse-theme sass-mode scss-mode seq seti-theme
+                          shell-maker shell-pop simple-httpd skewer-mode slim-mode
+                          smeargle smyx-theme soft-charcoal-theme
+                          soft-morning-theme soft-stone-theme solarized-theme
+                          soothe-theme space-doc spacegray-theme spaceline
+                          spacemacs-purpose-popwin spacemacs-whitespace-cleanup
+                          sphinx-doc sql-indent sqlite3 string-edit-at-point
+                          string-inflection subatomic-theme subatomic256-theme
+                          sublime-themes sunny-day-theme symbol-overlay symon
+                          tablist tagedit tango-2-theme tango-plus-theme
+                          tangotango-theme tao-theme term-cursor terminal-here
+                          tern test-simple texfrag toc-org toml-mode toxi-theme
+                          transient tree-sitter tree-sitter-langs treemacs-evil
+                          treemacs-icons-dired treemacs-magit treemacs-persp
+                          treemacs-projectile treepy tsc
+                          twilight-anti-bright-theme twilight-bright-theme
+                          twilight-theme ujelly-theme underwater-theme undo-tree
+                          use-package uuidgen vi-tilde-fringe vimrc-mode
+                          volatile-highlights vterm web-beautify
+                          web-completion-data web-mode wgrep which-key
+                          white-sand-theme winum with-editor writeroom-mode
+                          ws-butler xref xterm-color yaml yaml-mode yapfify
+                          yasnippet yasnippet-snippets zen-and-art-theme
+                          zenburn-theme)))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(default ((t (:distant-foreground "gray93")))))
+  )

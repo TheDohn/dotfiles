@@ -227,6 +227,20 @@ export AWS_SESSION_TOKEN=
 * Python
 
 ** debugging
+*** pydb
+
+just run
+
+$ python -m pudb.run <script>
+or maybe even:
+$ python -m pudb <script>
+
+decent instructions:
+https://heather.cs.ucdavis.edu/matloff/public_html/pudb.html
+
+
+better to set breakpoints in pudb itself, don't use breakpoint() that screws things up
+
 
 *** post-mortem debugging
 
@@ -251,6 +265,21 @@ pudb also works
 $ python.<version> -m venv <env name>
 
 $ activate <path to env>
+
+* R
+
+** installing failed packages with renv
+
+find the failed packages:
+> failed_packages <- setdiff(names(renv::lockfile_read()$Packages), rownames(installed.packages()))
+
+then install them:
+> renv::install(packages = failed_packages)
+
+potentially in slices, etc.:
+> renv::install(packages = failed_packages[1:20])
+
+or by installing until it fails, then redefining failed_packages, and iterating
 
 * aider
 
@@ -320,3 +349,37 @@ $ git stash list
 find the <N> for your stash then replace <N> in the below to pop:
 
 $ git stash pop stash@{<N>}
+* debug
+** pudb
+install and run as:
+$ python -m pudb simple_test.py
+
+maybe this, although I don't know what the difference is:
+$ python -m pudb.run simple_test.py
+
+or maybe just: $ pudb simple_test.py?  >> MAYBE NOT? <<
+
+this tends to flash when it is working, but it does return
+n: next etc.
+shift+V to view variables
+
+very useful
+
+this is a useful page,
+including how to specify the breakpoint conditions
+but I don't know how to use it completely yet
+https://heather.cs.ucdavis.edu/matloff/public_html/pudb.html
+
+to set a breakpoint, type 'b' when you are on code (can't be an empty line)
+
+DO NOT use 'breakpoint()' - that seems to open the native python debugger on top of pudb, which is not useful at all
+
+I have never found this type of stuff to be necessary, or useful:
+import pudb; pudb.set_trace()
+
+
+** pdb in Emacs
+just run "pdb" to get the python debugger in emacs
+- not super helpful
+
+
