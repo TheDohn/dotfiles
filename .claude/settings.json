@@ -1,0 +1,11 @@
+{
+  "awsAuthRefresh": "aws sso login --profile platform-sandbox-admin",
+  "env": {
+    "AWS_PROFILE": "platform-sandbox-admin"
+  },
+  "permissions": {
+    "defaultMode": "plan"
+  },
+  "editorMode": "vim",
+  "preferredNotifChannel": "notifications_disabled"
+}
