@@ -227,13 +227,17 @@ export AWS_SESSION_TOKEN=
 * Python
 
 ** debugging
-*** pydb
+*** pudb
 
 just run
 
 $ python -m pudb.run <script>
 or maybe even:
 $ python -m pudb <script>
+
+
+or just drop this in where you would have put breakpoint():
+import pudb; pudb.set_trace()
 
 decent instructions:
 https://heather.cs.ucdavis.edu/matloff/public_html/pudb.html
