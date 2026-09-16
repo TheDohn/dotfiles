@@ -1,3 +1,8 @@
+#NOTE: 09-16-2026 for now I am manually syncing the file in my dotfiles/ and the one in $CONDA_ROOT/.condarc 
+# to keep the latter from overwriting the former
+# let's see how that goes for awhile
+# after that I can fitgure out some symlinks to make this work more elegantly
+
 changeps1: false
 
 # the channels bit below suppresses Conda from adding "defaults" to the environment.yaml file when I export envs
