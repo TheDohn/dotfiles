@@ -60,16 +60,25 @@
 	#no fast-forwarding. always create a commit when merging
 	# I tried this for awhile, but this became confusing since then I always had extra commit(s) that staging etc didn't have
 	# ff = no
-     # recommended by Magit https://magit.vc/manual/magit/Resolving-Conflicts.html
+     # conflictStyle = diff3 is recommended by Magit https://magit.vc/manual/magit/Resolving-Conflicts.html
+	# diff3 will typically yield git fencing of the form:
+	# <<<<<<< HEAD
+	#...changes on my feature branch...
+	# ||||||| <SHA>
+	#...changes from common ancestor...
+	# =======
+	#...changes on target branch...
+	# >>>>>>> <target branch>
      conflictStyle = diff3
 [pull]
     rebase = false
 
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+	path =
 [push]
     autoSetupRemote = true
+
 #******~~~~~~ #******~~~~~~ #******~~~~~~ #******~~~~~~
 # delta config #####
 # added July 28, 2024 for delta:

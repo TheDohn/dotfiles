@@ -39,4 +39,9 @@
 
 - Do not default to performing git add or commit operations, only I, the user, will git add or commit
 
+# External rule files
+
+- At the start of a session, check the working directory for `.cursor/rules/*.mdc` files or a `.cursorrules` file. If present, read them and follow their conventions in addition to this file
+- If both this file and Cursor rules speak to the same topic, prefer the more specific project-level guidance
+
 
