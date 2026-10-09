@@ -18,6 +18,20 @@
 "Plug 'vim-airline/vim-airline-themes'
 "call plug#end()
 
+call plug#begin()
+
+Plug 'mhartington/oceanic-next'
+
+call plug#end()
+
+" for vim 8
+if (has("termguicolors"))
+set termguicolors
+endif
+"
+colorscheme OceanicNext
+
+
 
 
 

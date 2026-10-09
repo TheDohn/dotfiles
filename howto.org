@@ -385,5 +385,12 @@ import pudb; pudb.set_trace()
 ** pdb in Emacs
 just run "pdb" to get the python debugger in emacs
 - not super helpful
+* Vim
+
+** Installing plugins in Vim
+
+/inside vim/ run things like
+:PlugInstall <package>
+etc.
 
 

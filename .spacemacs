@@ -1194,6 +1194,8 @@ before packages are loaded."
   ;; note that for Python, lsp-mode has a searcher that works better, this is mostly for ESS mode (R files)
   ;; ideally I would have something here that defaults to lsp to find definitions (lsp-find-definition) in python mode, and dumb jump for R, but that will require some work
   ;; this works well enough for both
+  ;; Note that dumb-jump-go seems to be better for finding references outside the current file
+  ;; but removing this binding/setting above seems to work better for *within* the file :confused:, which I think is b/c this defaults to evil-goto-definition
 
   ;; the default helm buffer list is filtered, switch this to the unfiltered version
   (define-key evil-normal-state-map (kbd "<SPC>bb") 'lazy-helm/spacemacs/helm-buffers-list-unfiltered )

@@ -1,0 +1,7 @@
+
+[flavor]
+# installed via yazi 'ya' package manager
+# dark = "neon"
+# ~/.config/yazi/theme.toml for Linux and macOS
+# [flavor]
+dark = "bluloco-dark"
