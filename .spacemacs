@@ -140,6 +140,7 @@ This function should only modify configuration layer settings."
              ;; python-backend 'anaconda
              python-backend 'lsp ;; this does seem to offer more functionality
              python-spacemacs-indent-guess 'nil
+             ;; Note that I use $ brew install/upgrade pylsp-server, not pip since I don't have a virtual env set up for this
              python-lsp-server 'pylsp ;; trying this March 28, 2025 - this also seems to work
              ;; Oct 21, 2023: I needed to run `brew install python-lsp-server' to get any python-lsp-server to work
              ;; python-lsp-server 'mspyls ;; the default OCT 21, 2023 - couldn't get this to install, July 6, 2024: mspyls may be deprecated?

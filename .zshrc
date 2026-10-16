@@ -239,3 +239,15 @@ alias cursor='agent --plan'
 
 # worktrunk
 if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+
+# open a nested directory in the web from the cli
+glweb() {
+    local prefix branch url
+    prefix=$(git rev-parse --show-prefix) || return 1
+    branch=$(git branch --show-current)
+    url=$(glab repo view -F json --jq '.web_url')
+    open "${url}/-/tree/${branch}/${prefix}"
+}
+
+# Eric Lamphere's version of the above
+# gopen() { open "$(git open --print)/$(git rev-parse --show-prefix)"; }
