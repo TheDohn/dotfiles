@@ -270,6 +270,61 @@ $ python.<version> -m venv <env name>
 
 $ activate <path to env>
 
+** pyenv
+
+*** to install a version:
+$ pyenv install <version>
+for example where <version> = 3.9
+
+*** to list versions
+$ pyenv shims
+
+*** to use a version for that shell:
+$ pyenv shell <version>
+
+to unset the version:
+$ pyenv shell --unset
+
+*** see what python is active
+
+$ pyenv version
+
+** debug
+*** pudb
+
+*you need to install this in the python env first!*
+
+install and run as:
+$ python -m pudb simple_test.py
+
+maybe this, although I don't know what the difference is:
+$ python -m pudb.run simple_test.py
+
+or maybe just: $ pudb simple_test.py?  >> MAYBE NOT? <<
+
+this tends to flash when it is working, but it does return
+n: next etc.
+shift+V to view variables
+
+very useful
+
+this is a useful page,
+including how to specify the breakpoint conditions
+but I don't know how to use it completely yet
+https://heather.cs.ucdavis.edu/matloff/public_html/pudb.html
+
+to set a breakpoint, type 'b' when you are on code (can't be an empty line)
+
+DO NOT use 'breakpoint()' - that seems to open the native python debugger on top of pudb, which is not useful at all
+
+I have never found this type of stuff to be necessary, or useful:
+import pudb; pudb.set_trace()
+
+
+*** pdb in Emacs
+just run "pdb" to get the python debugger in emacs
+- not super helpful
+
 * R
 
 ** installing failed packages with renv
@@ -353,38 +408,6 @@ $ git stash list
 find the <N> for your stash then replace <N> in the below to pop:
 
 $ git stash pop stash@{<N>}
-* debug
-** pudb
-install and run as:
-$ python -m pudb simple_test.py
-
-maybe this, although I don't know what the difference is:
-$ python -m pudb.run simple_test.py
-
-or maybe just: $ pudb simple_test.py?  >> MAYBE NOT? <<
-
-this tends to flash when it is working, but it does return
-n: next etc.
-shift+V to view variables
-
-very useful
-
-this is a useful page,
-including how to specify the breakpoint conditions
-but I don't know how to use it completely yet
-https://heather.cs.ucdavis.edu/matloff/public_html/pudb.html
-
-to set a breakpoint, type 'b' when you are on code (can't be an empty line)
-
-DO NOT use 'breakpoint()' - that seems to open the native python debugger on top of pudb, which is not useful at all
-
-I have never found this type of stuff to be necessary, or useful:
-import pudb; pudb.set_trace()
-
-
-** pdb in Emacs
-just run "pdb" to get the python debugger in emacs
-- not super helpful
 * Vim
 
 ** Installing plugins in Vim
@@ -392,5 +415,39 @@ just run "pdb" to get the python debugger in emacs
 /inside vim/ run things like
 :PlugInstall <package>
 etc.
+* searching
+
+** for file names using find:
+
+common cases for me:
+
+case insensitive:
+$ find [path] -iname <glob expression>
+ex:
+find . -iname '*.json'
+
+case sensitive
+$ find [path] -name <glob expression>
 
 
+regex:
+$ find [path] -regex <regex expression>
+
+
+
+case insensitive regex:
+$ find [path] -iregex <regex expression>
+
+
+*** use spacemacs
+use spacemacs how-to file
+or just: <SPC>-f-s
+
+** searching files
+
+use ag:
+$ ag '.*how.*'
+
+*be sure to add the --hidden flag to search dot files!*
+
+$ ag --hidden 'something in my dot files'

@@ -19,6 +19,8 @@ when searching for eza in dotfiles:
 $ ag -u eza
 $ ag eza .*
 there are some differences I didn't explore between the two
+*note added: what does this mean?*
+
 
 for emacs, this means project search won't work but the ag search might:
 searching directory in spacemacs: SPC s a d
@@ -85,6 +87,7 @@ note that helm-do-ag is different than helm-ag:
 - have to select one directory (can't do CRT-SPC but I bet there is another option to do this somewhere)
 - * is the wildcard here
 - wildcards are not assumed: to search for any sub text "ob" in "foobar" you need to add * as in: "*ob*"
+- doesn't seen to be in a git repo
 
 ** search and replace a regex
 - just M-x for "query-replace-regexp", then type y for each replacement

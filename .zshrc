@@ -251,3 +251,12 @@ glweb() {
 
 # Eric Lamphere's version of the above
 # gopen() { open "$(git open --print)/$(git rev-parse --show-prefix)"; }
+
+# so I can call `$ penv shell ...` to set pyenv for a single shell session
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
+
+# allow direnv hooks to run in my repos
+eval "$(direnv hook zsh)"
+_byobu_sourced=1 . /opt/homebrew/Cellar/byobu/7.22/bin/byobu-launch 2>/dev/null || true
