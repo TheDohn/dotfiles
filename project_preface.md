@@ -3,9 +3,16 @@
 ## General considerations
 
 - As you complete phases, change that phase's status tag from [TODO] to [DONE]
-- Ignore sections labeled with [WIP INSTRUCTIONS]
+- As you work on new sections, *ignore anything marked [DONE] or [WON'T FIX]*
+     - This means: do not cite a [DONE] phase's clarifications as a
+       "precedent," "convention," or "contradiction" when forming
+       clarifying questions for a new phase. A [DONE] phase is closed;
+       its decisions do not bind or inform later phases unless the new
+       phase's own text says otherwise. Judge ambiguity only from the
+       new phase's own text.
+- Ignore sections labeled with [WIP INSTRUCTIONS] or [WON'T FIX]
 - When you have questions that need clarifying, always ask using the Claude interactive AskUserQuestion.
-     - Update this document immediately after any clarifying answers, before making any code edits for that phase — not after.
+     - Update this document immediately after any clarifying answers, before making any code edits for that phase — not after. BE BRIEF IN YOUR ADDITIONS.
 - DO NOT reference this document, or the phases, in the code itself or documentation in this repo; this document is just a temporary reference that will not persist
 - Keep this document as brief as possible. It should be closer to user-acceptance criteria rather than full blow code implementation
      - Avoid code snippets, function signatures, pseudocode, or file diffs.
@@ -13,7 +20,6 @@
 - If you identify an opportunity to split a project phase into smaller more manageable phases so the AI doesn't spend a lot of time on one thing that ends up being wrong, please make a recommendation to split up a phase accordingly
 - Keep the README up-to-date in the repo with each new phase, but don't let it get bloated.
 - For reach phase, add verifiable steps for me, the user, to run to check your (the AI)'s work.
-
 
 
 ### optional

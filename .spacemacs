@@ -1367,7 +1367,7 @@ before packages are loaded."
    )
 
   (setq org-todo-keywords
-        '((sequence "TODO(t)" "IN PROGRESS(i)" "BLOCKED(b)" "|" "WON'T DO(w)" "DONE(d)")))
+        '((sequence "TODO(t)" "IN PROGRESS(i)" "BLOCKED(b)" "|" "WON'T FIX(w)" "DONE(d)")))
 
   ;; block parent TODO states based on children
   (setq org-enforce-todo-dependencies t)
@@ -1507,6 +1507,8 @@ before packages are loaded."
     ;; (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.*output.*\\'") ;; output dir esp in p2e
     ;; this seems to be the best way currently, and I should start to use this
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\].*output.*")
+    ;; outputs in general, but specifically for MMM-reporting technically the .*output.* above should handle this
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\].*outputs.*")
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.idea\\'") ;; I think PyCharm might create this
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.ropeproject\\'") ;; I don't know what this is
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\local_registry\\'") ;; local model registry for Rocky Horror
@@ -1524,6 +1526,7 @@ before packages are loaded."
     ;; aider stuff
     (add-to-list 'lsp-file-watch-ignored-directories ".*aider.*")
     ;; these can get out of control, they seem to build a ton of stuff
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.aws-sam\\'")
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.aws-sam\\'")
     )
   ;; (add-to-list 'lsp-file-watch-ignored-files "[/\\\\]\\.my-files\\'")
