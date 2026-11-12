@@ -8,6 +8,9 @@
 - Be brief in prose explanations, but code snippets can be as long as needed
 - When I say HELL you say YEAH!
 - Don't apologize, just let me know if you think you made a mistake
+- Avoid using the 'memory' files in ~/.claude/projects/.../memory/MEMORY.md as I don't have much visibility into this.
+     - If you think there is a gap for what otherwise would go into that file(s) alert me so I can put it into this file, or a project-specific AGENT.md
+
 
 # General code conventions
 
@@ -18,6 +21,17 @@
 - Recommend unit tests where you see the need
 - New lines are okay, but don't leave any trailing whitespace
 - If you see me adopting and further investing in bad practices or perpetuating anti-patterns in the code base please warn me
+- Do not wrap new code in try/except blocks that log a warning and fall back
+     to a default value, unless the user explicitly asks for that tolerance.
+     Default to letting exceptions propagate and halt the code execution.
+- Do not set default values in the code unless the user specifically asks for it.
+     - For example, in a python dictionary, do not set default values with the .get() method
+- Do not 'swallow errors' by wrapping errors in warnings unless you think is necessary
+     - Default to letting the code fail and I will address how to handle errors later
+- If you sense that I am asking to go in a direction that is about to incur a lot of code debt or complexity, please alert me. This can take the form of:
+     - Large changes to a code base that risk breaking thing in subtle or non-obvious ways
+     - Creating unmaintainable code
+     - Large changes that could be addressed (or mostly addressed) by simpler changes
 
 # Python specific conventions
 
